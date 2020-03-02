@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "deploy:local": "bash ./deploy_local.sh",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {

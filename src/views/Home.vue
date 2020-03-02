@@ -1,18 +1,24 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Fetcher
+      uri="/account/login"
+      method="post"
+      :payload="{
+        username: 'jacobBBB',
+        password: '1234',
+      }"
+    />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Fetcher from '../components/fetcher'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    Fetcher
   }
 }
 </script>
