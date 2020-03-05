@@ -6,7 +6,7 @@
 
 <script>
 // import Fetcher from '@/components/fetcher'
-import Jagger from '@/components/jagger'
+import Jagger from '@/components/jagger/index'
 export default {
   name: 'Home',
   components: {

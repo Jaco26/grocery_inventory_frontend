@@ -9,8 +9,8 @@ import JInput from '@/components/generic/j-input'
 import JSelect from '@/components/generic/j-select'
 
 
-Vue.component('j-input', JInput)
-Vue.component('j-select', JSelect)
+Vue.component('JInput', JInput)
+Vue.component('JSelect', JSelect)
 
 Vue.config.productionTip = false
 

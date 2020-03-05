@@ -1,6 +1,6 @@
 <template functional>
-  <div class="j-input">
-    <label>{{props.label}}</label>
+  <div class="j-input" :class="{ 'label-beside' : props.horizontal }">
+    <label class="j-input__label">{{props.label}}</label>
     <select
       class="j-input__input"
       :value="props.value"
@@ -18,7 +18,8 @@ export default {
   props: {
     label: String,
     value: [String, Number, Object],
-    options: Array
+    options: Array,
+    horizontal: Boolean
   }
 }
 </script>
