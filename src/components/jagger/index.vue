@@ -26,6 +26,7 @@
 <script>
 import SelectSavedRequests from './select-saved-requests'
 import CurrentRequest from './current-request'
+import caching from '@/util/caching'
 const STORAGE = 'storage'
 export default {
   components: {
@@ -45,13 +46,6 @@ export default {
       error: null,
     }
   },
-  // watch: {
-  //   selectedReqUrl(newVal) {
-  //     if (newVal.trim()) {
-
-  //     }
-  //   }
-  // },
   mounted() {
     this.loadSavedRequestsFromStorage()
   },
@@ -80,10 +74,12 @@ export default {
         const uri = current.uri.trim()
         const method = current.method.trim()
         const payload = current.payload.trim() ? JSON.stringify(current.payload.trim()) : ''
-        localStorage.setItem(STORAGE, JSON.stringify({
-          ...this.savedRequests,
-          [method + ' ' + uri]: { uri, method, payload } 
-        }))
+        const cached = caching.getItem(STORAGE)
+        caching.setItem(STORAGE, { 
+          ...cached,
+          [caching.generateCacheKey(method, uri)]: { uri, method, payload }
+        })
+   
         this.loadSavedRequestsFromStorage()
       }
 
