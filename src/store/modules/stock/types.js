@@ -1,6 +1,6 @@
 
 
-export const m_SET_STOCKS = 'SET_STOCKS'
+export const m_SET_STOCKS = 'SET_STOCK_LIST'
 export const m_SET_SELECTED_STOCK_ID = 'SET_SELECTED_STOCK_ID'
 
 export const a_FETCH_STOCKS = 'FETCH_STOCKS'

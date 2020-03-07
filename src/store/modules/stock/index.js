@@ -20,7 +20,6 @@ export default {
     },
     [m_SET_SELECTED_STOCK_ID](state, stockId) {
       state.selectedStockId = stockId
-      return state.list.some(x => x.id === stockId)
     }
   },
   actions: {

@@ -9,27 +9,21 @@
 
 <script>
 import { mapState, mapGetters, mapAction, mapMutations } from 'vuex'
-import * as stocksTypes from '@/store/stocks/types'
+import * as stockTypes from '@/store/modules/stock/types'
 export default {
   computed: {
-    ...mapGetters('stocks', {
-      stock: stocksTypes.g_SELECTED_STOCK
+    ...mapGetters('stock', {
+      stock: stockTypes.g_SELECTED_STOCK
     })
   },
   methods: {
-    ...mapMutations('stocks', {
-      setSelectedStockId: stocksTypes.m_SET_SELECTED_STOCK_ID
+    ...mapMutations('stock', {
+      setSelectedStockId: stockTypes.m_SET_SELECTED_STOCK_ID
     })
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.setSelectedStockId(to.query.stock_id)
-
-      if (!vm.stock.id) {
-        next('/404')
-      }
-
-   
     })
   },
   beforeRouteLeave(to, from, next) {
