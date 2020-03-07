@@ -41,6 +41,23 @@
         </resource-display>
       </div>
 
+      <div class="col mobile-12 tablet-6">
+        <resource-display
+          resourceName="Food Kind"
+          :newResourceItemName.sync="foodKind"
+          :items="foodKindList"
+          :searchKeys="['name']"
+          @submit="onSubmitFoodKind"
+        >
+          <template v-slot:list-item="{ item }">
+            <router-link :to="{ name: 'food-kind', params: { food_kind_id: item.id }}">
+              {{item.name}}
+            </router-link>
+            <button @click="onDeleteFoodKind(item.id)">X</button>
+          </template>
+        </resource-display>
+      </div>
+
     </div>
   </div>
 </template>
@@ -49,6 +66,7 @@
 import { mapState, mapActions } from 'vuex'
 import { a_POST_STOCK, a_DELETE_STOCK } from '@/store/modules/stock/types'
 import * as foodCategoryTypes from '@/store/modules/food-category/types'
+import * as foodKindTypes from '@/store/modules/food-kind/types'
 import apiService from '@/util/api-service'
 
 import ResourceDisplay from '@/components/home-page/resource/index'
@@ -71,6 +89,9 @@ export default {
     }),
     ...mapState('foodCategory', {
       foodCategoryList: s => s.list
+    }),
+    ...mapState('foodKind', {
+      foodKindList: s => s.list
     })
   },
   methods: {
@@ -107,6 +128,22 @@ export default {
       const category = this.foodCategoryList.find(c => c.id === id)
       if (this.confirmDelete(category.name, 'Food Category')) {
         this.deleteFoodCategory(id)
+      }
+    },
+    ...mapActions('foodKind', {
+      postFoodKind: foodKindTypes.a_POST_FOOD_KIND,
+      deleteFoodKind: foodKindTypes.a_DELETE_FOOD_KIND,
+    }),
+    onSubmitFoodKind() {
+      const name = this.foodKind.trim()
+      if (name) {
+        this.postFoodKind({ name })
+      }
+    },
+    omDeleteFoodKind(id) {
+      const kind = this.foodKindList.find(k => k.id === id)
+      if (this.confirmDelete(kind.name, 'Food Kind')) {
+        this.deleteFoodKind(id)
       }
     }
 
