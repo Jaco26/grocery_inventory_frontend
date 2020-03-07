@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import NotFound from '../views/404.vue'
-import Container from '../views/Container.vue'
-import Home from '../views/Home.vue'
-import Stock from '../views/Stock.vue'
+import NotFound from '../views/404-not-found.vue'
+import Container from '@/views/container/index'
+import HomePage from '@/views/container/home'
+import StockPage from '@/views/container/stock'
+import FoodCategoryPage from '@/views/container/food-category'
+import FoodKindPage from '@/views/container/food-kind'
+
 
 Vue.use(VueRouter)
 
@@ -14,13 +17,23 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Home',
-        component: Home
+        name: 'home',
+        component: HomePage
       },
       {
-        path: '/@*',
-        name: 'Stock',
-        component: Stock,
+        path: '/stock/:stock_id',
+        name: 'stock',
+        component: StockPage,
+      },
+      {
+        path: '/food-category/:food_category_id',
+        name: 'food-category',
+        component: FoodCategoryPage,
+      },
+      {
+        path: '/food-kind/:food_kind_id',
+        name: 'food-kind',
+        component: FoodKindPage
       }
     ],
   },

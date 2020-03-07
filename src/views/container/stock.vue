@@ -23,7 +23,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.setSelectedStockId(to.query.stock_id)
+      vm.setSelectedStockId(to.params.stock_id)
     })
   },
   beforeRouteLeave(to, from, next) {

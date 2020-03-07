@@ -6,6 +6,7 @@
       </div>
     </div>
     <div class="row">
+      
       <div class="col mobile-12 tablet-6">
         <resource-display
           resourceName="Stock"
@@ -15,13 +16,14 @@
           @submit="onSubmitStock"
         >
           <template v-slot:list-item="{ item }">
-            <router-link :to="{ path: `/@${item.name}`, query: { stock_id: item.id }}">
+            <router-link :to="{ name: 'stock', params: { stock_id: item.id }}">
               {{item.name}}
             </router-link>
             <button @click="onDeleteStock(item.id)">X</button>
           </template>
         </resource-display>
       </div>
+
       <div class="col mobile-12 tablet-6">
         <resource-display
           resourceName="Food Category"
@@ -31,43 +33,15 @@
           @submit="onSubmitFoodCategory"
         >
           <template v-slot:list-item="{ item }">
-            <!-- <router-link :to="{ path: `/@${item.name}`, query: { stock_id: item.id }}">
+            <router-link :to="{ name: 'food-category', params: { food_category_id: item.id }}">
               {{item.name}}
-            </router-link> -->
-            {{item.name}}
+            </router-link>
             <button @click="onDeleteFoodCategory(item.id)">X</button>
           </template>
         </resource-display>
       </div>
+
     </div>
-  
-
-    
-    
-
-    <section class="food-categories">
-      <div class="food-categories__create-new">
-
-      </div>
-      <div class="food-categories__list">
-        <div class="list-search">
-          
-        </div>
-        <div class="list-items">
-
-        </div>
-      </div>
-    </section>
-
-    <section class="food-kinds">
-      <div class="food-kinds__create-new">
-
-      </div>
-      <div class="food-kinds__list">
-        
-      </div>
-    </section>
-    
   </div>
 </template>
 
