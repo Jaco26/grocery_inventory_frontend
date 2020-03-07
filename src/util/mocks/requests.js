@@ -17,7 +17,7 @@ export default [
   
 
   _get('/categories/food/category'),
-  _post('/categories/food/category', { name: 'legume' }),
+  _post('/categories/food/category', { name: 'Fr    UiT' }),
   _put('/categories/food/category/29b4aa12-da5a-4d28-a95c-0bd20a512b79', { name: 'dried   legume' }),
   _delete('/categories/food/category/29b4aa12-da5a-4d28-a95c-0bd20a512b79'),
   
@@ -59,7 +59,8 @@ export default [
   }),
 
   _get('/stock/<stock_id>'),
-  _post('/stock', { name: '' }),
+  _get('/stock/'),
+  _post('/stock/', { name: 'The House' }),
   _put('/stock/<stock_id>', { name: '' }),
   _delete('/stock/<stock_id>'),
   
