@@ -20,21 +20,3 @@
   align-items: center;
 }
 
-
-.btn {
-  border: none;
-  border-radius: 2px;
-  height: 40px;
-  min-width: 90px;
-  font: inherit;
-  cursor: pointer;
-  margin: .25rem;
-  padding: .5rem;
-}
-.btn.btn-primary {
-  background: #57c;
-  color: whitesmoke;
-}
-.btn.btn-secondary {
-  background: #ddd;
-}

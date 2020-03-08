@@ -1,0 +1,153 @@
+@use './_variables.scss' as v;
+
+.btn {
+  display: inline-block;
+  padding: .5rem 1rem;
+  border: none;
+  outline: none;
+  min-width: 6rem;
+  border-radius: .25rem;
+  box-shadow: 1px 1px 2px #555;
+  cursor: pointer;
+  text-align: center;
+
+  &:not(a) {
+    font: inherit;
+  }
+
+  &:hover {
+    box-shadow: 2px 2px 2px #555;
+  }
+  &:active {
+    box-shadow: 1px 1px 1px #555;
+  }
+  &:disabled {
+    box-shadow: none;
+    cursor: default;
+  }
+
+  &.block {
+    width: 100%;
+  }
+
+  &.small {
+    min-width: 3rem;
+    padding: .25rem .5rem;
+  }
+
+  &.large {
+    min-width: 8rem;
+    padding: .75rem 1.5rem;
+
+    &.square {
+      min-width: 0;
+    }
+  }
+
+  &.text {
+    background: transparent;
+    box-shadow: none;
+
+    &:not(a) {
+      color: $dark;
+    }
+
+    &:hover {
+      background: $light-darker;
+      box-shadow: none;
+    }
+    &:active {
+      background: $light-darker;
+      box-shadow: none;
+    }
+    &:disabled {
+      background: $light;
+      cursor: default;
+    }
+  }
+
+  &.icon {
+    height: 2rem;
+    min-width: 2rem;
+    padding: 0;
+    border-radius: 50%;
+    @extend .text;
+  }
+
+  &.primary {
+    background: $primary;
+    color: whitesmoke;
+
+    &:hover {
+      background: $primary-lighter;
+      box-shadow: 2px 2px 2px #555;
+    }
+    &:active {
+      background: $primary-darker;
+      box-shadow: 1px 1px 1px #555;
+    }
+    &:disabled {
+      background: $primary;
+      box-shadow: none;
+      cursor: default;
+    }
+  }
+
+  &.secondary {
+    background: $secondary;
+    color: whitesmoke;
+
+    &:hover {
+      background: $secondary-lighter;
+      box-shadow: 2px 2px 2px #555;
+    }
+    &:active {
+      background: $secondary-darker;
+      box-shadow: 1px 1px 1px #555;
+    }
+    &:disabled {
+      background: $secondary;
+      box-shadow: none;
+      cursor: default;
+    }
+  }
+
+  &.success {
+    background: $green;
+    color: whitesmoke;
+
+    &:hover {
+      // background: $secondary-lighter;
+      box-shadow: 2px 2px 2px #555;
+    }
+    &:active {
+      // background: $secondary-darker;
+      box-shadow: 1px 1px 1px #555;
+    }
+    &:disabled {
+      // background: $secondary;
+      box-shadow: none;
+      cursor: default;
+    }
+  }
+
+  &.error {
+    background: $red;
+    color: whitesmoke;
+
+    &:hover {
+      // background: $secondary-lighter;
+      box-shadow: 2px 2px 2px #555;
+    }
+    &:active {
+      // background: $secondary-darker;
+      box-shadow: 1px 1px 1px #555;
+    }
+    &:disabled {
+      // background: $secondary;
+      box-shadow: none;
+      cursor: default;
+    }
+  }
+
+}

@@ -4,14 +4,12 @@
     <div class="resource__create-new">
       <form v-on:submit.prevent="$listeners.submit">
         <div class="row">
-          <div class="col mobile-8">
+          <div class="col d-flex">
             <JInput
               :label="`Create New '${resourceName}' Item`"
               :value="newResourceItemName"
               @input="$emit('update:newResourceItemName', $event)"
             />
-          </div>
-          <div class="col d-flex align-bottom pl-0">
             <button class="btn btn-primary" type="submit">Submit</button>
           </div>
         </div>
@@ -77,6 +75,6 @@ ul > li {
   padding: .125rem;
 }
 ul > li:nth-of-type(odd) {
-  background: honeydew;
+  background: beige;
 }
 </style>
