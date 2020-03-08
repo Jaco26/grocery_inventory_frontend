@@ -1,5 +1,5 @@
 <template>
-  <!-- <div class="row">
+  <div class="row">
     <div class="col">
       <j-card flat>
         <j-card-title class="py-0">
@@ -19,9 +19,9 @@
         </j-card-text>
       </j-card>
     </div>
-  </div> -->
-  <router-view></router-view>
+  </div>
 </template>
+
 
 <script>
 // components
@@ -29,23 +29,31 @@ import StockItems from '@/components/stock/stock-items'
 import StockSnapshots from '@/components/stock/stock-snapshots'
 
 // vuex
-import { mapMutations } from 'vuex'
-import { m_SET_SELECTED_STOCK_ID } from '@/store/modules/stock/types'
+import { mapState, mapGetters, mapAction, mapMutations } from 'vuex'
+import * as stockTypes from '@/store/modules/stock/types'
 export default {
+  components: {
+    StockItems,
+    StockSnapshots
+  },
+  computed: {
+    ...mapGetters('stock', {
+      stock: stockTypes.g_SELECTED_STOCK
+    }),
+    dateCreated() {
+      return new Date(this.stock.date_created).toDateString()
+    },
+    dateUpdated() {
+      return this.stock.date_updated
+      ? new Date(this.stock.date_updated).toDateString()
+      : 'N/A'
+    }
+  },
   methods: {
     ...mapMutations('stock', {
-      setSelectedStockId: m_SET_SELECTED_STOCK_ID
+      setSelectedStockId: stockTypes.m_SET_SELECTED_STOCK_ID
     })
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      console.log('setting stock id', to.params.stock_id)
-      vm.setSelectedStockId(to.params.stock_id)
-    })
-  },
-  beforeRouteLeave(to, from, next) {
-    this.setSelectedStockId(null)
-    next()
-  }
+
 }
 </script>

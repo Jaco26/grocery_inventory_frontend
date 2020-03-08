@@ -3,7 +3,11 @@ import VueRouter from 'vue-router'
 import NotFound from '../views/404-not-found.vue'
 import Container from '@/views/container/index'
 import HomePage from '@/views/container/home'
-import StockPage from '@/views/container/stock'
+
+import StockContainer from '@/views/container/stock'
+import StockIndexPage from '@/views/container/stock/index'
+import StockItemPage from '@/views/container/stock/stock-item'
+
 import FoodCategoryPage from '@/views/container/food-category'
 import FoodKindPage from '@/views/container/food-kind'
 
@@ -22,9 +26,25 @@ const routes = [
       },
       {
         path: '/stock/:stock_id',
-        name: 'stock',
-        component: StockPage,
+        component: StockContainer,
+        children: [
+          {
+            path: '',
+            name: 'stock',
+            component: StockIndexPage
+          },
+          {
+            path: 'item/:item_id',
+            name: 'stock-item',
+            component: StockItemPage,
+          }
+        ]
       },
+      // {
+      //   path: '/stock/:stock_id/item/:item_id',
+      //   name: 'stock-item',
+      //   component: StockItemPage,
+      // },
       {
         path: '/food-category/:food_category_id',
         name: 'food-category',

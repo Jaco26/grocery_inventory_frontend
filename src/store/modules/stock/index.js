@@ -10,8 +10,13 @@ import {
   m_UPDATE_STOCK_LIST,
 } from './types'
 
+import stockItem from './modules/stock-item/index'
+
 export default {
   namespaced: true,
+  modules: {
+    stockItem,
+  },
   state: {
     list: [],
     selectedStockId: null,

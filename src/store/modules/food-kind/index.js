@@ -6,7 +6,8 @@ import {
   a_POST_FOOD_KIND,
   a_UPDATE_FOOD_KIND,
   a_DELETE_FOOD_KIND,
-  g_SELECTED_FOOD_KIND
+  g_SELECTED_FOOD_KIND,
+  g_GET_FOOD_KIND_BY_ID
 } from './types'
 
 export default {
@@ -65,7 +66,9 @@ export default {
         return selected
       }
       return contract
+    },
+    [g_GET_FOOD_KIND_BY_ID](state) {
+      return id => state.list.find(x => x.id === id)
     }
-
   }
 }

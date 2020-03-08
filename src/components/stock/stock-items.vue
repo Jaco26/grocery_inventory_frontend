@@ -17,7 +17,7 @@
           <form @submit.prevent="onSubmitNewStockItem">
             <JSelect
               label="What kind of food item is this?"
-              :options="foodKindList"
+              :options="foodKindOptions"
               v-model="newStockItem.foodKindId"
             />
             <JInput
@@ -30,15 +30,15 @@
               type="date"
               v-model="newStockItem.expirationDate"
             />
-            <button type="submit">Submit</button>
+            <button class="btn small mt-2" type="submit">Submit</button>
           </form>
         </j-card-text>
       </j-card>
       <ul style="list-style: none; padding: 0;">
-        <li v-for="(item, i) in items" :key="i" style=" margin: .5rem 0">
-          <div style="text-decoration: underline">{{item.food_kind.name}}</div>
-          <div>Date Was New: <strong>{{item.date_item_was_new}}</strong></div>
-          <div>Date Expires: <strong>{{item.expiration_date}}</strong></div>
+        <li v-for="(item, i) in foodKindsInStock" :key="i" style=" margin: .5rem 0">
+          <router-link :to="{ name: 'stock-item', params: {  item_id: item.id }}">
+            {{item.name}}
+          </router-link>
         </li>
       </ul>
     </j-card-text>
@@ -46,8 +46,9 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import { a_POST_STOCK_ITEM } from '@/store/modules/stock/types'
+import { g_GET_FOOD_KIND_BY_ID } from '@/store/modules/food-kind/types'
 export default {
   props: {
     items: Array,
@@ -65,8 +66,15 @@ export default {
   },
   computed: {
     ...mapState('foodKind', {
-      foodKindList: s => s.list.map(k => ({ text: k.name, value: k.id }))
+      foodKindOptions: s => s.list.map(k => ({ text: k.name, value: k.id }))
     }),
+    ...mapGetters('foodKind', {
+      getFoodKindById: g_GET_FOOD_KIND_BY_ID,
+    }),
+    foodKindsInStock() {
+      // The distinct food kinds within a stock
+      return this.items.reduce((acc, x) => ({ ...acc, [x.food_kind_id]: x.food_kind }), {})
+    },
     addItemButtonState() {
       return {
         onClick: this.toggleAddItemsForm,

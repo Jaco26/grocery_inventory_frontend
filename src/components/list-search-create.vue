@@ -4,13 +4,15 @@
     <div class="resource__create-new">
       <form v-on:submit.prevent="$listeners.submit">
         <div class="row">
-          <div class="col d-flex">
+          <div class="col d-flex align-center">
             <JInput
               :label="`Create New '${resourceName}' Item`"
               :value="newResourceItemName"
               @input="$emit('update:newResourceItemName', $event)"
             />
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <div class="ml-2">
+              <button :disabled="!newResourceItemName.trim().length" class="btn " type="submit">Submit</button>
+            </div>
           </div>
         </div>
         

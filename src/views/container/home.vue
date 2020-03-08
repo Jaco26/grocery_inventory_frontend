@@ -19,7 +19,9 @@
             <router-link :to="{ name: 'stock', params: { stock_id: item.id }}">
               {{item.name}}
             </router-link>
-            <button @click="onDeleteStock(item.id)">X</button>
+            <div>
+              <button @click="onDeleteStock(item.id)">X</button>
+            </div>
           </template>
         </list-search-create>
       </div>
