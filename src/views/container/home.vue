@@ -8,7 +8,7 @@
     <div class="row">
       
       <div class="col mobile-12 tablet-6">
-        <resource-display
+        <list-search-create
           resourceName="Stock"
           :newResourceItemName.sync="stock"
           :items="stockList"
@@ -21,11 +21,11 @@
             </router-link>
             <button @click="onDeleteStock(item.id)">X</button>
           </template>
-        </resource-display>
+        </list-search-create>
       </div>
 
       <div class="col mobile-12 tablet-6">
-        <resource-display
+        <list-search-create
           resourceName="Food Category"
           :newResourceItemName.sync="foodCategory"
           :items="foodCategoryList"
@@ -38,11 +38,11 @@
             </router-link>
             <button @click="onDeleteFoodCategory(item.id)">X</button>
           </template>
-        </resource-display>
+        </list-search-create>
       </div>
 
       <div class="col mobile-12 tablet-6">
-        <resource-display
+        <list-search-create
           resourceName="Food Kind"
           :newResourceItemName.sync="foodKind"
           :items="foodKindList"
@@ -55,7 +55,7 @@
             </router-link>
             <button @click="onDeleteFoodKind(item.id)">X</button>
           </template>
-        </resource-display>
+        </list-search-create>
       </div>
 
     </div>
@@ -69,11 +69,13 @@ import * as foodCategoryTypes from '@/store/modules/food-category/types'
 import * as foodKindTypes from '@/store/modules/food-kind/types'
 import apiService from '@/util/api-service'
 
-import ResourceDisplay from '@/components/home-page/resource/index'
+
+import ListSearchCreate from '@/components/list-search-create'
 export default {
   name: 'Home',
   components: {
-    ResourceDisplay,
+
+    ListSearchCreate,
   },
   data() {
     return {

@@ -67,4 +67,16 @@ export default {
   padding: 1rem;
   outline: 1px solid gray;
 }
+.list-items ul {
+  list-style: none;
+  padding: 0;
+}
+ul > li {
+  display: flex;
+  justify-content: space-between;
+  padding: .125rem;
+}
+ul > li:nth-of-type(odd) {
+  background: honeydew;
+}
 </style>
