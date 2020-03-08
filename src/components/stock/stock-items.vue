@@ -35,10 +35,16 @@
         </j-card-text>
       </j-card>
       <ul style="list-style: none; padding: 0;">
-        <li v-for="(item, i) in foodKindsInStock" :key="i" style=" margin: .5rem 0">
+        <li v-for="(item, i) in foodKindsInSelectedStock" :key="i" style=" margin: .5rem 0">
           <router-link :to="{ name: 'stock-item', params: {  item_id: item.id }}">
             {{item.name}}
           </router-link>
+          <ul class="food-kind__item-dates-list">
+            <li v-for="(x, i) in item.items" :key="i + x.expiration_date">
+              <small>new: {{x.date_item_was_new}}</small> &nbsp;
+              <small>exp: {{x.expiration_date}}</small>
+            </li>
+          </ul>
         </li>
       </ul>
     </j-card-text>
@@ -47,7 +53,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
-import { a_POST_STOCK_ITEM } from '@/store/modules/stock/types'
+import { a_POST_STOCK_ITEM,  g_FOOD_KINDS_IN_SELECTED_STOCK } from '@/store/modules/stock/types'
 import { g_GET_FOOD_KIND_BY_ID } from '@/store/modules/food-kind/types'
 export default {
   props: {
@@ -65,16 +71,15 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('stock', {
+      foodKindsInSelectedStock: g_FOOD_KINDS_IN_SELECTED_STOCK,
+    }),
     ...mapState('foodKind', {
       foodKindOptions: s => s.list.map(k => ({ text: k.name, value: k.id }))
     }),
     ...mapGetters('foodKind', {
       getFoodKindById: g_GET_FOOD_KIND_BY_ID,
     }),
-    foodKindsInStock() {
-      // The distinct food kinds within a stock
-      return this.items.reduce((acc, x) => ({ ...acc, [x.food_kind_id]: x.food_kind }), {})
-    },
     addItemButtonState() {
       return {
         onClick: this.toggleAddItemsForm,
@@ -110,6 +115,7 @@ export default {
           date_item_was_new: dateItemWasNew,
           expiration_date: expirationDate,
         })
+        this.resetNewStockItemState()
       } else {
         alert('Oops! make sure you have filled out all fields')
       }
@@ -118,3 +124,9 @@ export default {
 }
 </script>
 
+<style scoped>
+.food-kind__item-dates-list {
+  list-style: none;
+  padding: 0;
+}
+</style>

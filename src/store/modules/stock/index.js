@@ -1,13 +1,14 @@
 import apiService from '@/util/api-service'
 import {
+  m_SET_STOCKS,
+  m_SET_SELECTED_STOCK_ID,
+  m_UPDATE_STOCK_LIST,
   a_DELETE_STOCK,
   a_FETCH_STOCKS,
   a_POST_STOCK,
   a_POST_STOCK_ITEM,
-  m_SET_STOCKS,
-  m_SET_SELECTED_STOCK_ID,
   g_SELECTED_STOCK,
-  m_UPDATE_STOCK_LIST,
+  g_FOOD_KINDS_IN_SELECTED_STOCK,
 } from './types'
 
 import stockItem from './modules/stock-item/index'
@@ -79,6 +80,18 @@ export default {
         return selected
       }
       return contract
-    }
+    },
+    [g_FOOD_KINDS_IN_SELECTED_STOCK](state, getters) {
+      return getters[g_SELECTED_STOCK].items.reduce((acc, x, i, stockItems) => ({
+        ...acc,
+        [x.food_kind_id]: {
+          ...x.food_kind,
+          items: stockItems.filter(y => y.food_kind_id === x.food_kind_id).map(x => ({
+            expiration_date: x.expiration_date,
+            date_item_was_new: x.date_item_was_new
+          }))
+        }
+      }), {})
+    },
   }
 }
