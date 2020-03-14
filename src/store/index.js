@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 import stock from './modules/stock/stock'
 import foodCategory from './modules/food-category/index'
-import foodKind from './modules/food-kind/index'
+import foodKind from './modules/food-kind/food-kind'
 import reqState from './modules/req-state/req-state'
 
 Vue.use(Vuex)

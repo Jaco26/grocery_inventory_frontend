@@ -9,12 +9,13 @@ import './assets/scss/_index.scss'
 import JInput from '@/components/generic/j-input'
 import JSelect from '@/components/generic/j-select'
 import JCard from '@/components/generic/j-card/index'
+import JAlert from '@/components/generic/j-alert'
 
+Vue.use(JCard)
 
 Vue.component('JInput', JInput)
 Vue.component('JSelect', JSelect)
-
-Vue.use(JCard)
+Vue.component('JAlert', JAlert)
 
 Vue.config.productionTip = false
 

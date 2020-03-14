@@ -20,7 +20,7 @@ export default {
   },
   mutations: {
     [m_SET_REQ_STATE](state, { method = 'GET', uri = '', status = 0 }) {
-      state.items = Object.assign({}, { [cacheKey(method, uri)]: statusMap[status] })
+      state.items = { ...state.items, [cacheKey(method, uri)]: statusMap[status] }//  Object.assign({}, state.items, {[cacheKey(method, uri)]: statusMap[status] })
     }
   },
   getters: {

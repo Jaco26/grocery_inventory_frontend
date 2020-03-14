@@ -15,11 +15,11 @@
           :searchKeys="['name']"
           @submit="onSubmitStock"
         >
-          <template v-slot:error v-if="onSubmitStockStatus === 'ERROR'">
-            <div>
+          <template v-slot:error>
+            <j-alert v-model="showSubmitStockError">
               There was an error while creating the stock. Please try again and make 
               sure to use a unique name.
-            </div>
+            </j-alert>
           </template>
           <template v-slot:list-item="{ item }">
             <router-link :to="{ name: 'stock', params: { stock_id: item.id }}">
@@ -57,6 +57,12 @@
           :searchKeys="['name']"
           @submit="onSubmitFoodKind"
         >
+          <template v-slot:error>
+            <j-alert v-model="showSubmitFoodKindError">
+              There was an error while creating the food kind. Please try again and make 
+              sure to use a unique name.
+            </j-alert>
+          </template>
           <template v-slot:list-item="{ item }">
             <router-link :to="{ name: 'food-kind', params: { food_kind_id: item.id }}">
               {{item.name}}
@@ -88,12 +94,25 @@ export default {
       stock: '',
       foodCategory: '',
       foodKind: '',
-      packagingKind: ''
+      packagingKind: '',
+      showSubmitStockError: false,
+      showSubmitFoodKindError: false,
+    }
+  },
+  watch: {
+    statusOfPostStock(val) {
+      this.showSubmitStockError = val === 'ERROR'
+    },
+    statusOfPostFoodKind(val) {
+      this.showSubmitFoodKindError = val === 'ERROR'
     }
   },
   computed: {
     ...mapGetters('stock', {
-      onSubmitStockReqState: stockTypes.g_STATUS_OF_POST_STOCK,
+      statusOfPostStock: stockTypes.g_STATUS_OF_POST_STOCK,
+    }),
+    ...mapGetters('foodKind', {
+      statusOfPostFoodKind: foodKindTypes.g_STATUS_OF_POST_FOOD_KIND
     }),
     ...mapState('stock', {
       stockList: s => s.list
@@ -104,9 +123,6 @@ export default {
     ...mapState('foodKind', {
       foodKindList: s => s.list
     }),
-    onSubmitStockStatus() {
-      return this.onSubmitStockReqState
-    }
   },
   methods: {
     confirmDelete(itemName, itemKind) {
@@ -120,7 +136,7 @@ export default {
       const name = this.stock.trim()
       if (name) {
         await this.postStock(name)
-        if (this.onSubmitStockReqState !== 'ERROR') {
+        if (this.statusOfPostStock !== 'ERROR') {
           this.stock = ''
         }
       }
@@ -152,11 +168,13 @@ export default {
       postFoodKind: foodKindTypes.a_POST_FOOD_KIND,
       deleteFoodKind: foodKindTypes.a_DELETE_FOOD_KIND,
     }),
-    onSubmitFoodKind() {
+    async onSubmitFoodKind() {
       const name = this.foodKind.trim()
       if (name) {
-        this.postFoodKind({ name })
-        this.foodKind = ''
+        await this.postFoodKind({ name })
+        if (this.statusOfPostFoodKind !== 'ERROR') {
+          this.foodKind = ''
+        }
       }
     },
     onDeleteFoodKind(id) {
