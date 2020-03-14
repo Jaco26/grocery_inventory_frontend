@@ -65,8 +65,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import { a_POST_STOCK, a_DELETE_STOCK } from '@/store/modules/stock/types'
+import { mapState, mapGetters, mapActions } from 'vuex'
+import * as stockTypes from '@/store/modules/stock/types'
 import * as foodCategoryTypes from '@/store/modules/food-category/types'
 import * as foodKindTypes from '@/store/modules/food-kind/types'
 import apiService from '@/util/api-service'
@@ -88,6 +88,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('stock', {
+      getOnDeleteStockStatus: stockTypes.g_DELETE_STOCK_STATUS,
+      getOnSubmitStockStatus: stockTypes.g_POST_STOCK_STATUS,
+    }),
     ...mapState('stock', {
       stockList: s => s.list
     }),
@@ -103,13 +107,16 @@ export default {
       return confirm(`Are you sure you want to delete the "${itemName}" ${itemKind}`)
     },
     ...mapActions('stock', {
-      postStock: a_POST_STOCK,
-      deleteStock: a_DELETE_STOCK,
+      postStock: stockTypes.a_POST_STOCK,
+      deleteStock: stockTypes.a_DELETE_STOCK,
     }),
-    onSubmitStock() {
+    async onSubmitStock() {
       const name = this.stock.trim()
       if (name) {
-        this.postStock(name)
+        await this.postStock(name)
+        if (this.getOnSubmitStockStatus('/stock/') !== 'ERROR') {
+          this.stock = ''
+        }
       }
     },
     onDeleteStock(stockId) {
@@ -126,6 +133,7 @@ export default {
       const name = this.foodCategory.trim()
       if (name) {
         this.postFoodCategory(name)
+        this.foodCategory = ''
       }
     },
     onDeleteFoodCategory(id) {
@@ -142,9 +150,10 @@ export default {
       const name = this.foodKind.trim()
       if (name) {
         this.postFoodKind({ name })
+        this.foodKind = ''
       }
     },
-    omDeleteFoodKind(id) {
+    onDeleteFoodKind(id) {
       const kind = this.foodKindList.find(k => k.id === id)
       if (this.confirmDelete(kind.name, 'Food Kind')) {
         this.deleteFoodKind(id)

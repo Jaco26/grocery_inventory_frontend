@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import stock from './modules/stock/index'
 import foodCategory from './modules/food-category/index'
 import foodKind from './modules/food-kind/index'
+import reqState from './modules/request-state/index'
 
 Vue.use(Vuex)
 
@@ -12,5 +13,6 @@ export default new Vuex.Store({
     stock,
     foodCategory,
     foodKind,
+    reqState,
   }
 })

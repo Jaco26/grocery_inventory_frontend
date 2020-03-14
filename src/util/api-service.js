@@ -15,6 +15,11 @@ async function doFetch(uri, { method = 'GET', body = null } = {}) {
       options.body = JSON.stringify(body)
     }
     const res = await fetch(url, options)
+    if (res.status >= 400) {
+      const error = new Error(res.statusText)
+      error.response = res
+      throw error
+    }
     const json = await res.json()
     return json
   } catch (error) {
