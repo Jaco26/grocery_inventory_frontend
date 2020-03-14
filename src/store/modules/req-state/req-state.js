@@ -10,21 +10,22 @@ const statusMap = {
   3: 'ERROR',
 }
 
-const createRequestState = (status = 0) => ({ status: statusMap[status] })
+const createReqState = (status = 0) => ({ status: statusMap[status] })
+const cacheKey = (method, uri) => `${method.toUpperCase()}_${uri}`
 
 export default {
   namespaced: 'true',
   state: {
-    requestStates: {}
+    items: {}
   },
   mutations: {
     [m_SET_REQ_STATE](state, { method = 'GET', uri = '', status = 0 }) {
-      state.requestStates[`${method}_${uri}`] = statusMap[status]
+      state.items = Object.assign({}, { [cacheKey(method, uri)]: statusMap[status] })
     }
   },
   getters: {
     [g_GET_REQ_STATE](state) {
-      return (method, uri) => state.requestStates[`${method}_${uri}`]
+      return (method, uri) => state.items[cacheKey(method, uri)]
     }
   }
 }

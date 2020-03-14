@@ -1,4 +1,4 @@
-import { m_SET_REQ_STATE, g_GET_REQ_STATE } from '@/store/modules/request-state/types'
+import { m_SET_REQ_STATE, g_GET_REQ_STATE } from '@/store/modules/req-state/types'
 
 
 const doCommit = ({ commit, method, uri, status }) => {
@@ -8,41 +8,44 @@ const doCommit = ({ commit, method, uri, status }) => {
 export const makeCacher = (uri = '') => ({
   cacheGet(commit) {
     return {
-      status(status) {
+      setStatus(status) {
         doCommit({ commit, method: 'GET', uri, status })
       }
     }
   },
   cachePost(commit) {
     return {
-      status(status) {
+      setStatus(status) {
         doCommit({ commit, method: 'POST', uri, status })
       }
     }
   },
   cachePut(commit) {
     return {
-      status(status) {
+      setStatus(status) {
         doCommit({ commit, method: 'PUT', uri, status })
       }
     }
   },
   cacheDelete(commit) {
     return {
-      status(status) {
+      setStatus(status) {
         doCommit({ commit, method: 'DELETE', uri, status })
       }
     }
   }
 })
 
-const makeGetterForMethod = method => (state, getters, rootState, rootGetters) => {
-  return uri => rootGetters[`reqState/${g_GET_REQ_STATE}`](method, uri)
+
+export const makeGetterForMethod = (method, staticUri) => (state, getters, rootState, rootGetters) => {
+  return staticUri
+    ? rootGetters[`reqState/${g_GET_REQ_STATE}`](method, staticUri)
+    : uri => rootGetters[`reqState/${g_GET_REQ_STATE}`](method, uri)
 }
 
 export const makeCacheGetter = {
-  get: () => makeGetterForMethod('GET'),
-  post: () => makeGetterForMethod('POST'),
-  put: () => makeGetterForMethod('PUT'),
-  delete: () => makeGetterForMethod('DELETE'),
+  isGet: (staticUri) => makeGetterForMethod('GET', staticUri),
+  isPost: (staticUri) => makeGetterForMethod('POST', staticUri),
+  isPut: (staticUri) => makeGetterForMethod('PUT', staticUri),
+  isDelete: (staticUri) => makeGetterForMethod('DELETE', staticUri),
 }

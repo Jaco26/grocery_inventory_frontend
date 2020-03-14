@@ -11,11 +11,7 @@ import {
   a_POST_STOCK_ITEM,
   g_SELECTED_STOCK,
   g_FOOD_KINDS_IN_SELECTED_STOCK,
-  g_POST_STOCK_STATUS,
-  g_POST_STOCK_ITEM_STATUS,
-  g_FETCH_STOCKS_STATUS,
-  g_FETCH_SELECTED_STOCK_STATUS,
-  g_DELETE_STOCK_STATUS,
+  g_STATUS_OF_POST_STOCK,
 
 } from './types'
 import stockItem from './modules/stock-item/index'
@@ -46,64 +42,63 @@ export default {
     async [a_FETCH_STOCKS]({ commit }) {
       const cacher = stockCacher.cacheGet(commit)
       try {
-        cacher.status(1)
+        cacher.setStatus(1)
         const res = await apiService.get('/stock/')
         commit(m_SET_STOCKS, res.data)
-        cacher.status(2)
+        cacher.setStatus(2)
       } catch (error) {
-        cacher.status(3)
+        cacher.setStatus(3)
         console.log(error)
       }
     },
     async  [a_FETCH_SELECTED_STOCK]({ dispatch, state, commit }) {
       const cacher = makeCacher(`/stock/${state.selectedStockId}`).cacheGet(commit)
       try {
-        cacher.status(1)
+        cacher.setStatus(1)
         const stock = await apiService.get(`/stock/${state.selectedStockId}`)
-        cacher.status(2)
+        cacher.setStatus(2)
         commit(m_UPDATE_STOCK_LIST, stock.data)
       } catch (error) {
-        cacher.status(3)
+        cacher.setStatus(3)
       }
     },
     async [a_POST_STOCK]({ dispatch, commit }, name) {
       const cacher = stockCacher.cachePost(commit)
       try {
-        cacher.status(1)
+        cacher.setStatus(1)
         await apiService.post('/stock/', { name })
-        cacher.status(2)
+        cacher.setStatus(2)
         await dispatch(a_FETCH_STOCKS)
       } catch (error) {
-        cacher.status(3)
-        console.log(error)
+        cacher.setStatus(3)
       }
     },
     async [a_POST_STOCK_ITEM]({ commit, dispatch, state }, { food_kind_id, expiration_date, date_item_was_new }) {
       const uri = `/stock/item/${state.selectedStockId}`
       const cacher = makeCacher(uri).cachePost(commit)
       try {
-        cacher.status(1)
+        cacher.setStatus(1)
         await apiService.post(uri, {
           food_kind_id,
           expiration_date,
           date_item_was_new
         })
-        cacher.status(2)
+        cacher.setStatus(2)
         await dispatch(a_FETCH_SELECTED_STOCK)
       } catch (error) {
-        cacher.status(3)
+        cacher.setStatus(3)
       }
     },
     async [a_DELETE_STOCK]({ dispatch, commit }, stockId) {
       const uri = `/stock/${stockId}`
       const cacher = makeCacher(uri).cacheDelete(commit)
       try {
-        cacher.status(1)
+        cacher.setStatus(1)
         await apiService.delete(uri)
-        cacher.status(2)
+        cacher.setStatus(2)
         await dispatch(a_FETCH_STOCKS)
       } catch (error) {
-        cacher.status(3)
+        cacher.setStatus(3)
         console.log(error)
       }
     } 
@@ -134,10 +129,6 @@ export default {
         }
       }), {})
     },
-    [g_FETCH_SELECTED_STOCK_STATUS]: makeCacheGetter.get(),
-    [g_FETCH_STOCKS_STATUS]: makeCacheGetter.get(),
-    [g_POST_STOCK_ITEM_STATUS]: makeCacheGetter.post(),
-    [g_POST_STOCK_STATUS]: makeCacheGetter.post(),
-    [g_DELETE_STOCK_STATUS]: makeCacheGetter.delete(),
+    [g_STATUS_OF_POST_STOCK]: makeCacheGetter.isPost('/stock/'),
   }
 }

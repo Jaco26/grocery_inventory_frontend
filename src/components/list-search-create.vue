@@ -15,7 +15,11 @@
             </div>
           </div>
         </div>
-        
+        <div class="row">
+          <div class="col text-danger">
+            <slot name="error" />
+          </div>
+        </div>
       </form>
     </div>
     <div class="resource__list">

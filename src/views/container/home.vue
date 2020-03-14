@@ -15,6 +15,12 @@
           :searchKeys="['name']"
           @submit="onSubmitStock"
         >
+          <template v-slot:error v-if="onSubmitStockStatus === 'ERROR'">
+            <div>
+              There was an error while creating the stock. Please try again and make 
+              sure to use a unique name.
+            </div>
+          </template>
           <template v-slot:list-item="{ item }">
             <router-link :to="{ name: 'stock', params: { stock_id: item.id }}">
               {{item.name}}
@@ -65,18 +71,16 @@
 </template>
 
 <script>
+// vuex
 import { mapState, mapGetters, mapActions } from 'vuex'
 import * as stockTypes from '@/store/modules/stock/types'
 import * as foodCategoryTypes from '@/store/modules/food-category/types'
 import * as foodKindTypes from '@/store/modules/food-kind/types'
-import apiService from '@/util/api-service'
-
-
+// Componnts
 import ListSearchCreate from '@/components/list-search-create'
 export default {
   name: 'Home',
   components: {
-
     ListSearchCreate,
   },
   data() {
@@ -89,8 +93,7 @@ export default {
   },
   computed: {
     ...mapGetters('stock', {
-      getOnDeleteStockStatus: stockTypes.g_DELETE_STOCK_STATUS,
-      getOnSubmitStockStatus: stockTypes.g_POST_STOCK_STATUS,
+      onSubmitStockReqState: stockTypes.g_STATUS_OF_POST_STOCK,
     }),
     ...mapState('stock', {
       stockList: s => s.list
@@ -100,7 +103,10 @@ export default {
     }),
     ...mapState('foodKind', {
       foodKindList: s => s.list
-    })
+    }),
+    onSubmitStockStatus() {
+      return this.onSubmitStockReqState
+    }
   },
   methods: {
     confirmDelete(itemName, itemKind) {
@@ -114,7 +120,7 @@ export default {
       const name = this.stock.trim()
       if (name) {
         await this.postStock(name)
-        if (this.getOnSubmitStockStatus('/stock/') !== 'ERROR') {
+        if (this.onSubmitStockReqState !== 'ERROR') {
           this.stock = ''
         }
       }
