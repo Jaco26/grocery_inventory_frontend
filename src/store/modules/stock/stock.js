@@ -129,6 +129,6 @@ export default {
         }
       }), {})
     },
-    [g_STATUS_OF_POST_STOCK]: makeCacheGetter.isPost('/stock/'),
+    [g_STATUS_OF_POST_STOCK]: makeCacheGetter.isPost('/stock/')
   }
 }

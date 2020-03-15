@@ -1,6 +1,7 @@
 import {
-  m_SET_REQ_STATE,
-  g_GET_REQ_STATE,
+  m_SET_REQ_STATE_ITEM,
+  g_GET_REQ_STATUS,
+  g_GET_REQ_DATA,
 } from './types'
 
 const statusMap = {
@@ -10,8 +11,13 @@ const statusMap = {
   3: 'ERROR',
 }
 
-const createReqState = (status = 0) => ({ status: statusMap[status] })
-const cacheKey = (method, uri) => `${method.toUpperCase()}_${uri}`
+const DEFAULT_REQ_STATE = {
+  status: '',
+  data: null,
+}
+
+const createReqState = (status = 0, data = null) => ({ status: statusMap[status], data })
+const cacheKey = (method, uri) => `${method}_${uri}`
 
 export default {
   namespaced: 'true',
@@ -19,13 +25,18 @@ export default {
     items: {}
   },
   mutations: {
-    [m_SET_REQ_STATE](state, { method = 'GET', uri = '', status = 0 }) {
-      state.items = { ...state.items, [cacheKey(method, uri)]: statusMap[status] }//  Object.assign({}, state.items, {[cacheKey(method, uri)]: statusMap[status] })
+    [m_SET_REQ_STATE_ITEM](state, { method = 'GET', uri = '', status = 0 }) {
+      state.items = {
+        ...state.items,
+        [cacheKey(method, uri)]: createReqState(status) }
     }
   },
   getters: {
-    [g_GET_REQ_STATE](state) {
-      return (method, uri) => state.items[cacheKey(method, uri)]
+    [g_GET_REQ_STATUS](state) {
+      return (method, uri) => (state.items[cacheKey(method, uri)] || DEFAULT_REQ_STATE).status
+    },
+    [g_GET_REQ_DATA](state) {
+      return (method, uri) => (state.items[cacheKey(method, uri)] || DEFAULT_REQ_STATE).data
     }
   }
 }

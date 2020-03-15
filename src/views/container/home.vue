@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       
-      <div class="col mobile-12 tablet-6">
+      <div style="flex-shrink: 1" class="col mobile-12 tablet-6">
         <list-search-create
           resourceName="Stock"
           :newResourceItemName.sync="stock"
@@ -32,7 +32,7 @@
         </list-search-create>
       </div>
 
-      <div class="col mobile-12 tablet-6">
+      <div style="flex-shrink: 0" class="col mobile-12 tablet-6">
         <list-search-create
           resourceName="Food Category"
           :newResourceItemName.sync="foodCategory"
@@ -49,7 +49,7 @@
         </list-search-create>
       </div>
 
-      <div class="col mobile-12 tablet-6">
+      <div style="flex-shrink: 0" class="col mobile-12 tablet-6">
         <list-search-create
           resourceName="Food Kind"
           :newResourceItemName.sync="foodKind"

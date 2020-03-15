@@ -1,8 +1,8 @@
-import { m_SET_REQ_STATE, g_GET_REQ_STATE } from '@/store/modules/req-state/types'
+import { m_SET_REQ_STATE_ITEM, g_GET_REQ_STATUS } from '@/store/modules/req-state/types'
 
 
 const doCommit = ({ commit, method, uri, status }) => {
-  commit(`reqState/${m_SET_REQ_STATE}`, { method, uri, status }, { root: true })
+  commit(`reqState/${m_SET_REQ_STATE_ITEM}`, { method, uri, status }, { root: true })
 }
 
 export const makeCacher = (uri = '') => ({
@@ -39,8 +39,8 @@ export const makeCacher = (uri = '') => ({
 
 export const makeGetterForMethod = (method, staticUri) => (state, getters, rootState, rootGetters) => {
   return staticUri
-    ? rootGetters[`reqState/${g_GET_REQ_STATE}`](method, staticUri)
-    : uri => rootGetters[`reqState/${g_GET_REQ_STATE}`](method, uri)
+    ? rootGetters[`reqState/${g_GET_REQ_STATUS}`](method, staticUri)
+    : uri => rootGetters[`reqState/${g_GET_REQ_STATUS}`](method, uri)
 }
 
 export const makeCacheGetter = {
