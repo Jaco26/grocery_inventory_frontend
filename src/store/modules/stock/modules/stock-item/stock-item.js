@@ -4,6 +4,23 @@ import {
   g_SELECTED_STOCK_ITEM
 } from './types'
 
+const EMPTY_ITEM_STATE = {
+  id: '',
+  date_created: '',
+  date_updated: '',
+  food_item_id: '',
+  number_of_servings: 0,
+  weight: 0,
+  packaging_kind: {
+    id: '',
+    name: '',
+  },
+  packaging_state: {
+    id: '',
+    name: ''
+  },
+}
+
 export default {
   namespaced: true,
   state: {
@@ -14,18 +31,32 @@ export default {
       state.foodKindId = id
     }
   },
+  actions: {
+    
+  },
   getters: {
     [g_SELECTED_STOCK_ITEM](state, getters, rootState, rootGetters) {
       // a grouping of all food_kinds within a stock
       const contract = {
         food_kind: '',
+        food_kind_id: '',
         items: [], // food_item[]
       }
       const selected = rootGetters['stock/SELECTED_STOCK']
         .items
-        .filter(x => x.food_kind_id === state.foodKindId)
+        .reduce((acc, x) => {
+          if (x.food_kind_id === state.foodKindId) {
+            const { states, ...item } = x
+            acc.push({
+              ...item,
+              state: states[states.length - 1] || EMPTY_ITEM_STATE
+            })
+          }
+          return acc
+        }, [])
       if (selected.length) {
         contract.food_kind = selected[0].food_kind.name,
+        contract.food_kind_id = selected[0].food_kind_id
         contract.items = selected
       }
       return contract

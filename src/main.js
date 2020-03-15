@@ -8,10 +8,12 @@ import './assets/scss/_index.scss'
 
 import JInput from '@/components/generic/j-input'
 import JSelect from '@/components/generic/j-select'
-import JCard from '@/components/generic/j-card/index'
 import JAlert from '@/components/generic/j-alert'
+import JCard from '@/components/generic/j-card/index'
+import JDataList from '@/components/generic/j-data-list/j-data-list.js'
 
 Vue.use(JCard)
+Vue.use(JDataList)
 
 Vue.component('JInput', JInput)
 Vue.component('JSelect', JSelect)
