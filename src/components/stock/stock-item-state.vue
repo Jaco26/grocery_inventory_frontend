@@ -16,12 +16,11 @@
         </div>
         <div class="col">
           <h4 class="ma-0">New State</h4>
-          <form @submit.prevent="$listeners.submit(newStatePayload)">
+          <form @submit.prevent="onSubmitStockItemState">
             <JInput label="Number of servings" type="number" v-model.number="nServings" />
             <JInput label="Weight" type="number" v-model.number="weight" />
-            <JSelect label="Packaging Kind" :options="mockPackagingKindOptions" v-model="packagingKindId" />
-            <JSelect label="Packaging State" :options="mockPackagingStateOptions" v-model="packagingStateId" />
-
+            <JSelect label="Packaging Kind" :options="packagingKindOptions" v-model="packagingKindId" />
+            <JSelect label="Packaging State" :options="packagingStateOptions" v-model="packagingStateId" />
             <button type="submit">Submit New State</button>
           </form>
         </div>
@@ -32,7 +31,9 @@
     <template v-else>
       <div class="row">
         <div class="col">
-          <div> <strong>State</strong> <button class="ml-4" @click="isEditing = true">&#9998; Create New</button></div>
+          <div>
+            <strong>State</strong> <button class="ml-4" @click="isEditing = true">&#9998; Update</button>
+          </div>
           <div> Date: {{state.date_created}} </div>
           <div> Servings: {{state.number_of_servings}} </div>
           <div> Weight: {{state.weight}} </div>
@@ -46,9 +47,12 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapActions } from 'vuex'
+import * as stockItemTypes from '@/store/modules/stock/modules/stock-item/types'
 export default {
   props: {
     state: Object,
+    stockItemId: String,
   },
   data() {
     return {
@@ -57,35 +61,6 @@ export default {
       weight: 0,
       packagingKindId: '',
       packagingStateId: '',
-
-      mockPackagingKindOptions: [
-        {
-          text: 'N/A',
-          value: 'abc'
-        },
-        {
-          text: 'Glass Jar',
-          value: 'efg'
-        },
-        {
-          text: 'Plastic Produce Bag',
-          value: 'hij'
-        },
-      ],
-      mockPackagingStateOptions: [
-        {
-          text: 'N/A',
-          value: 'abc'
-        },
-        {
-          text: 'Opened',
-          value: 'efg'
-        },
-        {
-          text: 'Sealed',
-          value: 'hij'
-        },
-      ]
     }
   },
   methods: {
@@ -94,7 +69,16 @@ export default {
       this.weight = this.state.weight
       this.packagingKindId = this.state.packaging_kind.id
       this.packagingStateId = this.state.packaging_state.id
-    }
+    },
+    async onSubmitStockItemState() {
+      await this.postStockItemState(this.newStatePayload)
+      if (this.statusOfPostStockItemState !== 'ERROR') {
+        this.isEditing = false
+      }
+    },
+    ...mapActions('stock/stockItem', {
+      postStockItemState: stockItemTypes.a_POST_STOCK_ITEM_STATE,
+    })
   },
   watch: {
     isEditing(newVal) {
@@ -106,13 +90,20 @@ export default {
   computed: {
     newStatePayload() {
       return {
-        food_item_id: this.state.food_item_id,
+        food_item_id: this.stockItemId,
         packaging_kind_id: this.packagingKindId,
         packaging_state_id: this.packagingStateId,
         number_of_servings: this.nServings,
         weight: this.weight,
       }
-    }
+    },
+    ...mapState('packaging', {
+      packagingKindOptions: s => s.kindList.map(x => ({ value: x.id, text: x.name })),
+      packagingStateOptions:  s => s.stateList.map(x => ({ value: x.id, text: x.name }))
+    }),
+    ...mapGetters('stock/stockItem', {
+      statusOfPostStockItemState: stockItemTypes.g_STATUS_OF_POST_STOCK_ITEM_STATE,
+    }),
   }
 }
 </script>

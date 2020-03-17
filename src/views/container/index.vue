@@ -7,6 +7,7 @@ import { mapActions } from 'vuex'
 import * as stockTypes from '@/store/modules/stock/types'
 import * as foodCategoryTypes from '@/store/modules/food-category/types'
 import * as foodKindTypes from '@/store/modules/food-kind/types'
+import * as packagingTypes from '@/store/modules/packaging/types'
 export default {
   methods: {
     ...mapActions('stock', {
@@ -17,12 +18,18 @@ export default {
     }),
     ...mapActions('foodKind', {
       fetchFoodKindList: foodKindTypes.a_FETCH_FOOD_KIND_LIST
+    }),
+    ...mapActions('packaging', {
+      fetchPackagingKindList: packagingTypes.a_FETCH_PACKAGING_KIND_LIST,
+      fetchPackagingStateList: packagingTypes.a_FETCH_PACKAGING_STATE_LIST,
     })
   },
   mounted() {
     this.fetchStocks()
     this.fetchFoodCategoryList()
     this.fetchFoodKindList()
+    this.fetchPackagingKindList()
+    this.fetchPackagingStateList()
   }
 }
 </script>

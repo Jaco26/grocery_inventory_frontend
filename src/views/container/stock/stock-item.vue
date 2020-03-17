@@ -7,7 +7,7 @@
           <div> date new: {{item.date_item_was_new}} </div>
           <div> date exp: {{item.expiration_date}} </div>
 
-          <StockItemState :state="item.state" @submit="onSubmitNewItemState" />
+          <StockItemState :state="item.state" :stockItemId="item.id" />
           
         </li>
       </template>
