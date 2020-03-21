@@ -7,7 +7,12 @@
       @input="listeners.input($event.target.value)"
     >
       <template v-for="(opt, i) in props.options">
-        <option :key="i" :value="opt.value || opt">{{opt.text || opt}}</option>
+        <option
+          :key="i"
+          :value="opt.value || opt"
+        >
+          {{opt.text || opt}}
+        </option>
       </template>
     </select>
   </div>

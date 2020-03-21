@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col">
           <div>
-            <strong>Previous State</strong>
+            <strong>Current State</strong>
             <button class="ml-4" @click="isEditing = false">&times; Cancel</button>
             <div> Date: {{state.date_created}} </div>
             <div> Servings: {{state.number_of_servings}} </div>
@@ -32,13 +32,21 @@
       <div class="row">
         <div class="col">
           <div>
-            <strong>State</strong> <button class="ml-4" @click="isEditing = true">&#9998; Update</button>
+            <strong>Current State</strong> <button class="ml-4" @click="isEditing = true">&#9998; Update</button>
           </div>
-          <div> Date: {{state.date_created}} </div>
-          <div> Servings: {{state.number_of_servings}} </div>
-          <div> Weight: {{state.weight}} </div>
-          <div> Packaging Kind: {{state.packaging_kind.name}} </div>
-          <div> Packaging State: {{state.packaging_state.name}} </div>
+          
+          <template v-if="state.id">
+            <div> Date: {{state.date_created}} </div>
+            <div> Servings: {{state.number_of_servings}} </div>
+            <div> Weight: {{state.weight}} </div>
+            <div> Packaging Kind: {{state.packaging_kind.name}} </div>
+            <div> Packaging State: {{state.packaging_state.name}} </div>
+          </template>
+
+          <template v-else>
+            No record yet for this item
+          </template>
+          
         </div>
       </div>
     </template>
@@ -67,13 +75,13 @@ export default {
     initFormFields() {
       this.nServings = this.state.number_of_servings
       this.weight = this.state.weight
-      this.packagingKindId = this.state.packaging_kind.id
-      this.packagingStateId = this.state.packaging_state.id
+      this.packagingKindId = this.state.packaging_kind.id,// || this.defaultPackagingKindId
+      this.packagingStateId = this.state.packaging_state.id// || this.defaultPackagingStateId
     },
     async onSubmitStockItemState() {
       await this.postStockItemState(this.newStatePayload)
       if (this.statusOfPostStockItemState !== 'ERROR') {
-        this.isEditing = false
+        // this.isEditing = false
       }
     },
     ...mapActions('stock/stockItem', {
@@ -82,9 +90,7 @@ export default {
   },
   watch: {
     isEditing(newVal) {
-      if (!newVal) {
-        this.initFormFields()
-      }
+      this.initFormFields()
     },
   },
   computed: {
@@ -99,7 +105,9 @@ export default {
     },
     ...mapState('packaging', {
       packagingKindOptions: s => s.kindList.map(x => ({ value: x.id, text: x.name })),
-      packagingStateOptions:  s => s.stateList.map(x => ({ value: x.id, text: x.name }))
+      defaultPackagingKindId: s => (s.kindList.find(x => /n\/a/i.test(x.name)) || {}).id,
+      packagingStateOptions:  s => s.stateList.map(x => ({ value: x.id, text: x.name })),
+      defaultPackagingStateId: s => (s.stateList.find(x => /n\/a/i.test(x.name)) || {}).id 
     }),
     ...mapGetters('stock/stockItem', {
       statusOfPostStockItemState: stockItemTypes.g_STATUS_OF_POST_STOCK_ITEM_STATE,

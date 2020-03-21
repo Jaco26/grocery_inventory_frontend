@@ -1,14 +1,24 @@
 <template>
   <div class="container">
-    <h1>Stock Item: {{stockItem.food_kind}}</h1>
+    <h1>{{stockItem.food_kind}}</h1>
+    
+    <h2>Summary</h2>
+    <div>
+      Total servings: {{stockItem.totalServings}}
+    </div>
+    <div>
+      Total weight: {{stockItem.totalWeight}}
+    </div>
+
+    <span class="divider"></span>
+
+    <h2>Items</h2>
     <ul class="item-list">
       <template v-for="(item, i) in stockItem.items">
         <li class="item-list__item" :key="i">
-          <div> date new: {{item.date_item_was_new}} </div>
+          <div> date new: {{new Date(item.date_item_was_new).toDateString()}} </div>
           <div> date exp: {{item.expiration_date}} </div>
-
-          <StockItemState :state="item.state" :stockItemId="item.id" />
-          
+          <StockItemState :state="item.current_state" :stockItemId="item.id" />
         </li>
       </template>
     </ul>
@@ -28,13 +38,12 @@ export default {
   data() {
     return {
       selectedItemId: '',
-
     }
   },
   computed: {
     ...mapGetters('stock/stockItem', {
       stockItem: stockItemTypes.g_SELECTED_STOCK_ITEM
-    })
+    }),
   },
   methods: {
     isCreatingNewStateFor(item) {

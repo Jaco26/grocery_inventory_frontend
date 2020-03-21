@@ -120,12 +120,12 @@ export default {
           items: stockItems.reduce((accum, item) => {
             if (item.food_kind_id === x.food_kind_id) {
               accum.push({
-                expiration_date: x.expiration_date,
-                date_item_was_new: x.date_item_was_new
+                expiration_date: item.expiration_date,
+                date_item_was_new: item.date_item_was_new
               })
             }
             return accum
-          }, [])
+          }, []).sort((a, b) => a.expiration_date > b.expiration_date ? 1 : -1)
         }
       }), {})
     },

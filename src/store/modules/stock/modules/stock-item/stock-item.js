@@ -70,25 +70,25 @@ export default {
       const contract = {
         food_kind: '',
         food_kind_id: '',
+        totalServings: 0,
         items: [], // food_item[]
       }
       const selected = rootGetters['stock/SELECTED_STOCK']
         .items
         .reduce((acc, x) => {
           if (x.food_kind_id === state.foodKindId) {
-            const { states, ...item } = x
-            acc.push({
-              ...item,
-              state: states[states.length - 1] || EMPTY_ITEM_STATE
-            })
+            const { current_state, ...item } = x
+            acc.push({ ...item, current_state: current_state || EMPTY_ITEM_STATE })
           }
           return acc
         }, [])
       if (selected.length) {
         contract.food_kind = selected[0].food_kind.name,
         contract.food_kind_id = selected[0].food_kind_id
-        contract.items = selected
       }
+      contract.items = selected
+      contract.totalServings = selected.reduce((acc, x) => (acc + x.current_state.number_of_servings), 0)
+      contract.totalWeight = selected.reduce((acc, x) => (acc + x.current_state.weight), 0)
       return contract
     },
     [g_STATUS_OF_POST_STOCK_ITEM_STATE]: makeCacheGetter.isPost('/food_item_state/')

@@ -20,3 +20,16 @@
   align-items: center;
 }
 
+
+
+.divider {
+  display: block;
+  width: 100%;
+  margin: .5rem auto;
+  border-bottom: 1px solid #aaa;
+}
+.divider.invisible {
+  width: 100%;
+  margin: .5rem auto;
+  border-bottom: 1px solid transparent;
+}
