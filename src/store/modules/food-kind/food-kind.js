@@ -11,7 +11,6 @@ import {
   g_GET_FOOD_KIND_BY_ID,
   g_STATUS_OF_POST_FOOD_KIND,
   g_DATA_FROM_DELETE_FOOD_KIND,
-  g_STATUS_OF_DELETE_FOOD_KIND,
 } from './types'
 
 const URI_categoriesFoodKind = '/categories/food/kind'

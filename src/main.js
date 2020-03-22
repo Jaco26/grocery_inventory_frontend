@@ -6,20 +6,27 @@ import './assets/jacob.css'
 import './assets/components.css'
 import './assets/scss/_index.scss'
 
+import JDialog from '@/components/generic/j-dialog'
 import JInput from '@/components/generic/j-input'
 import JSelect from '@/components/generic/j-select'
 import JList from '@/components/generic/j-list'
 import JAlert from '@/components/generic/j-alert'
 import JCard from '@/components/generic/j-card/index'
-import JDataList from '@/components/generic/j-data-list/j-data-list.js'
+
 
 Vue.use(JCard)
-Vue.use(JDataList)
 
+Vue.component('JDialog', JDialog)
 Vue.component('JInput', JInput)
 Vue.component('JSelect', JSelect)
 Vue.component('JList', JList)
 Vue.component('JAlert', JAlert)
+
+Vue.directive('focus', {
+  inserted(el) {
+    el.focus()
+  }
+})
 
 Vue.config.productionTip = false
 

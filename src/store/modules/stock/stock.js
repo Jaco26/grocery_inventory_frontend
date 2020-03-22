@@ -12,7 +12,6 @@ import {
   g_SELECTED_STOCK,
   g_FOOD_KINDS_IN_SELECTED_STOCK,
   g_STATUS_OF_POST_STOCK,
-
 } from './types'
 import stockItem from './modules/stock-item/stock-item'
 

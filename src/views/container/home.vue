@@ -1,5 +1,19 @@
 <template>
   <div class="home container">
+
+    <j-dialog v-if="showDeleteFoodKindError" v-model="showDeleteFoodKindError">
+      <j-card>
+        <j-card-text>
+          {{deleteFoodKindErrorMsg}}
+        </j-card-text>
+        <j-card-actions class="text-right">
+          <button v-focus class="btn outlined mx-2" @click="onCancelForceDeleteFoodKind">Cancel</button>
+          <button class="btn danger" @click="onDeleteFoodKind(forceDeleteFoodKindId, true)">Confirm</button>
+        </j-card-actions>
+      </j-card>
+    </j-dialog>
+
+
     <div class="row">
       <div class="col">
         <h1>Home</h1>
@@ -101,6 +115,10 @@ export default {
       packagingKind: '',
       showSubmitStockError: false,
       showSubmitFoodKindError: false,
+
+      showDeleteFoodKindError: false,
+      forceDeleteFoodKindId: '',
+      deleteFoodKindErrorMsg: ''
     }
   },
   watch: {
@@ -117,7 +135,6 @@ export default {
     }),
     ...mapGetters('foodKind', {
       statusOfPostFoodKind: foodKindTypes.g_STATUS_OF_POST_FOOD_KIND,
-      getStatusOfDeleteFoodKind: foodKindTypes.g_STATUS_OF_DELETE_FOOD_KIND,
       getDataFromDeleteFoodKind: foodKindTypes.g_DATA_FROM_DELETE_FOOD_KIND,
     }),
     ...mapState('stock', {
@@ -183,18 +200,31 @@ export default {
         }
       }
     },
-    async onDeleteFoodKind(id) {
+    async onDeleteFoodKind(id, force = false) {
       const kind = this.foodKindList.find(k => k.id === id)
-      if (this.confirmDelete(kind.name, 'Food Kind')) {
+      this.onCancelForceDeleteFoodKind()
+      if (force) {
+        await this.deleteFoodKind({ id, force })
+      } else if (this.confirmDelete(kind.name, 'Food Kind')) {
         await this.deleteFoodKind({ id })
-        const msg = this.getDataFromDeleteFoodKind(`/categories/food/kind/${id}`)
-        console.log(msg)
-        if (msg && confirm(msg)) {
-          await this.deleteFoodKind({ id, force: true })
-        }
       }
+      const errorMsg = this.getDataFromDeleteFoodKind(`/categories/food/kind/${id}`)
+      if (errorMsg) {
+        this.showDeleteFoodKindError = true
+        this.deleteFoodKindErrorMsg = errorMsg
+        this.forceDeleteFoodKindId = id
+      }
+    },
+    onCancelForceDeleteFoodKind() {
+      this.$store.commit('reqState/SET_REQ_STATE_ITEM', {
+        method: 'DELETE',
+        uri: `/categories/food/kind/${this.forceDeleteFoodKindId}`,
+        data: null,
+      })
+      this.showDeleteFoodKindError = false
+      this.deleteFoodKindErrorMsg = ''
+      this.forceDeleteFoodKindId = ''
     }
-
   },
 }
 </script>

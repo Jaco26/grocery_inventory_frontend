@@ -25,7 +25,7 @@ export default {
     items: {}
   },
   mutations: {
-    [m_SET_REQ_STATE_ITEM](state, { method = 'GET', uri = '', status = 0, data }) {
+    [m_SET_REQ_STATE_ITEM](state, { method = 'GET', uri = '', status = 0, data = null } = {}) {
       state.items = {
         ...state.items,
         [cacheKey(method, uri)]: createReqState(status, data) }
