@@ -1,5 +1,5 @@
-import apiService from '@/util/api-service'
-import { makeCacher, makeCacheGetter } from '@/util/caching'
+import apiService, { ApiError } from '@/util/api-service'
+import { makeCacher, makeReqStatusGetter, makeReqDataGetter } from '@/util/caching'
 import {
   m_SET_FOOD_KIND_LIST,
   m_SET_SELECTED_FOOD_KIND_ID,
@@ -10,6 +10,8 @@ import {
   g_SELECTED_FOOD_KIND,
   g_GET_FOOD_KIND_BY_ID,
   g_STATUS_OF_POST_FOOD_KIND,
+  g_DATA_FROM_DELETE_FOOD_KIND,
+  g_STATUS_OF_DELETE_FOOD_KIND,
 } from './types'
 
 const URI_categoriesFoodKind = '/categories/food/kind'
@@ -63,16 +65,20 @@ export default {
         cacher.setStatus(3)
       }
     },
-    async [a_DELETE_FOOD_KIND]({ dispatch, commit }, id) {
-      const uri = `${URI_categoriesFoodKind}/${id}`
+    async [a_DELETE_FOOD_KIND]({ dispatch, commit }, { id, force }) {
+      const uri = `${URI_categoriesFoodKind}/${id}${force ? '?force=true' : ''}`
       const cacher = makeCacher(uri).cacheDelete(commit)
       try {
         cacher.setStatus(1)
-        await apiService.delete(uri)
+        const res = await apiService.delete(uri)
         cacher.setStatus(2)
         await dispatch(a_FETCH_FOOD_KIND_LIST)
       } catch (error) {
-        cacher.setStatus(3)
+        if (error instanceof ApiError) {
+          cacher.setStatus(3, error.response.pub_msg)
+        } else {
+          cacher.setStatus(3)
+        }
       }
     }
   },
@@ -88,6 +94,7 @@ export default {
     [g_GET_FOOD_KIND_BY_ID](state) {
       return id => state.list.find(x => x.id === id)
     },
-    [g_STATUS_OF_POST_FOOD_KIND]: makeCacheGetter.isPost(URI_categoriesFoodKind)
+    [g_STATUS_OF_POST_FOOD_KIND]: makeReqStatusGetter.isPost({ uri: URI_categoriesFoodKind }),
+    [g_DATA_FROM_DELETE_FOOD_KIND]: makeReqDataGetter.isDelete(),
   }
 }

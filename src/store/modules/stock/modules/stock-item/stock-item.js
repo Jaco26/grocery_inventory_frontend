@@ -1,5 +1,5 @@
 import apiService from '@/util/api-service'
-import { makeCacher, makeCacheGetter } from '@/util/caching'
+import { makeCacher, makeReqStatusGetter } from '@/util/caching'
 import {
   a_POST_STOCK_ITEM_STATE,
   m_SET_SELECTED_STOCK_ITEM_FOOD_KIND_ID,
@@ -22,8 +22,7 @@ const EMPTY_ITEM_STATE = {
   date_created: '',
   date_updated: '',
   food_item_id: '',
-  number_of_servings: 0,
-  weight: 0,
+  quantity: 0,
   packaging_kind: {
     id: '',
     name: '',
@@ -66,11 +65,10 @@ export default {
   },
   getters: {
     [g_SELECTED_STOCK_ITEM](state, getters, rootState, rootGetters) {
-      // a grouping of all food_kinds within a stock
+      // a grouping of all items of the same `food_kind` within a `stock`
       const contract = {
         food_kind: '',
         food_kind_id: '',
-        totalServings: 0,
         items: [], // food_item[]
       }
       const selected = rootGetters['stock/SELECTED_STOCK']
@@ -83,15 +81,14 @@ export default {
           return acc
         }, [])
       if (selected.length) {
+        contract.items = selected
         contract.food_kind = selected[0].food_kind.name,
         contract.food_kind_id = selected[0].food_kind_id
       }
-      contract.items = selected
-      contract.totalServings = selected.reduce((acc, x) => (acc + x.current_state.number_of_servings), 0)
-      contract.totalWeight = selected.reduce((acc, x) => (acc + x.current_state.weight), 0)
+
       return contract
     },
-    [g_STATUS_OF_POST_STOCK_ITEM_STATE]: makeCacheGetter.isPost('/food_item_state/')
+    [g_STATUS_OF_POST_STOCK_ITEM_STATE]: makeReqStatusGetter.isPost({ uri: '/food_item_state/' })
   }
 }
 

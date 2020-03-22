@@ -1264,61 +1264,61 @@ body {
 
 .py-4 {
   padding-top: 1rem !important;
-  padding-bottom: 1rem !important
+  padding-bottom: 1rem !important;
 }
 
 .pt-4 {
-  padding-top: 1rem !important
+  padding-top: 1rem !important;
 }
 
 .pr-4 {
-  padding-right: 1rem !important
+  padding-right: 1rem !important;
 }
 
 .pb-4 {
-  padding-bottom: 1rem !important
+  padding-bottom: 1rem !important;
 }
 
 .pl-4 {
-  padding-left: 1rem !important
+  padding-left: 1rem !important;
 }
 
 .text-primary {
-  color: blue
+  color: blue !important;
 }
 
 .text-secondary {
-  color: purple
+  color: purple !important;
 }
 
 .text-success {
-  color: green
+  color: green !important;
 }
 
 .text-danger {
-  color: red
+  color: red !important;
 }
 
 .text-warning {
-  color: orange
+  color: orange !important;
 }
 
 .text-light {
-  color: #efefef
+  color: #efefef !important;
 }
 
 .text-dark {
-  color: #222
+  color: #222 !important;
 }
 
 .text-left {
-  text-align: left
+  text-align: left !important;
 }
 
 .text-center {
-  text-align: center
+  text-align: center !important;
 }
 
 .text-right {
-  text-align: right
+  text-align: right !important;
 }

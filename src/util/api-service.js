@@ -1,7 +1,25 @@
 
+/**
+ * @typedef ApiResponse
+ * @property {*} data
+ * @property {string} pub_msg
+ * @property {string} pvt_msg
+ */
+
+
+export class ApiError extends Error { 
+  constructor(response, ...args) {
+    super(...args)
+    this.name = 'ApiError'
+    /** @type {ApiResponse} */
+    this.response = response
+  }
+}
+
+
 async function doFetch(uri, { method = 'GET', body = null } = {}) {
   try {
-    const token = localStorage.getItem('access_token') || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4MjIxMDQsIm5iZiI6MTU4NDgyMjEwNCwianRpIjoiNmU3M2Y0ZjQtNTBmNC00NDMyLTkxYzYtZWZmMDY5OGQxNDFkIiwiaWRlbnRpdHkiOiJhNzU1ZDllZi0xMzUwLTQ0ODAtYmMxZC1lMmY1NDAwM2IzOTUiLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.2eM78Vk_mvn1BBS8PZjSa6ftY67_GuAlX5lh92t-NL0'
+    const token = localStorage.getItem('access_token') || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ5MDk2MDEsIm5iZiI6MTU4NDkwOTYwMSwianRpIjoiM2UyZjBmNDYtZjBmMC00ZWNhLWJlZTctMDk2NzNlZWY3MzY2IiwiaWRlbnRpdHkiOiIxNmE1MTljYi1iMGY3LTQzNDMtOGM1NC05MjcwNzRlNGQ2NmQiLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.UT7HwpTqIyLy8IPKUu5ksTMEb07lZs7mNM3cDVcbWhM'
     const url = `http://localhost:5000/api/v1${uri}`
     const options = {
       method,
@@ -16,14 +34,13 @@ async function doFetch(uri, { method = 'GET', body = null } = {}) {
     }
     const res = await fetch(url, options)
     if (res.status >= 400) {
-      const error = new Error(res.statusText)
-      error.response = res
-      throw error
+      const json = await res.json()
+      throw new ApiError(json)
     }
     const json = await res.json()
     return json
   } catch (error) {
-    throw new Error(error)
+    throw error
   }
 }
 

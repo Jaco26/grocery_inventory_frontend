@@ -12,9 +12,6 @@
             <div class="col">
               <StockItems :items="stock.items" />
             </div>
-            <!-- <div class="col">
-              <StockSnapshots :snapshots="stock.snapshots" />
-            </div> -->
           </div>
         </j-card-text>
       </j-card>

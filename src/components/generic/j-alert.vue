@@ -11,8 +11,10 @@
         <button @click="listeners.input(false)">x</button>
       </div>
     </j-card-actions>
-    <j-card-text class="pa-0">
-      <slot>{{props.message}}</slot>
+    <j-card-text class="pa-2">
+      <span :class="`text-${props.kind}`">
+        <slot>{{props.message}}</slot>
+      </span>
     </j-card-text>
   </j-card>
 </template>
@@ -22,6 +24,10 @@ export default {
   props: {
     value: Boolean,
     message: String,
+    kind: {
+      type: String,
+      default: 'danger'
+    }
   }
 }
 </script>

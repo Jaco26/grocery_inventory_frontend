@@ -66,6 +66,31 @@
     }
   }
 
+  &.outlined {
+    background: transparent;
+    box-shadow: none;
+    border: 1px solid $dark;
+
+    &:not(a) {
+      color: $dark;
+    }
+
+    &:hover {
+      background: $light-darker;
+      box-shadow: none;
+    }
+    &:active {
+      background: $light-darker;
+      box-shadow: none;
+    }
+    &:disabled {
+      background: $light;
+      color: #aaa;
+      cursor: default;
+      border: 1px solid #aaa;
+    }
+  }
+
   &.icon {
     height: 2rem;
     min-width: 2rem;

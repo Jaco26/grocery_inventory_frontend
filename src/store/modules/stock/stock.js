@@ -1,5 +1,5 @@
 import apiService from '@/util/api-service'
-import { makeCacher, makeCacheGetter } from '@/util/caching'
+import { makeCacher, makeReqStatusGetter } from '@/util/caching'
 import {
   m_SET_STOCKS,
   m_SET_SELECTED_STOCK_ID,
@@ -129,6 +129,6 @@ export default {
         }
       }), {})
     },
-    [g_STATUS_OF_POST_STOCK]: makeCacheGetter.isPost('/stock/')
+    [g_STATUS_OF_POST_STOCK]: makeReqStatusGetter.isPost({ uri: '/stock/' })
   }
 }

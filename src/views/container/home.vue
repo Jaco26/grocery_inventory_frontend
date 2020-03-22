@@ -8,31 +8,32 @@
     <div class="row">
       
       <div style="flex-shrink: 1" class="col mobile-12 tablet-6">
-        <list-search-create
-          resourceName="Stock"
-          :newResourceItemName.sync="stock"
+        <h2 class="ma-0">Stock List</h2>
+        <form @submit.prevent="onSubmitStock">
+          <div class="d-flex">
+            <JInput label="Create new stock" v-model.trim="stock" />
+            <button :disabled="!stock" style="align-self: end" class="btn small outlined ml-2">Submit</button>
+          </div>
+        </form>
+        <j-alert v-model="showSubmitStockError">
+          There was an error while creating the stock. Please try again and make 
+          sure to use a unique name.
+        </j-alert>
+        <j-list
+          searchLabel="Search stocks"
           :items="stockList"
-          :searchKeys="['name']"
-          @submit="onSubmitStock"
-        >
-          <template v-slot:error>
-            <j-alert v-model="showSubmitStockError">
-              There was an error while creating the stock. Please try again and make 
-              sure to use a unique name.
-            </j-alert>
-          </template>
-          <template v-slot:list-item="{ item }">
-            <router-link :to="{ name: 'stock', params: { stock_id: item.id }}">
+          indexKey="name"
+          :searchKeys="['name']">
+          <template v-slot:item="{ item }">
+            <router-link style="color: inherit" :to="{ name: 'stock', params: { stock_id: item.id }}">
               {{item.name}}
             </router-link>
-            <div>
-              <button @click="onDeleteStock(item.id)">X</button>
-            </div>
+            <button @click="onDeleteStock(item.id)">X</button>
           </template>
-        </list-search-create>
+        </j-list>
       </div>
 
-      <div style="flex-shrink: 0" class="col mobile-12 tablet-6">
+      <!-- <div style="flex-shrink: 0" class="col mobile-12 tablet-6">
         <list-search-create
           resourceName="Food Category"
           :newResourceItemName.sync="foodCategory"
@@ -47,29 +48,32 @@
             <button @click="onDeleteFoodCategory(item.id)">X</button>
           </template>
         </list-search-create>
-      </div>
+      </div> -->
 
       <div style="flex-shrink: 0" class="col mobile-12 tablet-6">
-        <list-search-create
-          resourceName="Food Kind"
-          :newResourceItemName.sync="foodKind"
+        <h2 class="ma-0">Food Kinds</h2>
+        <form @submit.prevent="onSubmitFoodKind">
+          <div class="d-flex">
+            <JInput label="Create new food kind" v-model.trim="foodKind" />
+            <button :disabled="!foodKind" style="align-self: end" class="btn small outlined ml-2">Submit</button>
+          </div>
+        </form>
+        <j-alert v-model="showSubmitFoodKindError">
+          There was an error while creating the food kind. Please try again and make 
+          sure to use a unique name.
+        </j-alert>
+        <j-list
+          searchLabel="Search food kinds"
           :items="foodKindList"
-          :searchKeys="['name']"
-          @submit="onSubmitFoodKind"
-        >
-          <template v-slot:error>
-            <j-alert v-model="showSubmitFoodKindError">
-              There was an error while creating the food kind. Please try again and make 
-              sure to use a unique name.
-            </j-alert>
-          </template>
-          <template v-slot:list-item="{ item }">
-            <router-link :to="{ name: 'food-kind', params: { food_kind_id: item.id }}">
+          indexKey="name"
+          :searchKeys="['name']">
+          <template v-slot:item="{ item }">
+            <router-link style="color: inherit" :to="{ name: 'food-kind', params: { food_kind_id: item.id }}">
               {{item.name}}
             </router-link>
             <button @click="onDeleteFoodKind(item.id)">X</button>
           </template>
-        </list-search-create>
+        </j-list>
       </div>
 
     </div>
@@ -112,7 +116,9 @@ export default {
       statusOfPostStock: stockTypes.g_STATUS_OF_POST_STOCK,
     }),
     ...mapGetters('foodKind', {
-      statusOfPostFoodKind: foodKindTypes.g_STATUS_OF_POST_FOOD_KIND
+      statusOfPostFoodKind: foodKindTypes.g_STATUS_OF_POST_FOOD_KIND,
+      getStatusOfDeleteFoodKind: foodKindTypes.g_STATUS_OF_DELETE_FOOD_KIND,
+      getDataFromDeleteFoodKind: foodKindTypes.g_DATA_FROM_DELETE_FOOD_KIND,
     }),
     ...mapState('stock', {
       stockList: s => s.list
@@ -177,10 +183,15 @@ export default {
         }
       }
     },
-    onDeleteFoodKind(id) {
+    async onDeleteFoodKind(id) {
       const kind = this.foodKindList.find(k => k.id === id)
       if (this.confirmDelete(kind.name, 'Food Kind')) {
-        this.deleteFoodKind(id)
+        await this.deleteFoodKind({ id })
+        const msg = this.getDataFromDeleteFoodKind(`/categories/food/kind/${id}`)
+        console.log(msg)
+        if (msg && confirm(msg)) {
+          await this.deleteFoodKind({ id, force: true })
+        }
       }
     }
 
