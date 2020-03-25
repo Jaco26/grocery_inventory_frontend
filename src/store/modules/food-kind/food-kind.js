@@ -83,7 +83,15 @@ export default {
   },
   getters: {
     [g_SELECTED_FOOD_KIND](state) {
-      const contract = { id: '', name: '', uniform_name: '', nutrition_info: {}, categories: [] }
+      const contract = {
+        id: '',
+        user_id: '',
+        name: '',
+        uniform_name: '',
+        unit_of_measurement: {},
+        nutrition_info: {},
+        categories: []
+      }
       const selected = state.list.find(c => c.id === state.selectedFoodKindId)
       if (selected) {
         return selected

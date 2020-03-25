@@ -1,7 +1,7 @@
 <template>
   <div class="home container">
 
-    <j-dialog v-if="showDeleteFoodKindError" v-model="showDeleteFoodKindError">
+    <j-dialog v-model="showDeleteFoodKindError">
       <j-card>
         <j-card-text>
           {{deleteFoodKindErrorMsg}}

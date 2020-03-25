@@ -18,7 +18,7 @@
         <li class="item-list__item" :key="i">
           <div> date new: {{new Date(item.date_item_was_new).toDateString()}} </div>
           <div> date exp: {{item.expiration_date}} </div>
-          <StockItemState :state="item.current_state" :stockItemId="item.id" />
+          <StockItemState :stockItem="item" :state="item.current_state" :stockItemId="item.id" />
         </li>
       </template>
     </ul>

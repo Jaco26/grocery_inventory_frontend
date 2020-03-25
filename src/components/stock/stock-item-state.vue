@@ -8,8 +8,7 @@
             <strong>Current State</strong>
             <button class="ml-4" @click="isEditing = false">&times; Cancel</button>
             <div> Date: {{state.date_created}} </div>
-            <div> Servings: {{state.number_of_servings}} </div>
-            <div> Weight: {{state.weight}} </div>
+            <div> Quantity: {{state.quantity}} </div>
             <div> Packaging Kind: {{state.packaging_kind.name}} </div>
             <div> Packaging State: {{state.packaging_state.name}} </div>
           </div>
@@ -17,8 +16,7 @@
         <div class="col">
           <h4 class="ma-0">New State</h4>
           <form @submit.prevent="onSubmitStockItemState">
-            <JInput label="Number of servings" type="number" v-model.number="nServings" />
-            <JInput label="Weight" type="number" v-model.number="weight" />
+            <JInput label="Quantity" type="number" v-model.number="quantity" />
             <JSelect label="Packaging Kind" :options="packagingKindOptions" v-model="packagingKindId" />
             <JSelect label="Packaging State" :options="packagingStateOptions" v-model="packagingStateId" />
             <button type="submit">Submit New State</button>
@@ -37,8 +35,7 @@
           
           <template v-if="state.id">
             <div> Date: {{state.date_created}} </div>
-            <div> Servings: {{state.number_of_servings}} </div>
-            <div> Weight: {{state.weight}} </div>
+            <div> Quantity: {{state.quantity}} {{units}} </div>
             <div> Packaging Kind: {{state.packaging_kind.name}} </div>
             <div> Packaging State: {{state.packaging_state.name}} </div>
           </template>
@@ -59,29 +56,28 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 import * as stockItemTypes from '@/store/modules/stock/modules/stock-item/types'
 export default {
   props: {
+    stockItem: Object,
     state: Object,
     stockItemId: String,
   },
   data() {
     return {
       isEditing: false,
-      nServings: 0,
-      weight: 0,
+      quantity: 0,
       packagingKindId: '',
       packagingStateId: '',
     }
   },
   methods: {
     initFormFields() {
-      this.nServings = this.state.number_of_servings
-      this.weight = this.state.weight
-      this.packagingKindId = this.state.packaging_kind.id,// || this.defaultPackagingKindId
-      this.packagingStateId = this.state.packaging_state.id// || this.defaultPackagingStateId
+      this.quantity = this.state.quantity
+      this.packagingKindId = this.state.packaging_kind.id || this.defaultPackagingKindId
+      this.packagingStateId = this.state.packaging_state.id || this.defaultPackagingStateId
     },
     async onSubmitStockItemState() {
       await this.postStockItemState(this.newStatePayload)
       if (this.statusOfPostStockItemState !== 'ERROR') {
-        // this.isEditing = false
+        this.isEditing = false
       }
     },
     ...mapActions('stock/stockItem', {
@@ -96,11 +92,10 @@ export default {
   computed: {
     newStatePayload() {
       return {
-        food_item_id: this.stockItemId,
+        stock_item_id: this.stockItemId,
         packaging_kind_id: this.packagingKindId,
         packaging_state_id: this.packagingStateId,
-        number_of_servings: this.nServings,
-        weight: this.weight,
+        quantity: this.quantity
       }
     },
     ...mapState('packaging', {
