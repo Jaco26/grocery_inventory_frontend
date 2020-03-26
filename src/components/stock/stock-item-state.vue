@@ -35,7 +35,7 @@
           
           <template v-if="state.id">
             <div> Date: {{state.date_created}} </div>
-            <div> Quantity: {{state.quantity}} {{units}} </div>
+            <div> Quantity: {{state.quantity}} </div>
             <div> Packaging Kind: {{state.packaging_kind.name}} </div>
             <div> Packaging State: {{state.packaging_state.name}} </div>
           </template>

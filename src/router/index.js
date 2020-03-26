@@ -22,7 +22,14 @@ const routes = [
       {
         path: '',
         name: 'home',
-        component: HomePage
+        component: HomePage,
+        meta: {
+          breadcrumbs: [
+            {
+              text: 'Dashboard'
+            }
+          ]
+        }
       },
       {
         path: '/stock/:stock_id',
@@ -31,29 +38,72 @@ const routes = [
           {
             path: '',
             name: 'stock',
-            component: StockIndexPage
+            component: StockIndexPage,
+            meta: {
+              breadcrumbs: [
+                {
+                  to: 'home',
+                  text: 'Dashboard',
+                },
+                {
+                  text: getters => getters['stock/SELECTED_STOCK'].name,
+                },
+              ]
+            }
           },
           {
             path: 'item/:item_id',
             name: 'stock-item',
             component: StockItemPage,
+            meta: {
+              breadcrumbs: [
+                {
+                  to: 'home',
+                  text: 'Dashboard',
+                },
+                {
+                  to: 'stock',
+                  text: getters => getters['stock/SELECTED_STOCK'].name,
+                },
+                {
+                  text: getters => getters['stock/stockItem/SELECTED_STOCK_ITEM'].food_kind,
+                }
+              ]
+            }
           }
         ]
       },
-      // {
-      //   path: '/stock/:stock_id/item/:item_id',
-      //   name: 'stock-item',
-      //   component: StockItemPage,
-      // },
       {
         path: '/food-category/:food_category_id',
         name: 'food-category',
         component: FoodCategoryPage,
+        meta: {
+          breadcrumbs: [
+            {
+              to: 'home',
+              text: 'Dashboard',
+            },
+            {
+              text: getters => getters['foodCategory/SELECTED_FOOD_CATEGORY'].name
+            }
+          ]
+        }
       },
       {
         path: '/food-kind/:food_kind_id',
         name: 'food-kind',
-        component: FoodKindPage
+        component: FoodKindPage,
+        meta: {
+          breadcrumbs: [
+            {
+              to: 'home',
+              text: 'Dashboard',
+            },
+            {
+              text: getters => getters['foodKind/SELECTED_FOOD_KIND'].name
+            }
+          ]
+        }
       }
     ],
   },
@@ -61,6 +111,17 @@ const routes = [
     path: '*',
     name: '404-not-found',
     component: NotFound,
+    meta: {
+      breadcrumbs: [
+        {
+          to: 'home',
+          text: 'Dashboard',
+        },
+        {
+          text: '404 Not Found'
+        }
+      ]
+    }
   }
  
 ]

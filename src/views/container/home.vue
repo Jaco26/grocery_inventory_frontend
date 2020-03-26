@@ -1,6 +1,6 @@
 <template>
-  <div class="home container">
-
+  <div class="home">
+    
     <j-dialog v-model="showDeleteFoodKindError">
       <j-card>
         <j-card-text>
@@ -13,81 +13,67 @@
       </j-card>
     </j-dialog>
 
-
     <div class="row">
-      <div class="col">
-        <h1>Home</h1>
-      </div>
-    </div>
-    <div class="row">
-      
-      <div style="flex-shrink: 1" class="col mobile-12 tablet-6">
-        <h2 class="ma-0">Stock List</h2>
-        <form @submit.prevent="onSubmitStock">
-          <div class="d-flex">
-            <JInput label="Create new stock" v-model.trim="stock" />
-            <button :disabled="!stock" style="align-self: end" class="btn small outlined ml-2">Submit</button>
-          </div>
-        </form>
-        <j-alert v-model="showSubmitStockError">
-          There was an error while creating the stock. Please try again and make 
-          sure to use a unique name.
-        </j-alert>
-        <j-list
-          searchLabel="Search stocks"
-          :items="stockList"
-          indexKey="name"
-          :searchKeys="['name']">
-          <template v-slot:item="{ item }">
-            <router-link style="color: inherit" :to="{ name: 'stock', params: { stock_id: item.id }}">
-              {{item.name}}
-            </router-link>
-            <button @click="onDeleteStock(item.id)">X</button>
-          </template>
-        </j-list>
+      <div class="col mobile-12 tablet-6 desktop-4">
+        <j-card outlined>
+          <j-card-title class="pa-0">Stock List</j-card-title>
+          <j-card-text class="pa-0">
+            <form @submit.prevent="onSubmitStock">
+            <div class="d-flex">
+              <JInput label="Create new stock" v-model.trim="stock" />
+              <button :disabled="!stock" style="align-self: end" class="btn small outlined ml-2">Submit</button>
+            </div>
+          </form>
+          <j-alert v-model="showSubmitStockError">
+            There was an error while creating the stock. Please try again and make 
+            sure to use a unique name.
+          </j-alert>
+          <j-list
+            searchLabel="Search stocks"
+            :items="stockList"
+            indexKey="name"
+            :searchKeys="['name']">
+            <template v-slot:item="{ item }">
+              <router-link style="color: inherit" :to="{ name: 'stock', params: { stock_id: item.id }}">
+                {{item.name}}
+              </router-link>
+              <button @click="onDeleteStock(item.id)">X</button>
+            </template>
+          </j-list>
+          </j-card-text>
+        </j-card>
       </div>
 
-      <!-- <div style="flex-shrink: 0" class="col mobile-12 tablet-6">
-        <list-search-create
-          resourceName="Food Category"
-          :newResourceItemName.sync="foodCategory"
-          :items="foodCategoryList"
-          :searchKeys="['name']"
-          @submit="onSubmitFoodCategory"
-        >
-          <template v-slot:list-item="{ item }">
-            <router-link :to="{ name: 'food-category', params: { food_category_id: item.id }}">
-              {{item.name}}
-            </router-link>
-            <button @click="onDeleteFoodCategory(item.id)">X</button>
-          </template>
-        </list-search-create>
-      </div> -->
-
-      <div style="flex-shrink: 0" class="col mobile-12 tablet-6">
-        <h2 class="ma-0">Food Kinds</h2>
-        <form @submit.prevent="onSubmitFoodKind">
-          <div class="d-flex">
-            <JInput label="Create new food kind" v-model.trim="foodKind" />
-            <button :disabled="!foodKind" style="align-self: end" class="btn small outlined ml-2">Submit</button>
-          </div>
-        </form>
-        <j-alert v-model="showSubmitFoodKindError">
-          There was an error while creating the food kind. Please try again and make 
-          sure to use a unique name.
-        </j-alert>
-        <j-list
-          searchLabel="Search food kinds"
-          :items="foodKindList"
-          indexKey="name"
-          :searchKeys="['name']">
-          <template v-slot:item="{ item }">
-            <router-link style="color: inherit" :to="{ name: 'food-kind', params: { food_kind_id: item.id }}">
-              {{item.name}}
-            </router-link>
-            <button @click="onDeleteFoodKind(item.id)">X</button>
-          </template>
-        </j-list>
+      <div class="col mobile-12 tablet-6 desktop-4">
+        <j-card outlined>
+          <j-card-title class="pa-0">Food Kinds</j-card-title>
+          <j-card-text class="pa-0">
+            <form @submit.prevent="onSubmitFoodKind">
+              <div class="d-flex">
+                <JInput label="Create new food kind" v-model.trim="foodKind" />
+                <button :disabled="!foodKind" style="align-self: end" class="btn small outlined ml-2">Submit</button>
+              </div>
+            </form>
+            <j-alert v-model="showSubmitFoodKindError">
+              There was an error while creating the food kind. Please try again and make 
+              sure to use a unique name.
+            </j-alert>
+            <j-list
+              searchLabel="Search food kinds"
+              :items="foodKindList"
+              indexKey="name"
+              :searchKeys="['name']"
+            >
+              <template v-slot:item="{ item }">
+                <router-link style="color: inherit" :to="{ name: 'food-kind', params: { food_kind_id: item.id }}">
+                  {{item.name}}
+                </router-link>
+                <button @click="onDeleteFoodKind(item.id)">X</button>
+              </template>
+            </j-list>
+          </j-card-text>
+        </j-card>
+        <!-- <h2 class="ma-0"></h2> -->
       </div>
 
     </div>

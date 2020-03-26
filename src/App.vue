@@ -1,10 +1,17 @@
 <template>
   <div class="container">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-    </div>
+    <TheBreadcrumbs />
     <router-view/>
   </div>
 </template>
 
+
+<script>
+import TheBreadcrumbs from '@/components/the-breadcrumbs'
+export default {
+  components: {
+    TheBreadcrumbs
+  }
+}
+</script>
 
