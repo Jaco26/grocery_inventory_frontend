@@ -112,6 +112,10 @@ export default {
 .pagination-btn {
   margin: 2px;
 
+  &:disabled {
+    border-color: transparent;
+  }
+
   &:hover {
     background-color: #eee;
   }

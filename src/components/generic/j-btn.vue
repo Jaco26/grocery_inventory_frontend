@@ -26,7 +26,7 @@ export default {
   border: 1px solid transparent;
   border-radius: 2px;
   box-shadow: 2px 2px 2px #aaa;
-  width: 96px;
+  min-width: 96px;
 
   &.clr-primary {
     background-color: blue;
@@ -42,7 +42,7 @@ export default {
   }
 
   &.square {
-    width: 30px;
+    min-width: 30px;
     height: 30px;
 
     &.large {
@@ -51,19 +51,19 @@ export default {
     }
 
     &.small {
-      width: 25px;
+      min-width: 25px;
       height: 25px;
     }
   }
 
   &.small {
-    width: 64px;
-    padding: .125rem;
+    min-width: 64px;
+    padding: .25rem .5rem;
   }
 
   &.large {
-    width: 132px;
-    padding: .5rem;
+    min-width: 132px;
+    padding: .75rem;
   }
 
   &.fullwidth {
@@ -76,6 +76,31 @@ export default {
     box-shadow: none;
     color: black;
 
+    &.clr-primary:not(.outlined-hover) {
+      color: blue;
+
+      &:disabled {
+        color: #aaa;
+      }
+    }
+    &.clr-danger:not(.outlined-hover) {
+      color: #f58;
+      &:disabled {
+        color: #aaa;
+      }
+    }
+    &.clr-link:not(.outlined-hover) {
+      color: teal;
+      &:disabled {
+        color: #aaa;
+      }
+    }
+
+    &:disabled {
+      border-color: transparent;
+    }
+
+
     &.outlined-hover {
 
       &:hover, &:focus {
@@ -83,21 +108,22 @@ export default {
 
         &.clr-primary {
           border-color: blue;
+          color: blue;
         }
         &.clr-danger {
-          border-color: red;
+          border-color: #f9a;
+          color: #f58;
         }
         &.clr-link {
           border-color: teal;
+          color: teal;
         }
       }
         
       &:disabled {
-        cursor: not-allowed;
-
         &:hover {
           border-color: transparent;
-          background: transparent;
+          color: #aaa;
         }
       }
     }
@@ -111,21 +137,26 @@ export default {
 
     &.clr-primary {
       border-color: blue;
+      color: blue;
     }
     &.clr-danger {
-      border-color: red;
+      border-color: #f9a;
+      color: #f58;
     }
     &.clr-link {
       border-color: teal;
+      color: teal;
     }
   }
 
   &:disabled {
-    cursor: not-allowed;
+    border-color: #aaa;
+    color: #aaa;
+    cursor: default;
 
     &:hover {
-      border-color: transparent;
       background: transparent;
+      color: #aaa;
     }
   }
 

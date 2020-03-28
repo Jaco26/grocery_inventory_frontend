@@ -19,27 +19,39 @@
           <j-card-title class="pa-0">Stock List</j-card-title>
           <j-card-text class="pa-0">
             <form @submit.prevent="onSubmitStock">
-            <div class="d-flex">
-              <JInput label="Create new stock" v-model.trim="stock" />
-              <button :disabled="!stock" style="align-self: end" class="btn small outlined ml-2">Submit</button>
-            </div>
-          </form>
-          <j-alert v-model="showSubmitStockError">
-            There was an error while creating the stock. Please try again and make 
-            sure to use a unique name.
-          </j-alert>
-          <j-list
-            searchLabel="Search stocks"
-            :items="stockList"
-            indexKey="name"
-            :searchKeys="['name']">
-            <template v-slot:item="{ item }">
-              <router-link style="color: inherit" :to="{ name: 'stock', params: { stock_id: item.id }}">
-                {{item.name}}
-              </router-link>
-              <button @click="onDeleteStock(item.id)">X</button>
-            </template>
-          </j-list>
+              <div class="d-flex align-end">
+                <JInput label="Create new stock" v-model.trim="stock" />
+                <!-- <button :disabled="!stock" style="align-self: end" class="btn small outlined ml-2">Submit</button> -->
+                <j-btn type="submit" :disabled="!stock" class="small outlined align-end ml-2">Submit</j-btn>
+              </div>
+            </form>
+            <j-alert v-model="showSubmitStockError">
+              There was an error while creating the stock. Please try again and make 
+              sure to use a unique name.
+            </j-alert>
+            <j-list
+              searchLabel="Search stocks"
+              :items="stockList"
+              indexKey="name"
+              :searchKeys="['name']">
+              <template v-slot:item="{ item }">
+                <j-btn
+                  :title="`Go to page for stock: ${item.name}`"
+                  class="fullwidth text clr-link outlined-hover text-left"
+                  :to="{ name: 'stock', params: { stock_id: item.id }}"
+                >
+                  {{item.name}}
+                </j-btn>
+                <j-btn
+                  :title="`Delete stock: ${item.name}`"
+                  class="square text clr-danger outlined-hover"
+                  @click="onDeleteStock(item.id)"
+                >
+                  X
+                </j-btn>
+              </template>
+            </j-list>
+            <j-btn class="small">Hi</j-btn>
           </j-card-text>
         </j-card>
       </div>
@@ -51,7 +63,7 @@
             <form @submit.prevent="onSubmitFoodKind">
               <div class="d-flex">
                 <JInput label="Create new food kind" v-model.trim="foodKind" />
-                <button :disabled="!foodKind" style="align-self: end" class="btn small outlined ml-2">Submit</button>
+                <j-btn :disabled="!foodKind" style="align-self: end" class="small outlined ml-2">Submit</j-btn>
               </div>
             </form>
             <j-alert v-model="showSubmitFoodKindError">
@@ -73,7 +85,13 @@
                 >
                   {{item.name}}
                 </j-btn>
-                <j-btn class="clr-danger square text outlined-hover" :title="`Delete food kind: ${item.name}`" @click="onDeleteFoodKind(item.id)">X</j-btn>
+                <j-btn
+                  class="square text clr-danger outlined-hover"
+                  :title="`Delete food kind: ${item.name}`"
+                  @click="onDeleteFoodKind(item.id)"
+                >
+                  X
+                </j-btn>
               </template>
             </j-list>
           </j-card-text>
