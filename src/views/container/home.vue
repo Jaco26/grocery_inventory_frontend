@@ -65,21 +65,17 @@
               :searchKeys="['name']"
             >
               <template v-slot:item="{ item }">
-                <button
-                  class="btn-link"
-                  style="color: inherit"
-                  role="link"
-                  :title="`Go to page for food kind: ${item.name}`"
-                  @click="$router.push({ name: 'food-kind', params: { food_kind_id: item.id }})"
+                <j-btn
+                  class="fullwidth clr-link text outlined-hover text-left"
+                  :to="{ name: 'food-kind', params: { food_kind_id: item.id }}"
                 >
                   {{item.name}}
-                </button>
-                <button class="btn-delete" :title="`Delete food kind: ${item.name}`" @click="onDeleteFoodKind(item.id)">X</button>
+                </j-btn>
+                <j-btn class="clr-danger square text outlined-hover" :title="`Delete food kind: ${item.name}`" @click="onDeleteFoodKind(item.id)">X</j-btn>
               </template>
             </j-list>
           </j-card-text>
         </j-card>
-        <!-- <h2 class="ma-0"></h2> -->
       </div>
 
     </div>

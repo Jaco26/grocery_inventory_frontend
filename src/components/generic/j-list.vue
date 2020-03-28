@@ -2,7 +2,6 @@
   <div>
     <div class="d-flex align-end">
       <JInput :label="searchLabel" v-model.trim="search" />
-      <button class="btn icon" style="font-size: 2rem;">&#9881;</button>
     </div>
 
     <ul class="j-list">
@@ -12,15 +11,21 @@
     </ul>
 
     <template v-if="numPages > 1">
-      <button
-        v-for="n in numPages"
-        :key="n" class="pagination-btn"
-        :class="{ 'active' : currentPage === n }"
-        :title="`Page ${n}`"
-        @click="currentPage = n"
-      >
-        {{n}}
-      </button>
+      <div class="d-flex align-center justify-between">
+        <div>
+          <button
+            v-for="n in numPages"
+            :key="n" class="pagination-btn"
+            :class="{ 'active' : currentPage === n }"
+            :title="`Page ${n}`"
+            @click="currentPage = n"
+          >
+            {{n}}
+          </button>
+        </div>
+        <small>{{searchedListItems.length}} items</small>
+      </div>
+      
     </template>
   </div>
 </template>
@@ -56,7 +61,7 @@ export default {
   },
   watch: {
     searchedListItems(val) {
-      if (val.length < this.itemsPerPage * this.currentPage) {
+      if (Math.ceil(val.length * this.currentPage)  < Math.ceil(this.itemsPerPage * this.currentPage)) {
         this.currentPage = 1
       }
     }
@@ -86,7 +91,7 @@ export default {
       return this.searchedListItems.slice(start, end)
     },
     numPages() {
-      return Math.floor(this.searchedListItems.length / this.itemsPerPage) + 1
+      return Math.ceil(this.searchedListItems.length / this.itemsPerPage)
     },
   },
   methods: {
@@ -121,7 +126,7 @@ export default {
   background: #def;
 }
 .j-list .j-list__item:nth-of-type(even) {
-  background: #fdfdfd;
+  background: #fafafa;
 }
 
 .pagination-btn {
@@ -140,7 +145,6 @@ export default {
 }
 .pagination-btn.active {
   font-weight: 700;
-  border-bottom: 2px solid blue;
-  border-right: 1px solid purple;
+  border: 1px solid #888;
 }
 </style>
