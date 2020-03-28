@@ -63,10 +63,12 @@
               :items="foodKindList"
               indexKey="name"
               :searchKeys="['name']"
+              class="mt-2"
             >
               <template v-slot:item="{ item }">
                 <j-btn
-                  class="fullwidth clr-link text outlined-hover text-left"
+                  :title="`Go to page for food kind: ${item.name}`"
+                  class="fullwidth text clr-link outlined-hover text-left"
                   :to="{ name: 'food-kind', params: { food_kind_id: item.id }}"
                 >
                   {{item.name}}
@@ -218,38 +220,38 @@ export default {
 </script>
 
 <style lang="scss">
-.btn-link {
-  font: inherit;
-  width: 100%;
-  background-color: transparent;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  text-align: start;
-  cursor: pointer;
-  padding: .25rem;
+// .btn-link {
+//   font: inherit;
+//   width: 100%;
+//   background-color: transparent;
+//   border: 1px solid transparent;
+//   border-radius: 2px;
+//   text-align: start;
+//   cursor: pointer;
+//   padding: .25rem;
 
-  &:hover {
-    border: 1px solid teal;
-  }
-  &:focus {
-    border: 1px solid teal;
-  }
-}
-.btn-delete {
-  cursor: pointer;
-  padding: .25rem;
-  font: inherit;
-  background-color: transparent;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  width: 30px;
-  outline: none;
+//   &:hover {
+//     border: 1px solid teal;
+//   }
+//   &:focus {
+//     border: 1px solid teal;
+//   }
+// }
+// .btn-delete {
+//   cursor: pointer;
+//   padding: .25rem;
+//   font: inherit;
+//   background-color: transparent;
+//   border: 1px solid transparent;
+//   border-radius: 2px;
+//   width: 30px;
+//   outline: none;
 
-  &:hover {
-    border: 1px solid #f8a;
-  }
-  &:focus {
-    border: 1px solid #f8a;
-  }
-}
+//   &:hover {
+//     border: 1px solid #f8a;
+//   }
+//   &:focus {
+//     border: 1px solid #f8a;
+//   }
+// }
 </style>

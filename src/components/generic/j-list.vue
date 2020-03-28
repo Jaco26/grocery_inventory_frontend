@@ -13,17 +13,34 @@
     <template v-if="numPages > 1">
       <div class="d-flex align-center justify-between">
         <div>
-          <button
+          <j-btn
+            :disabled="prevBtnDisabled"
+            :title="prevBtnDisabled ? '' : 'Prev page'"
+            @click="prevPage"
+            class="square text outlined-hover pagination-btn"
+          >
+            <span class="arrow left"></span>
+          </j-btn>
+          <j-btn
             v-for="n in numPages"
-            :key="n" class="pagination-btn"
-            :class="{ 'active' : currentPage === n }"
+            :key="n"
+            class="square text outlined-hover pagination-btn"
+            :class="{ 'active' : n === currentPage }"
             :title="`Page ${n}`"
             @click="currentPage = n"
           >
             {{n}}
-          </button>
+          </j-btn>
+          <j-btn
+            @click="nextPage"
+            :disabled="nextBtnDisabled"
+            :title="nextBtnDisabled ? '' : 'Next page'"
+            class="square text outlined-hover pagination-btn"
+          >
+            <span class="arrow right"></span>
+          </j-btn>
         </div>
-        <small>{{searchedListItems.length}} items</small>
+        <small>{{paginationMessage}}</small>
       </div>
       
     </template>
@@ -55,14 +72,15 @@ export default {
   data() {
     return {
       search: '',
-      itemsPerPage: 10,
+      itemsPerPage: 5,
       currentPage: 1
     }
   },
   watch: {
-    searchedListItems(val) {
-      if (Math.ceil(val.length * this.currentPage)  < Math.ceil(this.itemsPerPage * this.currentPage)) {
-        this.currentPage = 1
+    searchedListItems(items) {
+      const minNumberOfItemsForCurrentPageToBeRequired = this.itemsPerPage * (this.currentPage - 1) + 1
+      if (minNumberOfItemsForCurrentPageToBeRequired > items.length) {
+        this.currentPage = Math.floor(minNumberOfItemsForCurrentPageToBeRequired / this.itemsPerPage) || 1
       }
     }
   },
@@ -85,16 +103,39 @@ export default {
       }
       return this.sortedListItems
     },
+    currentPageStart() {
+      return this.itemsPerPage * (this.currentPage - 1)
+    },
+    currentPageEnd() {
+      return this.currentPageStart + this.itemsPerPage
+    },
     currentPageItems() {
-      const start = this.itemsPerPage * (this.currentPage - 1)
-      const end = start + this.itemsPerPage
-      return this.searchedListItems.slice(start, end)
+      return this.searchedListItems.slice(this.currentPageStart, this.currentPageEnd)
     },
     numPages() {
       return Math.ceil(this.searchedListItems.length / this.itemsPerPage)
     },
+    paginationMessage() {
+      return `${this.currentPageStart + 1}-${this.currentPageStart + this.currentPageItems.length} of ${this.searchedListItems.length} items`
+    },
+    nextBtnDisabled() {
+      return this.currentPage + 1 > this.numPages
+    },
+    prevBtnDisabled() {
+      return this.currentPage - 1 < 1
+    }
   },
   methods: {
+    prevPage() {
+      if (this.currentPage - 1 >= 1) {
+        this.currentPage -= 1
+      }
+    },
+    nextPage() {
+      if (this.currentPage + 1 <= this.numPages) {
+        this.currentPage += 1
+      }
+    },
     indexAlphabetically(items) {
       return items.reduce((acc, x) => {
         const firstLetter = x[this.indexKey][0].toLowerCase()
@@ -109,7 +150,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .j-list {
   list-style: none;
   padding: 0;
@@ -118,7 +159,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* padding: 4px; */
   border-radius: 2px;
 }
 .j-list .j-list__item:nth-of-type(odd) {
@@ -130,21 +170,33 @@ export default {
 }
 
 .pagination-btn {
-  width: 30px;
-  height: 30px;
-  font: inherit;
-  text-align: center;
-  border: none;
-  border-radius: 2px;
-  margin: .25rem;
-  cursor: pointer;
-  background-color: transparent;
+  margin: 2px;
 }
+
 .pagination-btn:hover {
   background-color: #eee;
 }
 .pagination-btn.active {
   font-weight: 700;
   border: 1px solid #888;
+}
+
+.arrow {
+  border-style: solid;
+  border-color: black;
+  border-width: 0 1px 1px 0;
+  display: inline-block;
+  padding: 3px;
+  position: relative;
+  top: -1px;
+
+  &.right {
+    transform: rotate(-45deg);
+    left: -2px;
+  }
+  &.left {
+    transform: rotate(135deg);
+    left: 2px;
+  }
 }
 </style>

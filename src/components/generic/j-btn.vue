@@ -9,7 +9,7 @@ export default {
     const { props, children, data } = ctx
     const { to, ...btnProps } = props
 
-    const jBtn = h('button', { ...data, props: btnProps, class: 'j-btn' }, children)
+    const jBtn = h('button', { ...data, props: btnProps, class: { 'j-btn': true, ...data.class }}, children)
 
     return to
       ? h('router-link', { style: { width: '100%' }, props: { to } }, [jBtn])
@@ -76,17 +76,29 @@ export default {
     box-shadow: none;
     color: black;
 
-    &.outlined-hover:hover {
-      border-color: gray;
+    &.outlined-hover {
 
-      &.clr-primary {
-        border-color: blue;
+      &:hover, &:focus {
+        border-color: gray;
+
+        &.clr-primary {
+          border-color: blue;
+        }
+        &.clr-danger {
+          border-color: red;
+        }
+        &.clr-link {
+          border-color: teal;
+        }
       }
-      &.clr-danger {
-        border-color: red;
-      }
-      &.clr-link {
-        border-color: teal;
+        
+      &:disabled {
+        cursor: not-allowed;
+
+        &:hover {
+          border-color: transparent;
+          background: transparent;
+        }
       }
     }
   }
@@ -108,7 +120,14 @@ export default {
     }
   }
 
+  &:disabled {
+    cursor: not-allowed;
 
+    &:hover {
+      border-color: transparent;
+      background: transparent;
+    }
+  }
 
 }
 </style>
