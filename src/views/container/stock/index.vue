@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col">
       <j-card flat>
-        <j-card-title class="py-0">
-          <h1>{{stock.name}}</h1>
+        <j-card-title class="pa-0">
+          {{stock.name}}
         </j-card-title>
-        <j-card-text>
+        <j-card-text class="pa-0">
           <div>Date Created: <strong>{{dateCreated}}</strong></div>
           <div>Date Updated: <strong>{{dateUpdated}}</strong></div>
           <div class="row">

@@ -1,3 +1,4 @@
+import accessToken from './mocks/access-token'
 
 /**
  * @typedef ApiResponse
@@ -19,7 +20,7 @@ export class ApiError extends Error {
 
 async function doFetch(uri, { method = 'GET', body = null } = {}) {
   try {
-    const token = localStorage.getItem('access_token') || "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODUwOTk1NTYsIm5iZiI6MTU4NTA5OTU1NiwianRpIjoiMWNlOWZiZDQtOGY0OC00OGVjLTlhNWMtMmQyZTkyOWFlODFlIiwiaWRlbnRpdHkiOiJmZWI3YmY1NS00YmI5LTRmNGQtOTAzOC02OGZiYWY2M2U1NjEiLCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.FdWWtJcllK0kGxaNIuxYgdDT5VtcvgZEE1JaAaAUGsk"
+    const token = localStorage.getItem('access_token') || accessToken
     const url = `http://localhost:5000/api/v1${uri}`
     const options = {
       method,

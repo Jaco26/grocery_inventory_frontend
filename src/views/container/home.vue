@@ -65,10 +65,16 @@
               :searchKeys="['name']"
             >
               <template v-slot:item="{ item }">
-                <router-link style="color: inherit" :to="{ name: 'food-kind', params: { food_kind_id: item.id }}">
+                <button
+                  class="btn-link"
+                  style="color: inherit"
+                  role="link"
+                  :title="`Go to page for food kind: ${item.name}`"
+                  @click="$router.push({ name: 'food-kind', params: { food_kind_id: item.id }})"
+                >
                   {{item.name}}
-                </router-link>
-                <button @click="onDeleteFoodKind(item.id)">X</button>
+                </button>
+                <button class="btn-delete" :title="`Delete food kind: ${item.name}`" @click="onDeleteFoodKind(item.id)">X</button>
               </template>
             </j-list>
           </j-card-text>
@@ -214,3 +220,40 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.btn-link {
+  font: inherit;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  text-align: start;
+  cursor: pointer;
+  padding: .25rem;
+
+  &:hover {
+    border: 1px solid teal;
+  }
+  &:focus {
+    border: 1px solid teal;
+  }
+}
+.btn-delete {
+  cursor: pointer;
+  padding: .25rem;
+  font: inherit;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  width: 30px;
+  outline: none;
+
+  &:hover {
+    border: 1px solid #f8a;
+  }
+  &:focus {
+    border: 1px solid #f8a;
+  }
+}
+</style>
