@@ -10,40 +10,13 @@
       </li>
     </ul>
 
-    <template v-if="numPages > 1">
-      <div class="d-flex align-center justify-between">
-        <div>
-          <j-btn
-            :disabled="prevBtnDisabled"
-            :title="prevBtnDisabled ? '' : 'Prev page'"
-            @click="prevPage"
-            class="square text outlined-hover pagination-btn"
-          >
-            <span class="arrow left"></span>
-          </j-btn>
-          <j-btn
-            v-for="n in numPages"
-            :key="n"
-            class="square text outlined-hover pagination-btn"
-            :class="{ 'active' : n === currentPage }"
-            :title="`Page ${n}`"
-            @click="currentPage = n"
-          >
-            {{n}}
-          </j-btn>
-          <j-btn
-            @click="nextPage"
-            :disabled="nextBtnDisabled"
-            :title="nextBtnDisabled ? '' : 'Next page'"
-            class="square text outlined-hover pagination-btn"
-          >
-            <span class="arrow right"></span>
-          </j-btn>
-        </div>
-        <small>{{paginationMessage}}</small>
-      </div>
-      
-    </template>
+    <JPagination
+      :items="searchedListItems"
+      :itemsPerPage="itemsPerPage"
+      :currentPage.sync="currentPage"
+      :currentPageItems.sync="currentPageItems"
+    />
+    
   </div>
 </template>
 
@@ -73,7 +46,8 @@ export default {
     return {
       search: '',
       itemsPerPage: 5,
-      currentPage: 1
+      currentPage: 1,
+      currentPageItems: [],
     }
   },
   watch: {
@@ -103,39 +77,8 @@ export default {
       }
       return this.sortedListItems
     },
-    currentPageStart() {
-      return this.itemsPerPage * (this.currentPage - 1)
-    },
-    currentPageEnd() {
-      return this.currentPageStart + this.itemsPerPage
-    },
-    currentPageItems() {
-      return this.searchedListItems.slice(this.currentPageStart, this.currentPageEnd)
-    },
-    numPages() {
-      return Math.ceil(this.searchedListItems.length / this.itemsPerPage)
-    },
-    paginationMessage() {
-      return `${this.currentPageStart + 1}-${this.currentPageStart + this.currentPageItems.length} of ${this.searchedListItems.length} items`
-    },
-    nextBtnDisabled() {
-      return this.currentPage + 1 > this.numPages
-    },
-    prevBtnDisabled() {
-      return this.currentPage - 1 < 1
-    }
   },
   methods: {
-    prevPage() {
-      if (this.currentPage - 1 >= 1) {
-        this.currentPage -= 1
-      }
-    },
-    nextPage() {
-      if (this.currentPage + 1 <= this.numPages) {
-        this.currentPage += 1
-      }
-    },
     indexAlphabetically(items) {
       return items.reduce((acc, x) => {
         const firstLetter = x[this.indexKey][0].toLowerCase()
@@ -167,36 +110,5 @@ export default {
 }
 .j-list .j-list__item:nth-of-type(even) {
   background: #fafafa;
-}
-
-.pagination-btn {
-  margin: 2px;
-}
-
-.pagination-btn:hover {
-  background-color: #eee;
-}
-.pagination-btn.active {
-  font-weight: 700;
-  border: 1px solid #888;
-}
-
-.arrow {
-  border-style: solid;
-  border-color: black;
-  border-width: 0 1px 1px 0;
-  display: inline-block;
-  padding: 3px;
-  position: relative;
-  top: -1px;
-
-  &.right {
-    transform: rotate(-45deg);
-    left: -2px;
-  }
-  &.left {
-    transform: rotate(135deg);
-    left: 2px;
-  }
 }
 </style>

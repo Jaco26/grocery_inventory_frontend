@@ -13,6 +13,7 @@ import JSelect from '@/components/generic/j-select'
 import JList from '@/components/generic/j-list'
 import JAlert from '@/components/generic/j-alert'
 import JCard from '@/components/generic/j-card/index'
+import JPagination from '@/components/generic/j-pagination'
 
 
 Vue.use(JCard)
@@ -23,6 +24,7 @@ Vue.component('JBtn', JBtn)
 Vue.component('JSelect', JSelect)
 Vue.component('JList', JList)
 Vue.component('JAlert', JAlert)
+Vue.component('JPagination', JPagination)
 
 Vue.directive('focus', {
   inserted(el) {
