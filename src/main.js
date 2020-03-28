@@ -15,7 +15,6 @@ import JAlert from '@/components/generic/j-alert'
 import JCard from '@/components/generic/j-card/index'
 import JPagination from '@/components/generic/j-pagination'
 
-
 Vue.use(JCard)
 
 Vue.component('JDialog', JDialog)
