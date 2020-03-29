@@ -1,8 +1,8 @@
 <template functional>
   <div class="j-input" :class="{ 'label-beside' : props.horizontal }">
-    <label class="j-input__label">
+    <label class="j-input__label" :class="{ 'small' : props.smallLabel }">
       <slot name="label">
-        <small>{{props.label}}</small>
+        {{props.label}}
       </slot>
     </label>
     <input
@@ -18,6 +18,7 @@
 export default {
   props: {
     label: String,
+    smallLabel: Boolean,
     value: [String, Number],
     horizontal: Boolean
   },
@@ -38,6 +39,9 @@ export default {
 
 .j-input__label {
   flex: 0;
+}
+.j-input__label.small {
+  font-size: 14px;
 }
 
 .j-input.label-beside {

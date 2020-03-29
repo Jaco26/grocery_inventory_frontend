@@ -1,30 +1,62 @@
-<template functional>
-  <div class="j-input" :class="{ 'label-beside' : props.horizontal }">
-    <label class="j-input__label">{{props.label}}</label>
-    <select
-      class="j-input__input"
-      :value="props.value"
-      @input="listeners.input($event.target.value)"
-    >
-      <template v-for="(opt, i) in props.options">
-        <option
-          :key="i"
-          :value="opt.value || opt"
-        >
-          {{opt.text || opt}}
-        </option>
-      </template>
-    </select>
-  </div>
-</template>
+
 
 <script>
 export default {
+  functional: true,
   props: {
     label: String,
+    smallLabel: Boolean,
     value: [String, Number, Object],
     options: Array,
     horizontal: Boolean
+  },
+  render(h, ctx) {
+
+    const label = h('label',
+      {
+        class: {
+          'j-input__label': true,
+          'small': ctx.props.smallLabel
+        }
+      },
+      ctx.props.label
+    )
+
+    const options = ctx.props.options.map(opt => (
+      h('option', 
+        {
+          attrs: {
+            value: opt.value || opt,
+            selected: (opt.value || opt) === ctx.props.value
+          }
+        },
+        opt.text || opt
+      )
+    ))
+
+    const select = h('select',
+      {
+        class: 'j-input__input',
+        attrs: { value: ctx.props.value },
+        on: {
+          input: e => ctx.listeners.input(e.target.value)
+        }
+      },
+      options
+    )
+
+    return h('div',
+      {
+        class: {
+          'j-input': true,
+          'label-beside': ctx.props.horizontal
+        }
+      },
+      [
+        label,
+        select
+      ]
+    )
   }
 }
 </script>

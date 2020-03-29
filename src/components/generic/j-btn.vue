@@ -56,6 +56,22 @@ export default {
     }
   }
 
+  &.circle {
+    min-width: 30px;
+    height: 30px;
+    border-radius: 50% 50%;
+
+    &.large {
+      width: 35px;
+      height: 35px;
+    }
+
+    &.small {
+      min-width: 25px;
+      height: 25px;
+    }
+  }
+
   &.small {
     min-width: 64px;
     padding: .25rem .5rem;

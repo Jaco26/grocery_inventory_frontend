@@ -9,14 +9,19 @@ import {
   a_DELETE_FOOD_KIND,
   g_SELECTED_FOOD_KIND,
   g_GET_FOOD_KIND_BY_ID,
+  g_GET_SELECTED_FOOD_KIND_UOM,
   g_STATUS_OF_POST_FOOD_KIND,
   g_DATA_FROM_DELETE_FOOD_KIND,
 } from './types'
+import unitOfMeasure from './modules/unit-of-measure/unit-of-measure'
 
 const URI_categoriesFoodKind = '/categories/food/kind'
 
 export default {
   namespaced: true,
+  modules: {
+    unitOfMeasure,
+  },
   state: {
     list: [],
     selectedFoodKindId: null,
@@ -41,23 +46,23 @@ export default {
         cacher.setStatus(3)
       }
     },
-    async [a_POST_FOOD_KIND]({ dispatch, commit }, { name, nutrition_info, notes }) {
+    async [a_POST_FOOD_KIND]({ dispatch, commit }, { name }) {
       const cacher = makeCacher(URI_categoriesFoodKind).cachePost(commit)
       try {
         cacher.setStatus(1)
-        await apiService.post(URI_categoriesFoodKind, { name, nutrition_info, notes })
+        await apiService.post(URI_categoriesFoodKind, { name })
         cacher.setStatus(2)
         await dispatch(a_FETCH_FOOD_KIND_LIST)
       } catch (error) {
         cacher.setStatus(3)
       }
     },
-    async [a_UPDATE_FOOD_KIND]({ dispatch, commit }, { id, name, nutrition_info, notes }) {
+    async [a_UPDATE_FOOD_KIND]({ dispatch, commit }, { id, name, unit_of_measurement_id, units_to_serving_size }) {
       const uri = `${URI_categoriesFoodKind}/${id}`
       const cacher = makeCacher(uri).cachePut(commit)
       try {
         cacher.setStatus(1)
-        await apiService.put(uri, { name, nutrition_info, notes })
+        await apiService.put(uri, { name, unit_of_measurement_id, units_to_serving_size })
         cacher.setStatus(2)
         await dispatch(a_FETCH_FOOD_KIND_LIST)
       } catch (error) {
@@ -98,6 +103,9 @@ export default {
       }
       return contract
     },
+    [g_GET_SELECTED_FOOD_KIND_UOM](state, getters) {
+      return getters[g_SELECTED_FOOD_KIND].unit_of_measurement
+    },
     [g_GET_FOOD_KIND_BY_ID](state) {
       return id => state.list.find(x => x.id === id)
     },
@@ -105,3 +113,10 @@ export default {
     [g_DATA_FROM_DELETE_FOOD_KIND]: makeReqDataGetter.isDelete(),
   }
 }
+
+
+// food_kind_schema = create_schema({
+//   'name': str,
+//   'units_of_measurement_id': is_uuid,
+//   ('units_to_serving_size', 0): int,
+// })

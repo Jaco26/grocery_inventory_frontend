@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       search: '',
-      itemsPerPage: 5,
+      itemsPerPage: 10,
       currentPage: 1,
       currentPageItems: [],
     }

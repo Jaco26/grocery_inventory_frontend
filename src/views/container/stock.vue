@@ -1,25 +1,4 @@
 <template>
-  <!-- <div class="row">
-    <div class="col">
-      <j-card flat>
-        <j-card-title class="py-0">
-          <h1>{{stock.name}}</h1>
-        </j-card-title>
-        <j-card-text>
-          <div>Date Created: <strong>{{dateCreated}}</strong></div>
-          <div>Date Updated: <strong>{{dateUpdated}}</strong></div>
-          <div class="row">
-            <div class="col mobile-12 tablet-6">
-              <StockItems :items="stock.items" />
-            </div>
-            <div class="col">
-              <StockSnapshots :snapshots="stock.snapshots" />
-            </div>
-          </div>
-        </j-card-text>
-      </j-card>
-    </div>
-  </div> -->
   <router-view></router-view>
 </template>
 

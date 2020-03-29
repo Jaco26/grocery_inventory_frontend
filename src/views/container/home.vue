@@ -51,7 +51,6 @@
                 </j-btn>
               </template>
             </j-list>
-            <j-btn class="small">Hi</j-btn>
           </j-card-text>
         </j-card>
       </div>
