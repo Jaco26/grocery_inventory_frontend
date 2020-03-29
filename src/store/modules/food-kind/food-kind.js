@@ -57,12 +57,12 @@ export default {
         cacher.setStatus(3)
       }
     },
-    async [a_UPDATE_FOOD_KIND]({ dispatch, commit }, { id, name, unit_of_measurement_id, units_to_serving_size }) {
+    async [a_UPDATE_FOOD_KIND]({ dispatch, commit }, { id, name, unit_of_measurement_id, serving_size }) {
       const uri = `${URI_categoriesFoodKind}/${id}`
       const cacher = makeCacher(uri).cachePut(commit)
       try {
         cacher.setStatus(1)
-        await apiService.put(uri, { name, unit_of_measurement_id, units_to_serving_size })
+        await apiService.put(uri, { name, unit_of_measurement_id, serving_size })
         cacher.setStatus(2)
         await dispatch(a_FETCH_FOOD_KIND_LIST)
       } catch (error) {
@@ -94,6 +94,7 @@ export default {
         name: '',
         uniform_name: '',
         unit_of_measurement: {},
+        serving_size: 0,
         nutrition_info: {},
         categories: []
       }
@@ -118,5 +119,5 @@ export default {
 // food_kind_schema = create_schema({
 //   'name': str,
 //   'units_of_measurement_id': is_uuid,
-//   ('units_to_serving_size', 0): int,
+//   ('serving_size', 0): int,
 // })

@@ -23,8 +23,9 @@
                 <li class="mt-2">
                   <JInput
                     type="number"
-                    :label="`Serving Size: ${foodKind.units_to_serving_size} ${foodKindUOM.name}`"
-                    :value="foodKind.units_to_serving_size"
+                    step="0.1"
+                    :label="`Serving Size: ${foodKind.serving_size} ${foodKindUOM.name}`"
+                    :value="foodKind.serving_size"
                     @input="updateField('servingSize', $event)"
                   />
                 </li>
@@ -87,10 +88,10 @@ export default {
           }
           break
         case 'servingSize':
-          if (value && value !== this.foodKind.units_to_serving_size) {
+          if (value && value !== this.foodKind.serving_size) {
             servingSizeDbc.debounce(500, () => {
               this.onUpdateFoodKind({
-                units_to_serving_size: value
+                serving_size: value
               })
             })
           }
@@ -115,7 +116,7 @@ export default {
         id: this.foodKind.id,
         name: this.foodKind.name,
         unit_of_measurement_id: this.foodKindUOM.id,
-        units_to_serving_size: this.foodKind.units_to_serving_size,
+        serving_size: this.foodKind.serving_size,
         ...updatedValue
       })
     }
