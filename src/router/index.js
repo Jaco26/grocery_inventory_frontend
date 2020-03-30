@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import NotFound from '../views/404-not-found.vue'
-import Container from '@/views/container/index'
+import Container from '@/views/container'
 import HomePage from '@/views/container/home'
 
 import StockContainer from '@/views/container/stock'

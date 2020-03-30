@@ -2,15 +2,16 @@
   <div class="container">
     <h1>{{stockItem.food_kind.name}}</h1>
     <h2>Summary</h2>
+    <p>
+      Serving size: {{servingSizeText}}
+    </p>
     <div>
       Total quantity: {{totalQuantityText}}
     </div>
     <div>
-      Serving size: {{servingSizeText}}
-    </div>
-    <div>
       Total servings: {{stockItemTotalServings}} 
     </div>
+    
     <span class="divider"></span>
 
     <h2>Items</h2>

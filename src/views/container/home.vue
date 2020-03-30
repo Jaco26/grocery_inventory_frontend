@@ -108,12 +108,8 @@ import * as stockTypes from '@/store/modules/stock/types'
 import * as foodCategoryTypes from '@/store/modules/food-category/types'
 import * as foodKindTypes from '@/store/modules/food-kind/types'
 // Componnts
-import ListSearchCreate from '@/components/list-search-create'
 export default {
   name: 'Home',
-  components: {
-    ListSearchCreate,
-  },
   data() {
     return {
       stock: '',

@@ -83,6 +83,7 @@ export default {
           }
           return acc
         }, [])
+        .sort((a, b) => a.expiration_date > b.expiration_date ? 1 : -1)
       if (selected.length) {
         contract.items = selected
         contract.food_kind = selected[0].food_kind,

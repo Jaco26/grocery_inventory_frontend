@@ -34,7 +34,7 @@
           </div>
           
           <template v-if="state.id">
-            <div> Date: {{state.date_created}} </div>
+            <div> Date: {{new Date(state.date_created).toLocaleString()}} </div>
             <div> Quantity: {{quantityText}} </div>
             <div> Packaging Kind: {{state.packaging_kind.name}} </div>
             <div> Packaging State: {{state.packaging_state.name}} </div>
