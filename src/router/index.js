@@ -66,7 +66,7 @@ const routes = [
                   text: getters => getters['stock/SELECTED_STOCK'].name,
                 },
                 {
-                  text: getters => getters['stock/stockItem/SELECTED_STOCK_ITEM'].food_kind,
+                  text: getters => getters['stock/stockItem/SELECTED_STOCK_ITEM'].food_kind.name,
                 }
               ]
             }

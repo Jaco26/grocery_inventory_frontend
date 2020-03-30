@@ -8,7 +8,7 @@
             <strong>Current State</strong>
             <button class="ml-4" @click="isEditing = false">&times; Cancel</button>
             <div> Date: {{state.date_created}} </div>
-            <div> Quantity: {{state.quantity}} </div>
+            <div> Quantity: {{quantityText}} </div>
             <div> Packaging Kind: {{state.packaging_kind.name}} </div>
             <div> Packaging State: {{state.packaging_state.name}} </div>
           </div>
@@ -35,7 +35,7 @@
           
           <template v-if="state.id">
             <div> Date: {{state.date_created}} </div>
-            <div> Quantity: {{state.quantity}} </div>
+            <div> Quantity: {{quantityText}} </div>
             <div> Packaging Kind: {{state.packaging_kind.name}} </div>
             <div> Packaging State: {{state.packaging_state.name}} </div>
           </template>
@@ -107,6 +107,13 @@ export default {
     ...mapGetters('stock/stockItem', {
       statusOfPostStockItemState: stockItemTypes.g_STATUS_OF_POST_STOCK_ITEM_STATE,
     }),
+    quantityText() {
+      let uomName = this.stockItem.food_kind.unit_of_measurement.name
+      uomName = uomName === 'Self'
+        ? this.stockItem.food_kind.name
+        : uomName
+      return `${this.state.quantity} ${uomName}`
+    },
   }
 }
 </script>

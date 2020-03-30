@@ -1,15 +1,16 @@
 <template>
   <div class="container">
-    <h1>{{stockItem.food_kind}}</h1>
-    
+    <h1>{{stockItem.food_kind.name}}</h1>
     <h2>Summary</h2>
     <div>
-      Total servings: {{stockItem.totalServings}}
+      Total quantity: {{totalQuantityText}}
     </div>
     <div>
-      Total weight: {{stockItem.totalWeight}}
+      Serving size: {{servingSizeText}}
     </div>
-
+    <div>
+      Total servings: {{stockItemTotalServings}} 
+    </div>
     <span class="divider"></span>
 
     <h2>Items</h2>
@@ -42,8 +43,17 @@ export default {
   },
   computed: {
     ...mapGetters('stock/stockItem', {
-      stockItem: stockItemTypes.g_SELECTED_STOCK_ITEM
+      stockItem: stockItemTypes.g_SELECTED_STOCK_ITEM,
+      stockItemUOMName: stockItemTypes.g_SELECTED_STOCK_ITEM_UOM_NAME,
+      stockItemTotalQuantity: stockItemTypes.g_SELECTED_STOCK_ITEM_TOTAL_QUANTITY,
+      stockItemTotalServings: stockItemTypes.g_SELECTED_STOCK_ITEM_TOTAL_SERVINGS,
     }),
+    totalQuantityText() {
+      return `${this.stockItemTotalQuantity} ${this.stockItemUOMName}`
+    },
+    servingSizeText() {
+      return `${this.stockItem.food_kind.serving_size} ${this.stockItemUOMName}`
+    }
   },
   methods: {
     isCreatingNewStateFor(item) {

@@ -2,8 +2,10 @@ import apiService, { ApiError } from '@/util/api-service'
 import { makeCacher, makeReqStatusGetter, makeReqDataGetter } from '@/util/caching'
 import {
   m_SET_FOOD_KIND_LIST,
+  m_UPDATE_FOOD_KIND_LIST,
   m_SET_SELECTED_FOOD_KIND_ID,
   a_FETCH_FOOD_KIND_LIST,
+  a_FETCH_FOOD_KIND_BY_ID,
   a_POST_FOOD_KIND,
   a_UPDATE_FOOD_KIND,
   a_DELETE_FOOD_KIND,
@@ -30,6 +32,10 @@ export default {
     [m_SET_FOOD_KIND_LIST](state, foodKindList) {
       state.list = foodKindList
     },
+    [m_UPDATE_FOOD_KIND_LIST](state, foodKind) {
+      const index = state.list.findIndex(x => x.id === foodKind.id)
+      state.list.splice(index, 1, foodKind)
+    },
     [m_SET_SELECTED_FOOD_KIND_ID](state, id) {
       state.selectedFoodKindId = id
     }
@@ -42,6 +48,18 @@ export default {
         const res = await apiService.get(URI_categoriesFoodKind)
         cacher.setStatus(2)
         commit(m_SET_FOOD_KIND_LIST, res.data)
+      } catch (error) {
+        cacher.setStatus(3)
+      }
+    },
+    async[a_FETCH_FOOD_KIND_BY_ID]({ commit }, id) {
+      const uri = `${URI_categoriesFoodKind}/${id}`
+      const cacher = makeCacher(uri).cacheGet(commit)
+      try {
+        cacher.setStatus(1)
+        const res = await apiService.get(uri)
+        cacher.setStatus(2)
+        commit(m_UPDATE_FOOD_KIND_LIST, res.data)
       } catch (error) {
         cacher.setStatus(3)
       }
@@ -64,7 +82,7 @@ export default {
         cacher.setStatus(1)
         await apiService.put(uri, { name, unit_of_measurement_id, serving_size })
         cacher.setStatus(2)
-        await dispatch(a_FETCH_FOOD_KIND_LIST)
+        await dispatch(a_FETCH_FOOD_KIND_BY_ID, id)
       } catch (error) {
         cacher.setStatus(3)
       }

@@ -4,6 +4,9 @@ import {
   a_POST_STOCK_ITEM_STATE,
   m_SET_SELECTED_STOCK_ITEM_FOOD_KIND_ID,
   g_SELECTED_STOCK_ITEM,
+  g_SELECTED_STOCK_ITEM_UOM_NAME,
+  g_SELECTED_STOCK_ITEM_TOTAL_QUANTITY,
+  g_SELECTED_STOCK_ITEM_TOTAL_SERVINGS,
   g_STATUS_OF_POST_STOCK_ITEM_STATE,
 } from './types'
 import { a_FETCH_SELECTED_STOCK } from '@/store/modules/stock/types'
@@ -67,7 +70,7 @@ export default {
     [g_SELECTED_STOCK_ITEM](state, getters, rootState, rootGetters) {
       // a grouping of all items of the same `food_kind` within a `stock`
       const contract = {
-        food_kind: '',
+        food_kind: {},
         food_kind_id: '',
         items: [], // food_item[]
       }
@@ -82,11 +85,35 @@ export default {
         }, [])
       if (selected.length) {
         contract.items = selected
-        contract.food_kind = selected[0].food_kind.name,
+        contract.food_kind = selected[0].food_kind,
         contract.food_kind_id = selected[0].food_kind_id
       }
-
       return contract
+    },
+    [g_SELECTED_STOCK_ITEM_UOM_NAME](state, getters) {
+      let rv = ''
+      const selected = getters[g_SELECTED_STOCK_ITEM]
+      if (selected.food_kind_id) {
+        rv = selected.food_kind.unit_of_measurement.name
+        rv = rv === 'Self' ? selected.food_kind.name : rv
+      }
+      return rv
+    },
+    [g_SELECTED_STOCK_ITEM_TOTAL_QUANTITY](state, getters) {
+      let rv = 0
+      const selected = getters[g_SELECTED_STOCK_ITEM]
+      if (selected.food_kind_id) {
+        rv = selected.items.reduce((acc, x) => (acc + x.current_state.quantity), 0)
+      }
+      return rv
+    },
+    [g_SELECTED_STOCK_ITEM_TOTAL_SERVINGS](state, getters) {
+      let rv = 0
+      const selected = getters[g_SELECTED_STOCK_ITEM]
+      if (selected.food_kind_id) {
+        rv = getters[g_SELECTED_STOCK_ITEM_TOTAL_QUANTITY] / selected.food_kind.serving_size
+      }
+      return rv
     },
     [g_STATUS_OF_POST_STOCK_ITEM_STATE]: makeReqStatusGetter.isPost({ uri: '/food_item_state/' })
   }

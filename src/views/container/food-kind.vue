@@ -67,14 +67,6 @@ export default {
       unitOfMeasureOptions: s => (s.list || []).map(x => ({ text: x.name, value: x.id }))
     }),
   },
-  watch: {
-    unitOfMeasureOptions: {
-      immediate: true,
-      handler(val) {
-        console.log('unitOfMeasureOptions', val)
-      }
-    }
-  },
   methods: {
     updateField(key, value) {
       switch (key) {
