@@ -35,6 +35,7 @@ export default {
 .j-input__input {
   font: inherit;
   width: 100%;
+  height: 28px;
 }
 
 .j-input__label {
