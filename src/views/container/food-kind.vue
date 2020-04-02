@@ -43,9 +43,6 @@ import * as foodKindTypes from '@/store/modules/food-kind/types'
 // Components
 import FoodKindUOMFormCard from '@/components/food-kind/food-kind-uom-form-card'
 
-const nameDbc = makeDebouncer()
-const servingSizeDbc = makeDebouncer()
-
 export default {
   components: {
     FoodKindUOMFormCard,

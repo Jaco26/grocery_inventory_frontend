@@ -21,7 +21,9 @@ export class ApiError extends Error {
 async function doFetch(uri, { method = 'GET', body = null } = {}) {
   try {
     const token = localStorage.getItem('access_token') || accessToken
-    const url = `http://localhost:5000/api/v1${uri}`
+    const url =  process.env.NODE_ENV === 'development'
+      ? `http://localhost:5000/api/v1${uri}`
+      : `/api/v1${uri}`
     const options = {
       method,
       headers: {
