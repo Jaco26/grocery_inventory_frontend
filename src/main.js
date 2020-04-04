@@ -14,6 +14,7 @@ import JList from '@/components/generic/j-list'
 import JAlert from '@/components/generic/j-alert'
 import JCard from '@/components/generic/j-card/index'
 import JPagination from '@/components/generic/j-pagination'
+import JToolbar from '@/components/generic/j-toolbar'
 
 Vue.use(JCard)
 
@@ -24,6 +25,7 @@ Vue.component('JSelect', JSelect)
 Vue.component('JList', JList)
 Vue.component('JAlert', JAlert)
 Vue.component('JPagination', JPagination)
+Vue.component('JToolbar', JToolbar)
 
 Vue.directive('focus', {
   inserted(el) {

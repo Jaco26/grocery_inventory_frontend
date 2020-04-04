@@ -79,7 +79,7 @@
               <template v-slot:item="{ item }">
                 <j-btn
                   :title="`Go to page for food kind: ${item.name}`"
-                  class="fullwidth text clr-link outlined-hover text-left"
+                  class="fullwidth text clr-link outlined-hover text-left text--underlined"
                   :to="{ name: 'food-kind', params: { food_kind_id: item.id }}"
                 >
                   {{item.name}}

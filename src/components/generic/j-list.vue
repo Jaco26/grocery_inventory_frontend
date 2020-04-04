@@ -1,11 +1,17 @@
 <template>
   <div>
-    <div class="d-flex align-end">
+    <div v-if="withSearch" class="d-flex align-end">
       <JInput :label="searchLabel" v-model.trim="search" />
     </div>
 
-    <ul class="j-list">
-      <li class="j-list__item" v-for="(item, i) in currentPageItems" :key="i" :title="``">
+    <ul class="j-list" :class="{ 'striped': striped }">
+      <li
+        v-for="(item, i) in currentPageItems"
+        :key="i" 
+        class="j-list__item"
+        :class="liClass"
+        :style="liStyle"
+      >
         <slot name="item" v-bind="{ i, item }" />
       </li>
     </ul>
@@ -23,7 +29,15 @@
 <script>
 export default {
   props: {
+    withSearch: {
+      type: Boolean,
+      default: true,
+    },
     sort: {
+      type: Boolean,
+      default: true,
+    },
+    striped: {
       type: Boolean,
       default: true,
     },
@@ -40,6 +54,14 @@ export default {
     indexKey: {
       type: String,
       default: 'text'
+    },
+    liClass: {
+      type: [String, Object],
+      default: ''
+    },
+    liStyle: {
+      type: [String, Object],
+      default: ''
     }
   },
   data() {
@@ -97,18 +119,23 @@ export default {
 .j-list {
   list-style: none;
   padding: 0;
-}
-.j-list .j-list__item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 2px;
-}
-.j-list .j-list__item:nth-of-type(odd) {
-  background: #eee;
-  background: #def;
-}
-.j-list .j-list__item:nth-of-type(even) {
-  background: #fafafa;
+
+  .j-list__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 2px;
+    background: #fafafa;
+  }
+
+  &.striped {
+    .j-list__item:nth-of-type(odd) {
+      background: #eee;
+      background: #def;
+    }
+    .j-list__item:nth-of-type(even) {
+      background: #fafafa;
+    }
+  }
 }
 </style>

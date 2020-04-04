@@ -28,6 +28,10 @@ export default {
   box-shadow: 2px 2px 2px #aaa;
   min-width: 96px;
 
+  &:hover {
+    background: #eee;
+  }
+
   &.clr-primary {
     background-color: blue;
     color: white;
@@ -72,6 +76,11 @@ export default {
     }
   }
 
+  &.x-small {
+    min-width: 48px;
+    padding: 0 .5rem;
+  }
+
   &.small {
     min-width: 64px;
     padding: .25rem .5rem;
@@ -84,6 +93,18 @@ export default {
 
   &.fullwidth {
     width: 100%;
+  }
+
+  &.link {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    // color: blue;
+    text-decoration: underline;
+
+    &:hover {
+      background: #eee;
+    }
   }
 
   &.text {
@@ -116,10 +137,14 @@ export default {
       border-color: transparent;
     }
 
+    &:hover {
+      background: #eee;
+    }
 
     &.outlined-hover {
 
       &:hover, &:focus {
+        background: transparent;
         border-color: gray;
 
         &.clr-primary {
@@ -162,6 +187,10 @@ export default {
     &.clr-link {
       border-color: teal;
       color: teal;
+    }
+
+    &:hover {
+      background: #eee;
     }
   }
 

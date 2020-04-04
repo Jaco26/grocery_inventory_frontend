@@ -1,29 +1,54 @@
 <template>
   <div class="container">
-    <h1>{{stockItem.food_kind.name}}</h1>
-    <h2>Summary</h2>
-    <p>
-      Serving size: {{servingSizeText}}
-    </p>
-    <div>
-      Total quantity: {{totalQuantityText}}
+    <div class="row">
+      <div class="col mobile-12 tablet-4">
+        <j-card outlined>
+          <j-card-text class="pa-0 d-flex align-center justify-between">
+            <h2 class="my-0">{{stockItem.food_kind.name}}</h2>
+            <div>
+              <j-btn class="x-small link" :to="editLink">edit</j-btn>
+            </div>
+          </j-card-text>
+          <j-card-text class="pa-0">
+            Serving size: {{servingSizeText}}
+          </j-card-text>
+        </j-card>
+      </div>
+      <div class="col mobile-12 tablet-8">
+        <j-card outlined>
+          <j-card-text class="pa-0 d-flex align-center justify-between">
+            <h4 class="ma-0">Quantity In Stock:</h4>
+            <div>
+              <j-btn class="x-small outlined" @click="onShowNewItemForm">+ add</j-btn>
+            </div>
+          </j-card-text>
+          <j-card-text class="px-0">
+            <div>
+              Quantity: {{totalQuantityText}}
+            </div>
+            <div>
+              Servings: {{stockItemTotalServings}} 
+            </div>
+          </j-card-text>
+          <j-card-text class="px-0">
+            <h4 class="ma-0">Items:</h4>
+            <j-list
+              :striped="false"
+              :withSearch="false"
+              :items="stockItem.items"
+              liClass="mb-2"
+              indexKey="food_kind_uniform_name"
+            >
+              <template v-slot:item="{ item }">
+                <div class="mb-1">
+                  <StockItemState  :stockItem="item" :state="item.current_state" :stockItemId="item.id" />
+                </div>
+              </template>
+            </j-list>
+          </j-card-text>
+        </j-card>
+      </div>
     </div>
-    <div>
-      Total servings: {{stockItemTotalServings}} 
-    </div>
-    
-    <span class="divider"></span>
-
-    <h2>Items</h2>
-    <ul class="item-list">
-      <template v-for="(item, i) in stockItem.items">
-        <li class="item-list__item" :key="i">
-          <div> date new: {{new Date(item.date_item_was_new).toDateString()}} </div>
-          <div> date exp: {{item.expiration_date}} </div>
-          <StockItemState :stockItem="item" :state="item.current_state" :stockItemId="item.id" />
-        </li>
-      </template>
-    </ul>
   </div>
 </template>
 
@@ -40,6 +65,7 @@ export default {
   data() {
     return {
       selectedItemId: '',
+      showSummaryExplanation: false,
     }
   },
   computed: {
@@ -49,11 +75,16 @@ export default {
       stockItemTotalQuantity: stockItemTypes.g_SELECTED_STOCK_ITEM_TOTAL_QUANTITY,
       stockItemTotalServings: stockItemTypes.g_SELECTED_STOCK_ITEM_TOTAL_SERVINGS,
     }),
+    editLink() {
+      return { name: 'food-kind', params: { food_kind_id: this.stockItem.food_kind.id }}
+    },
     totalQuantityText() {
-      return `${this.stockItemTotalQuantity} ${this.stockItemUOMName}`
+      const quantity = this.stockItemTotalQuantity
+      return `${quantity} ${this.stockItemUOMName}`
     },
     servingSizeText() {
-      return `${this.stockItem.food_kind.serving_size} ${this.stockItemUOMName}`
+      const servingSize = this.stockItem.food_kind.serving_size
+      return `${servingSize} ${this.stockItemUOMName}`
     }
   },
   methods: {
@@ -66,6 +97,9 @@ export default {
     onSubmitNewItemState(payload) {
       console.log(payload)
     },
+    onShowNewItemForm() {
+
+    }
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

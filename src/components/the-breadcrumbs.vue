@@ -7,7 +7,7 @@
           <span v-if="i < breadcrumbs.length" class="seperator">-</span>
         </template>
         <template v-else>
-          <span><strong>{{ crumb.text }}</strong></span>
+          <span class="text-weight--bold">{{ crumb.text }}</span>
         </template>
       </li>
     </template>

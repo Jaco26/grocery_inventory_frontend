@@ -46,7 +46,7 @@ const routes = [
                   text: 'Dashboard',
                 },
                 {
-                  text: getters => getters['stock/SELECTED_STOCK'].name,
+                  text: 'Stock' // getters => getters['stock/SELECTED_STOCK'].name,
                 },
               ]
             }
@@ -63,10 +63,10 @@ const routes = [
                 },
                 {
                   to: 'stock',
-                  text: getters => getters['stock/SELECTED_STOCK'].name,
+                  text: 'Stock' // getters => getters['stock/SELECTED_STOCK'].name,
                 },
                 {
-                  text: getters => getters['stock/stockItem/SELECTED_STOCK_ITEM'].food_kind.name,
+                  text: 'Food Kind' // getters => getters['stock/stockItem/SELECTED_STOCK_ITEM'].food_kind.name,
                 }
               ]
             }
@@ -84,7 +84,7 @@ const routes = [
               text: 'Dashboard',
             },
             {
-              text: getters => getters['foodCategory/SELECTED_FOOD_CATEGORY'].name
+              text: 'Food Category' // getters => getters['foodCategory/SELECTED_FOOD_CATEGORY'].name
             }
           ]
         }
@@ -100,7 +100,7 @@ const routes = [
               text: 'Dashboard',
             },
             {
-              text: getters => getters['foodKind/SELECTED_FOOD_KIND'].name
+              text: 'Food Kind' // getters => getters['foodKind/SELECTED_FOOD_KIND'].name
             }
           ]
         }

@@ -79,7 +79,11 @@ export default {
         .reduce((acc, x) => {
           if (x.food_kind_id === state.foodKindId) {
             const { current_state, ...item } = x
-            acc.push({ ...item, current_state: current_state || EMPTY_ITEM_STATE })
+            acc.push({
+              ...item,
+              food_kind_uniform_name: item.food_kind.uniform_name,
+              current_state: current_state || EMPTY_ITEM_STATE
+            })
           }
           return acc
         }, [])
@@ -114,7 +118,7 @@ export default {
       if (selected.food_kind_id) {
         rv = getters[g_SELECTED_STOCK_ITEM_TOTAL_QUANTITY] / selected.food_kind.serving_size
       }
-      return rv
+      return Math.round(rv * 100) / 100
     },
     [g_STATUS_OF_POST_STOCK_ITEM_STATE]: makeReqStatusGetter.isPost({ uri: '/food_item_state/' })
   }
