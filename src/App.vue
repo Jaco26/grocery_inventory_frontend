@@ -1,7 +1,11 @@
 <template>
   <div class="container">
-    <TheBreadcrumbs />
-    <router-view/>
+    <div class="row justify-center">
+      <div class="col tablet-12 desktop-10">
+        <TheBreadcrumbs class="" />
+        <router-view/>
+      </div>
+    </div>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col">
-      <j-card flat>
+      <j-card flat class="pa-0">
         <j-card-title class="pa-0">
           Stock: "{{stock.name}}"
         </j-card-title>

@@ -1,37 +1,29 @@
 <template>
   <div class="row">
-    <div class="col">
-      <h2>Food kind: "{{foodKind.name}}"</h2>
-
-      <!-- <pre>{{foodKind}}</pre> -->
-      <div class="row">
-        <div class="col mobile-12 tablet-6 desktop-4">
-          <j-card outlined>
-            <j-card-title class="pa-0">
-              Summary:
-            </j-card-title>
-            <j-card-text class="px-0">
-              <ul style="list-style: none; padding: 0">
-                <li>
-                  <span class="text-weight--bold">Serving size:</span> {{this.foodKind.serving_size}} {{uomName}}
-                </li>
-              </ul>
-            </j-card-text>
-          </j-card>
-        </div>
-
-        <div class="col mobile-12 tablet-6 desktop-4">
-          <j-card outlined> 
-            <j-card-title class="pa-0">
-              Nutrition Info:
-            </j-card-title>
-            <j-card-text class="px-0">
-              <FoodKindUOMFormCard :unitOfMeasureName="uomName" />
-              ...more
-            </j-card-text>
-          </j-card>
-        </div>
-      </div>
+    <div class="col mobile-12 tablet-6 desktop-4">
+      <j-card outlined>
+        <j-card-text class="pa-0">
+          <h2 class="my-0">{{foodKind.name}}</h2>
+        </j-card-text>
+        <j-card-text class="px-0">
+          <div class="row">
+            <div class="col">
+              <span class="text-weight--bold">Serving size:</span> {{servingSizeText}}
+            </div>
+          </div>
+        </j-card-text>
+      </j-card>
+    </div>
+    <div class="col mobile-12 tablet-6 desktop-8">
+      <j-card outlined>
+        <j-card-title class="pa-0">
+          Nutrition Info:
+        </j-card-title>
+        <j-card-text class="px-0">
+          <FoodKindUOMFormCard :unitOfMeasureName="uomName" />
+          ...more
+        </j-card-text>
+      </j-card>
     </div>
   </div>
 </template>
@@ -56,6 +48,9 @@ export default {
       let rv = this.foodKindUOM.name
       rv = rv === 'Self' ? this.foodKind.name : rv
       return rv
+    },
+    servingSizeText() {
+      return `${this.foodKind.serving_size} ${this.uomName}`
     }
   },
   methods: {

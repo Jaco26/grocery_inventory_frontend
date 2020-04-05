@@ -1,8 +1,8 @@
 <template>
   <j-card flat class="pa-0">
     <j-card-text class="px-0">
-      <div class="d-flex flex-column">
-        <div class="mb-2">
+      <div class="row">
+        <div class="col px-2 tablet-12 desktop-6">
           <JInput
             smallLabel
             type="number"
@@ -12,7 +12,7 @@
             @input="updateField('serving_size', $event)"
           />
         </div>
-        <div>
+        <div class="col px-2 tablet-12 desktop-6">
           <JSelect
             smallLabel
             label="Unit of measure"

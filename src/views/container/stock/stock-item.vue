@@ -41,9 +41,6 @@
               v-bind.sync="newStockItem"
               @submit.prevent="onSubmutNewStockItem"
             />
-            <!-- <form v-if="showNewItemForm">
-              This is a form
-            </form> -->
             <j-list
               :withSearch="false"
               :items="stockItem.items"

@@ -14,7 +14,7 @@
     </j-dialog>
 
     <div class="row">
-      <div class="col mobile-12 tablet-6 desktop-4">
+      <div class="col mobile-12 tablet-6">
         <j-card outlined>
           <j-card-title class="pa-0">Stock List</j-card-title>
           <j-card-text class="pa-0">
@@ -55,7 +55,7 @@
         </j-card>
       </div>
 
-      <div class="col mobile-12 tablet-6 desktop-4">
+      <div class="col mobile-12 tablet-6">
         <j-card outlined>
           <j-card-title class="pa-0">Food Kinds</j-card-title>
           <j-card-text class="pa-0">
