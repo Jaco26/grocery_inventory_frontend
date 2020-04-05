@@ -28,7 +28,7 @@
       </j-card>
       <ul style="list-style: none; padding: 0;">
         <li v-for="(item, i) in foodKindsInSelectedStock" :key="i" style=" margin: .5rem 0">
-          <router-link :to="{ name: 'stock-item', params: {  item_id: item.id }}">
+          <router-link class="text-underlined" :to="{ name: 'stock-item', params: {  item_id: item.id }}">
             {{item.name}}
           </router-link>
           <ul class="food-kind__item-dates-list">
@@ -70,7 +70,6 @@ export default {
   },
   computed: {
     ...mapGetters('stock', {
-      foodKindsInSelectedStock: g_FOOD_KINDS_IN_SELECTED_STOCK,
     }),
     ...mapState('foodKind', {
       foodKindOptions: s => s.list.map(k => ({ text: k.name, value: k.id }))

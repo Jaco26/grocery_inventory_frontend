@@ -16,7 +16,7 @@
         <div class="col">
           <h4 class="ma-0">New State</h4>
           <form @submit.prevent="onSubmitStockItemState">
-            <JInput label="Quantity" type="number" v-model.number="quantity" />
+            <JInput :label="`Quantity (${uomName})`" type="number" v-model.number="quantity" />
             <JSelect label="Packaging Kind" :options="packagingKindOptions" v-model="packagingKindId" />
             <JSelect label="Packaging State" :options="packagingStateOptions" v-model="packagingStateId" />
             <button type="submit">Submit New State</button>
@@ -107,12 +107,15 @@ export default {
     ...mapGetters('stock/stockItem', {
       statusOfPostStockItemState: stockItemTypes.g_STATUS_OF_POST_STOCK_ITEM_STATE,
     }),
-    quantityText() {
-      let uomName = this.stockItem.food_kind.unit_of_measurement.name
-      uomName = uomName === 'Self'
+    uomName() {
+      let rv = this.stockItem.food_kind.unit_of_measurement.name
+      rv = rv === 'Self'
         ? this.stockItem.food_kind.name
-        : uomName
-      return `${this.state.quantity} ${uomName}`
+        : rv
+      return rv
+    },
+    quantityText() {
+      return `${this.state.quantity} ${this.uomName}`
     },
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="withSearch" class="d-flex align-end">
-      <JInput :label="searchLabel" v-model.trim="search" />
+      <JInput :label="searchLabel" :placeholder="searchPlaceholder" v-model.trim="search" />
     </div>
 
     <ul class="j-list" :class="{ 'striped': striped }">
@@ -47,6 +47,7 @@ export default {
       default: () => [],
     },
     searchLabel: String,
+    searchPlaceholder: String,
     searchKeys: { // array of keys to use in search of items
       type: Array,
       default: () => ['text']

@@ -1,5 +1,5 @@
 <template functional>
-  <div class="j-input" :class="{ 'label-beside' : props.horizontal }">
+  <div class="j-input" :class="[data.staticClass, data.class]">
     <label class="j-input__label" :class="{ 'small' : props.smallLabel }">
       <slot name="label">
         {{props.label}}
@@ -32,10 +32,16 @@ export default {
   flex-direction: column;
   align-items: flex-start;
 }
+.j-input.saving::after {
+  content: 'saving...'
+}
 .j-input__input {
   font: inherit;
   width: 100%;
   height: 28px;
+}
+.j-input__input::after {
+  content: "savings"
 }
 
 .j-input__label {
