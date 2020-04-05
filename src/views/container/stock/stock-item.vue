@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col mobile-12 tablet-4">
+      <div class="col mobile-12 tablet-4 food-kind__side-panel" style="align-self: start;">
         <j-card outlined>
           <j-card-text class="pa-0 d-flex align-center justify-between">
             <h2 class="my-0">{{stockItem.food_kind.name}}</h2>
@@ -19,7 +19,7 @@
           <j-card-text class="pa-0 d-flex align-center justify-between">
             <h4 class="ma-0">Quantity In Stock:</h4>
             <div>
-              <j-btn class="x-small outlined" @click="onShowNewItemForm">+ add</j-btn>
+              <j-btn class="x-small outlined" @click="showNewItemForm = !showNewItemForm">+ add</j-btn>
             </div>
           </j-card-text>
           <j-card-text class="px-0">
@@ -32,8 +32,19 @@
           </j-card-text>
           <j-card-text class="px-0">
             <h4 class="ma-0">Items:</h4>
+            <template v-if="showNewItemForm">
+              <form @submit.prevent="onSubmitNewItemState"></form>
+            </template>
+            <StockItemForm
+              v-if="showNewItemForm"
+              :overrideFoodKind="stockItem.food_kind.name"
+              v-bind.sync="newStockItem"
+              @submit.prevent="onSubmutNewStockItem"
+            />
+            <!-- <form v-if="showNewItemForm">
+              This is a form
+            </form> -->
             <j-list
-              :striped="false"
               :withSearch="false"
               :items="stockItem.items"
               liClass="mb-2"
@@ -56,16 +67,21 @@
 import { mapGetters, mapMutations } from 'vuex'
 import * as stockItemTypes from '@/store/modules/stock/modules/stock-item/types'
 
+import StockItemForm from '@/components/stock/stock-item-form'
 import StockItemState from '@/components/stock/stock-item-state'
 export default {
   name: 'StockItem',
   components: {
+    StockItemForm,
     StockItemState,
   },
   data() {
     return {
       selectedItemId: '',
-      showSummaryExplanation: false,
+      showNewItemForm: false,
+      newStockItem: {
+
+      }
     }
   },
   computed: {
@@ -113,32 +129,5 @@ export default {
 }
 </script>
 
-<style>
-.item-list {
-  list-style: none;
-  padding: 0;
-}
-.item-list__item {
-  padding: .5rem;
-  margin-bottom: .25rem;
-  border-radius: .125rem;
-}
-.item-list__item:nth-of-type(odd) {
-  background: beige
-}
-.item-list__item:nth-of-type(even) {
-  background: lightblue
-}
-.item-list__item .divider {
-  display: block;
-  width: 100%;
-  margin: .5rem auto;
-  border-bottom: 1px solid #aaa;
-}
-.item-list__item .divider.invisible {
-  width: 100%;
-  margin: .5rem auto;
-  border-bottom: 1px solid transparent;
-}
-
+<style lang="scss" scoped>
 </style>

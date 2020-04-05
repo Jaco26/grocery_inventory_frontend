@@ -38,3 +38,10 @@ $secondary: $purple;
 $secondary-lighter: $purple;
 $secondary-darker: $purple;
 
+$breakpoints: (
+  'mobile': ('min': 0, 'max': 599px),
+  'tablet': ('min': 600px, 'max': 959px),
+  'laptop': ('min': 960px, 'max': 1263px),
+  'desktop': ('min': 1264px, 'max': 1903px),
+  'huge': ('min': 1904px),
+);

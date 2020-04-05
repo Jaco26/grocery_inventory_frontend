@@ -9,29 +9,21 @@
           </button>
         </div>
       </div>
-      <j-card v-if="showNewStockItemItemForm" outlined>
-        <j-card-title class="pa-0">
-          Add a new stock item
-        </j-card-title>
+      <j-card
+        v-if="showNewStockItemItemForm"
+        flat
+        class=""
+        style="background: #fed"
+      >
+        <j-card-text class="px-0 pt-0 text-weight--bold">
+          Add a new item
+        </j-card-text>
         <j-card-text class="pa-0">
-          <form @submit.prevent="onSubmitNewStockItem">
-            <JSelect
-              label="What kind of food item is this?"
-              :options="foodKindOptions"
-              v-model="newStockItem.foodKindId"
-            />
-            <JInput
-              label="What date was this item new?"
-              type="date"
-              v-model="newStockItem.dateItemWasNew"
-            />
-            <JInput
-              label="What date will this item expire?"
-              type="date"
-              v-model="newStockItem.expirationDate"
-            />
-            <button class="btn small mt-2" type="submit">Submit</button>
-          </form>
+          <StockItemForm
+            :foodKindOptions="foodKindOptions"
+            v-bind.sync="newStockItem"
+            @submit.prevent="onSubmitNewStockItem"
+          />
         </j-card-text>
       </j-card>
       <ul style="list-style: none; padding: 0;">
@@ -55,9 +47,15 @@
 import { mapState, mapGetters, mapActions } from 'vuex'
 import { a_POST_STOCK_ITEM,  g_FOOD_KINDS_IN_SELECTED_STOCK } from '@/store/modules/stock/types'
 import { g_GET_FOOD_KIND_BY_ID } from '@/store/modules/food-kind/types'
+
+// Components
+import StockItemForm from '@/components/stock/stock-item-form'
 export default {
   props: {
     items: Array,
+  },
+  components: {
+    StockItemForm,
   },
   data() {
     return {

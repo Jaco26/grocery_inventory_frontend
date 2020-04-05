@@ -34,6 +34,13 @@ export default {
       )
     ))
 
+    const defaultOption = h('option',
+      {
+        attrs: { disabled: true, selected: true, value: '' },
+      },
+      'Please select one'
+    )
+
     const select = h('select',
       {
         class: 'j-input__input',
@@ -42,7 +49,10 @@ export default {
           input: e => ctx.listeners.input(e.target.value)
         }
       },
-      options
+      [
+        defaultOption,
+        ...options
+      ]
     )
 
     return h('div',
