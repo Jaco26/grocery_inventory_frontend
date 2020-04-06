@@ -103,9 +103,6 @@ export default {
     ...mapMutations('stock/stockItem', {
       setSelectedStockItemFoodKindId: stockItemTypes.m_SET_SELECTED_STOCK_ITEM_FOOD_KIND_ID
     }),
-    onSubmitNewItemState(payload) {
-      console.log(payload)
-    },
     onSubmitNewStockItem() {
       const { dateItemWasNew, expirationDate } = this.newStockItem
       if (dateItemWasNew && expirationDate) {
