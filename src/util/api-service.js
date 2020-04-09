@@ -17,7 +17,6 @@ export class ApiError extends Error {
   }
 }
 
-
 async function doFetch(uri, { method = 'GET', body = null } = {}) {
   try {
     const token = localStorage.getItem('access_token') || accessToken
@@ -47,20 +46,47 @@ async function doFetch(uri, { method = 'GET', body = null } = {}) {
   }
 }
 
+/**
+ * 
+ * @param {string} uri
+ * @returns {ApiResponse}
+ */
 export function doGet(uri) {
   return doFetch(uri)
 }
 
+/**
+ * 
+ * @param {string} uri
+ * @param {*} body
+ * @returns {ApiResponse}
+ */
 export function doPost(uri, body) {
   return doFetch(uri, { method: 'POST', body })
 }
 
+/**
+ * 
+ * @param {string} uri
+ * @param {*} body
+ * @returns {ApiResponse}
+ */
 export function doPut(uri, body) {
   return doFetch(uri, { method: 'PUT', body })
 }
 
+/**
+ * 
+ * @param {string} uri
+ * @returns {ApiResponse}
+ */
 export function doDelete(uri) {
   return doFetch(uri, { method: 'DELETE' })
 }
 
-export default { get: doGet, post: doPost, put: doPut, delete: doDelete }
+export default {
+  get: doGet,
+  post: doPost,
+  put: doPut,
+  delete: doDelete
+}

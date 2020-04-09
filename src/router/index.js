@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import NotFound from '../views/404-not-found.vue'
+
+import LoginContainer from '@/views/login'
+import LoginPage from '@/views/login/login'
+import RegistrationPage from '@/views/login/register'
+
 import Container from '@/views/container'
 import HomePage from '@/views/container/home'
 
@@ -14,10 +19,13 @@ import FoodKindPage from '@/views/container/food-kind'
 
 Vue.use(VueRouter)
 
-const routes = [
+const authenticated = [
   {
     path: '/',
     component: Container,
+    meta: {
+      requiresAuth: true,
+    },
     children: [
       {
         path: '',
@@ -107,6 +115,25 @@ const routes = [
       }
     ],
   },
+]
+
+const nonAuthenticated = [
+  {
+    path: '/login',
+    component: LoginContainer,
+    children: [
+      {
+        path: '',
+        name: 'login',
+        component: LoginPage,
+      },
+      {
+        path: 'create-account',
+        name: 'create-account',
+        component: RegistrationPage,
+      },
+    ]
+  },
   {
     path: '*',
     name: '404-not-found',
@@ -123,13 +150,15 @@ const routes = [
       ]
     }
   }
- 
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes: [
+    ...authenticated,
+    ...nonAuthenticated
+  ]
 })
 
 export default router

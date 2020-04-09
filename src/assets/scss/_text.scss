@@ -6,12 +6,15 @@
 }
 
 .text--title {
-  font-size: 1.25rem;
+  font-size: 1.25rem !important;
 }
 .text--headline {
-  font-size: 1.5rem;
+  font-size: 1.5rem !important;
+}
+.text--caption {
+  font-size: .75rem !important;
 }
 
 .text--underlined {
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
