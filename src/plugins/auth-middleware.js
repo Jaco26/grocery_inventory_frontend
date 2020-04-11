@@ -26,6 +26,7 @@ function syncAuthStorage(store) {
         break
       case 'session/SET_SESSION_LOGGED_OUT':
         localStorage.setItem('auth', JSON.stringify(EMPTY_SESSION))
+        location.reload()
         break
     }
   })
@@ -35,7 +36,7 @@ export default {
   install(Vue, { store, router }) {
 
     loadAuthStorage(store)
-    syncAuthStorage(store) // this must be invoked after loadAuthStorage
+    syncAuthStorage(store, router) // this must be invoked after loadAuthStorage
 
     const authMiddleware = createAuthMiddleware(store)
 

@@ -32,9 +32,12 @@ export default {
   list-style: none;
   display: flex;
   padding: 0;
+
 }
 .breadcrumbs a {
-  text-decoration: none;
+  text-decoration: underline;
+  color: black;
+
 }
 .breadcrumbs .seperator {
   margin: 0 .5rem;

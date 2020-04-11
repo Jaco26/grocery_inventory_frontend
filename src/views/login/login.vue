@@ -1,5 +1,5 @@
 <template>
-    <div class="row justify-center">
+  <div class="row justify-center">
     <div class="col mobile-10 tablet-6 desktop-4" style="max-width: 400px; min-width: 300px">
       <j-card outlined>
         <j-card-text>
