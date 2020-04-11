@@ -40,10 +40,15 @@ export default {
       sessionLogin: sessionTypes.a_LOGIN,
     }),
     async onLogin() {
-      console.log(this.credentials)
-      if (true) {
-
+      try {
+        if (this.credentials.email && this.credentials.password) {
+          await this.sessionLogin(this.credentials)
+          this.$router.push({ name: 'home'})
+        }
+      } catch (error) {
+        console.log(error)
       }
+
     }
   }
 }

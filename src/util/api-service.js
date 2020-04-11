@@ -1,4 +1,4 @@
-import accessToken from './mocks/access-token'
+import store from '@/store/index'
 
 /**
  * @typedef ApiResponse
@@ -17,9 +17,14 @@ export class ApiError extends Error {
   }
 }
 
-async function doFetch(uri, { method = 'GET', body = null } = {}) {
+export const authStoreStateProxy = {
+  access_token: '',
+  refresh_token: '',
+}
+
+export async function doFetch(uri, { method = 'GET', body = null, headers = {} } = {}) {
   try {
-    const token = localStorage.getItem('access_token') || accessToken
+    // const token = localStorage.getItem('access_token') || accessToken
     const url =  process.env.NODE_ENV === 'development'
       ? `http://localhost:5000/api/v1${uri}`
       : `/api/v1${uri}`
@@ -28,7 +33,8 @@ async function doFetch(uri, { method = 'GET', body = null } = {}) {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${store.state.session.access_token}`,
+        ...headers,
       }
     }
     if (['POST', 'PUT'].includes(method)) {
@@ -51,8 +57,8 @@ async function doFetch(uri, { method = 'GET', body = null } = {}) {
  * @param {string} uri
  * @returns {ApiResponse}
  */
-export function doGet(uri) {
-  return doFetch(uri)
+export function doGet(uri, headers) {
+  return doFetch(uri, { headers })
 }
 
 /**
@@ -61,8 +67,8 @@ export function doGet(uri) {
  * @param {*} body
  * @returns {ApiResponse}
  */
-export function doPost(uri, body) {
-  return doFetch(uri, { method: 'POST', body })
+export function doPost(uri, body, headers) {
+  return doFetch(uri, { method: 'POST', body, headers })
 }
 
 /**
@@ -71,8 +77,8 @@ export function doPost(uri, body) {
  * @param {*} body
  * @returns {ApiResponse}
  */
-export function doPut(uri, body) {
-  return doFetch(uri, { method: 'PUT', body })
+export function doPut(uri, body, headers) {
+  return doFetch(uri, { method: 'PUT', body, headers })
 }
 
 /**
@@ -80,13 +86,13 @@ export function doPut(uri, body) {
  * @param {string} uri
  * @returns {ApiResponse}
  */
-export function doDelete(uri) {
-  return doFetch(uri, { method: 'DELETE' })
+export function doDelete(uri, headers) {
+  return doFetch(uri, { method: 'DELETE', headers })
 }
 
 export default {
   get: doGet,
   post: doPost,
   put: doPut,
-  delete: doDelete
+  delete: doDelete,
 }
