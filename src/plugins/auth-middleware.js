@@ -2,14 +2,17 @@
 const EMPTY_SESSION = { access_token : '', refresh_token: '' }
 
 
-const createAuthMiddleware = store => (to, from, next) => {
-  if (to.matched.some(r => r.meta.requiresAuth)) {
-    if (store.getters['session/GET_IS_LOGGED_IN']()) {
-      return next()
+function createAuthMiddleware(store) {
+  return (to, from, next) => {
+    if (to.matched.some(r => r.meta.requiresAuth)) {
+      if (store.getters['session/GET_IS_LOGGED_IN']()) {
+        return next()
+      }
+      store.commit('session/SET_SESSION_LOGGED_OUT')
+      return next({ name: 'login' })
     }
-    return next({ name: 'login' })
+    return next()
   }
-  return next()
 }
 
 

@@ -1,13 +1,17 @@
 <template>
   <div>
-    <header class="app-bar">
-      <div>
-        <TheBreadcrumbs />
+    <div class="row ma-0 justify-center align-center app-bar">
+      <div class="col pa-0 tablet-12 desktop-10">
+        <div class="d-flex justify-between align-center">
+          <div>
+            <TheBreadcrumbs class="my-0" />
+          </div>
+          <div>
+            <j-btn class="text small outlined-hover" @click="$store.dispatch('session/LOGOUT')">logout</j-btn>
+          </div>
+        </div>
       </div>
-      <div>
-        <j-btn class="text outlined-hover" @click="$store.dispatch('session/LOGOUT')">logout</j-btn>
-      </div>
-    </header>
+    </div>
     <main class="main-content">
       <router-view></router-view>
     </main>
@@ -67,9 +71,9 @@ export default {
   width: 100%;
   height: 42px;
   padding: 0 1rem;
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; */
   border-bottom: 1px solid powderblue;
   background-color: whitesmoke;
   /* box-shadow: 1px 1px 2px #bbb;  */
