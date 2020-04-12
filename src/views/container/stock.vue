@@ -8,18 +8,28 @@ import StockItems from '@/components/stock/stock-items'
 import StockSnapshots from '@/components/stock/stock-snapshots'
 
 // vuex
-import { mapMutations } from 'vuex'
-import { m_SET_SELECTED_STOCK_ID } from '@/store/modules/stock/types'
+import { mapState, mapMutations, mapActions } from 'vuex'
+import * as stockTypes from '@/store/modules/stock/types'
 export default {
+  computed: {
+    ...mapState('stock', {
+      stockHasLoaded: s => stockId => s.list.find(x => x.id === stockId)
+    }),
+  },
   methods: {
     ...mapMutations('stock', {
-      setSelectedStockId: m_SET_SELECTED_STOCK_ID
+      setSelectedStockId: stockTypes.m_SET_SELECTED_STOCK_ID
+    }),
+    ...mapActions('stock', {
+      fetchSelectedStock: stockTypes.a_FETCH_SELECTED_STOCK,
     })
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      console.log('setting stock id', to.params.stock_id)
       vm.setSelectedStockId(to.params.stock_id)
+      if (vm.stockHasLoaded(to.params.stock_id)) {
+        vm.fetchSelectedStock()
+      }
     })
   },
   beforeRouteLeave(to, from, next) {

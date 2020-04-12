@@ -50,7 +50,7 @@ export default {
         console.log(error)
       }
     },
-    async  [a_FETCH_SELECTED_STOCK]({ dispatch, state, commit }) {
+    async [a_FETCH_SELECTED_STOCK]({ dispatch, state, commit }) {
       const cacher = makeCacher(`/stock/${state.selectedStockId}`).cacheGet(commit)
       try {
         cacher.setStatus(1)

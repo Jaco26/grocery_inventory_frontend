@@ -21,7 +21,7 @@ function loadAuthStorage(store) {
   store.commit('session/SET_SESSION', saved) 
 }
 
-function syncAuthStorage(store) {
+function syncAuthStorage(store, router) {
   store.subscribe(({ type, payload }) => {
     switch (type) {
       case 'session/SET_SESSION':
@@ -29,7 +29,7 @@ function syncAuthStorage(store) {
         break
       case 'session/SET_SESSION_LOGGED_OUT':
         localStorage.setItem('auth', JSON.stringify(EMPTY_SESSION))
-        location.reload()
+        location.replace('/login')
         break
     }
   })

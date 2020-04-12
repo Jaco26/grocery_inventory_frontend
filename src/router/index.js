@@ -40,7 +40,7 @@ const authenticated = [
         }
       },
       {
-        path: '/stock/:stock_id',
+        path: 'stock/:stock_id',
         component: StockContainer,
         children: [
           {
@@ -82,7 +82,7 @@ const authenticated = [
         ]
       },
       {
-        path: '/food-category/:food_category_id',
+        path: 'food-category/:food_category_id',
         name: 'food-category',
         component: FoodCategoryPage,
         meta: {
@@ -98,7 +98,7 @@ const authenticated = [
         }
       },
       {
-        path: '/food-kind/:food_kind_id',
+        path: 'food-kind/:food_kind_id',
         name: 'food-kind',
         component: FoodKindPage,
         meta: {

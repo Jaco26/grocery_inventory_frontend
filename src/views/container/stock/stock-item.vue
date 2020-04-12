@@ -18,7 +18,9 @@
         <j-card-text class="pa-0 d-flex align-center justify-between">
           <h4 class="ma-0">Quantity In Stock:</h4>
           <div>
-            <j-btn class="x-small outlined" @click="showNewItemForm = !showNewItemForm">+ add</j-btn>
+            <j-btn class="x-small outlined" @click="showNewItemForm = !showNewItemForm">
+              {{showNewItemForm ? 'cancel' : '+ add'}}
+            </j-btn>
           </div>
         </j-card-text>
         <j-card-text class="px-0">
@@ -117,7 +119,7 @@ export default {
         })
         this.showNewItemForm = false
       } else {
-        alert('Oops! make sure you have filled out all fields')
+        alert('Oops! Make sure you have filled out all fields')
       }
     }
   },
