@@ -16,7 +16,7 @@
     <div class="col mobile-12 tablet-8">
       <j-card outlined>
         <j-card-text class="pa-0 d-flex align-center justify-between">
-          <h4 class="ma-0">Quantity In Stock:</h4>
+          <h3 class="ma-0">...in {{selectedStock.name}}</h3>
           <div>
             <j-btn class="x-small outlined" @click="showNewItemForm = !showNewItemForm">
               {{showNewItemForm ? 'cancel' : '+ add'}}
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions, mapState } from 'vuex'
 import * as stockTypes from '@/store/modules/stock/types'
 import * as stockItemTypes from '@/store/modules/stock/modules/stock-item/types'
 
@@ -80,6 +80,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('stock', {
+      selectedStock: stockTypes.g_SELECTED_STOCK,
+    }),
     ...mapGetters('stock/stockItem', {
       stockItem: stockItemTypes.g_SELECTED_STOCK_ITEM,
       stockItemUOMName: stockItemTypes.g_SELECTED_STOCK_ITEM_UOM_NAME,

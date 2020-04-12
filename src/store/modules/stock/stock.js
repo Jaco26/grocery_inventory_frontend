@@ -31,7 +31,8 @@ export default {
       state.list = stocks
     },
     [m_UPDATE_STOCK_LIST](state, stock) {
-      state.list.splice(state.list.indexOf(stock.id), 1, stock)
+      const index = state.list.findIndex(s => s.id === stock.id)
+      state.list.splice(index, 1, stock)
     },
     [m_SET_SELECTED_STOCK_ID](state, stockId) {
       state.selectedStockId = stockId
@@ -58,6 +59,7 @@ export default {
         cacher.setStatus(2)
         commit(m_UPDATE_STOCK_LIST, stock.data)
       } catch (error) {
+        console.log('EORORORRR', error)
         cacher.setStatus(3)
       }
     },
