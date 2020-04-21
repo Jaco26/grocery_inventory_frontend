@@ -51,7 +51,7 @@ export default {
         cacher.setStatus(2)
       } catch (error) {
         if (error instanceof ApiError) {
-          cacher.setStatus(3, error.response.pub_msg)
+          cacher.setStatus(3, { message: error.data.pub_msg, status: error.status })
         } else {
           cacher.setStatus(3)
         }
@@ -66,7 +66,7 @@ export default {
         cacher.setStatus(2)
       } catch (error) {
         if (error instanceof ApiError) {
-          cacher.setStatus(3, error.response.pub_msg)
+          cacher.setStatus(3, { message: error.data.pub_msg, status: error.status })
         } else {
           cacher.setStatus(3)
         }

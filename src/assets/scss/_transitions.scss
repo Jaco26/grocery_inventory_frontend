@@ -1,0 +1,9 @@
+.dropdown-fade-enter, .dropdown-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.dropdown-fade-enter-active, .dropdown-fade-leave-active {
+  transition: all .1s ease-in-out;
+}
+

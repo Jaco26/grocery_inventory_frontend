@@ -6,12 +6,20 @@
           <h2>Login</h2>
           <username-and-pw-form v-bind.sync="credentials" @submit.prevent="onLogin">
             <template v-slot:actions>
-              <div class="d-flex flex-column justify-center">
-                <j-btn style="align-self: stretch" class="mb-2 outlined" type="submit">Login</j-btn>
-                <router-link :to="{ name: 'create-account' }">Create an account</router-link>
+              <div class="d-flex flex-column align-center">
+                <j-btn style="align-self: stretch" class="mb-4 outlined" type="submit">Login</j-btn>
+                <j-btn class="mb-2 text" :to="{ name: 'create-account' }">Create an account</j-btn>
+                <j-btn class="text text--caption" :to="{ name: 'recover' }">Forgot password</j-btn>
               </div>
             </template>
           </username-and-pw-form>
+          
+          <div class="mt-4">
+            <j-alert v-model="isLoginError">
+              {{loginErrorMessage}}
+            </j-alert>
+          </div>
+
         </j-card-text>
       </j-card>
     </div>
@@ -19,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import * as sessionTypes from '@/store/modules/session/types'
 // Components
 import UsernameAndPwForm from '@/components/account/username-and-pw-form'
@@ -29,10 +37,23 @@ export default {
   },
   data() {
     return {
+      isLoginError: false,
       credentials: {
         email: '',
         password: '',
       }
+    }
+  },
+  computed: {
+    ...mapGetters('session', {
+      sessionLoginStatus: sessionTypes.g_LOGIN_REQ_STATUS,
+      sessionLoginData: sessionTypes.g_LOGIN_REQ_DATA,
+    }),
+    loginErrorMessage() {
+      if (this.sessionLoginData && this.sessionLoginData.status >= 400) {
+        return this.sessionLoginData.message
+      }
+      return ''
     }
   },
   methods: {
@@ -43,7 +64,11 @@ export default {
       try {
         if (this.credentials.email && this.credentials.password) {
           await this.sessionLogin(this.credentials)
-          this.$router.push({ name: 'home'})
+          if (this.sessionLoginStatus !== 'ERROR') {
+            this.$router.push({ name: 'home'})
+          } else {
+            this.isLoginError = true
+          }
         }
       } catch (error) {
         console.log(error)

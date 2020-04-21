@@ -5,22 +5,20 @@ import store from '@/store/index'
  * @property {*} data
  * @property {string} pub_msg
  * @property {string} pvt_msg
+ * 
  */
 
 
 export class ApiError extends Error { 
-  constructor(response, ...args) {
+  constructor(data, status, ...args) {
     super(...args)
     this.name = 'ApiError'
     /** @type {ApiResponse} */
-    this.response = response
+    this.data = data
+    this.status = status
   }
 }
 
-export const authStoreStateProxy = {
-  access_token: '',
-  refresh_token: '',
-}
 
 export async function doFetch(uri, { method = 'GET', body = null, headers = {} } = {}) {
   try {
@@ -43,7 +41,7 @@ export async function doFetch(uri, { method = 'GET', body = null, headers = {} }
     const res = await fetch(url, options)
     if (res.status >= 400) {
       const json = await res.json()
-      throw new ApiError(json)
+      throw new ApiError(json, res.status)
     }
     const json = await res.json()
     return json
@@ -55,7 +53,7 @@ export async function doFetch(uri, { method = 'GET', body = null, headers = {} }
 /**
  * 
  * @param {string} uri
- * @returns {ApiResponse}
+ * @returns {Promise<ApiResponse>}
  */
 export function doGet(uri, headers) {
   return doFetch(uri, { headers })
@@ -65,7 +63,7 @@ export function doGet(uri, headers) {
  * 
  * @param {string} uri
  * @param {*} body
- * @returns {ApiResponse}
+ * @returns {Promise<ApiResponse>}
  */
 export function doPost(uri, body, headers) {
   return doFetch(uri, { method: 'POST', body, headers })
@@ -75,7 +73,7 @@ export function doPost(uri, body, headers) {
  * 
  * @param {string} uri
  * @param {*} body
- * @returns {ApiResponse}
+ * @returns {Promise<ApiResponse>}
  */
 export function doPut(uri, body, headers) {
   return doFetch(uri, { method: 'PUT', body, headers })
@@ -84,7 +82,7 @@ export function doPut(uri, body, headers) {
 /**
  * 
  * @param {string} uri
- * @returns {ApiResponse}
+ * @returns {Promise<ApiResponse>}
  */
 export function doDelete(uri, headers) {
   return doFetch(uri, { method: 'DELETE', headers })

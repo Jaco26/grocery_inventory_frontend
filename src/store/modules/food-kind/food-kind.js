@@ -97,7 +97,7 @@ export default {
         await dispatch(a_FETCH_FOOD_KIND_LIST)
       } catch (error) {
         if (error instanceof ApiError) {
-          cacher.setStatus(3, error.response.pub_msg)
+          cacher.setStatus(3, error.data.pub_msg)
         } else {
           cacher.setStatus(3)
         }

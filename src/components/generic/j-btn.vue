@@ -9,11 +9,9 @@ export default {
     const { props, children, data } = ctx
     const { to, ...btnProps } = props
 
-    const jBtn = h('button', { ...data, props: btnProps, class: { 'j-btn': true, ...data.class }}, children)
-
     return to
-      ? h('router-link', { style: { width: '100%' }, props: { to } }, [jBtn])
-      : jBtn
+      ? h('router-link', { ...data, props: { to }, class: { 'j-btn': true, ...data.class }}, children)
+      : h('button', { ...data, class: { 'j-btn': true, ...data.class }}, children)
   }
 }
 </script>

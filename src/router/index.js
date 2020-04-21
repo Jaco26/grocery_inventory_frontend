@@ -5,6 +5,8 @@ import NotFound from '../views/404-not-found.vue'
 import LoginContainer from '@/views/login'
 import LoginPage from '@/views/login/login'
 import RegistrationPage from '@/views/login/register'
+import RecoverIndexPage from '@/views/login/recover'
+import RecoverNoncePage from '@/views/login/recover/nonce'
 
 import Container from '@/views/container'
 import HomePage from '@/views/container/home'
@@ -132,6 +134,16 @@ const nonAuthenticated = [
         name: 'create-account',
         component: RegistrationPage,
       },
+      {
+        path: 'recover',
+        name: 'recover',
+        component: RecoverIndexPage,
+      },
+      {
+        path: 'recover/:nonce',
+        name: 'recover-nonced',
+        component: RecoverNoncePage,
+      }
     ]
   },
   {
