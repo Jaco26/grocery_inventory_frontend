@@ -3,23 +3,23 @@
     <div class="col mobile-10 tablet-6 desktop-4" style="max-width: 400px; min-width: 300px">
       <j-card outlined>
         <j-card-text>
-          <h2>Login</h2>
+          <h3>Login</h3>
+          <span class="divider invisible"></span>
           <username-and-pw-form v-bind.sync="credentials" @submit.prevent="onLogin">
             <template v-slot:actions>
               <div class="d-flex flex-column align-center">
                 <j-btn style="align-self: stretch" class="mb-4 outlined" type="submit">Login</j-btn>
-                <j-btn class="mb-2 text" :to="{ name: 'create-account' }">Create an account</j-btn>
-                <j-btn class="text text--caption" :to="{ name: 'recover' }">Forgot password</j-btn>
+                <j-btn class="mb-2 text text--underlined" :to="{ name: 'create-account' }">Create an account</j-btn>
+                <j-btn class="text text--caption text--underlined" :to="{ name: 'recover' }">Forgot password</j-btn>
               </div>
             </template>
           </username-and-pw-form>
           
           <div class="mt-4">
-            <j-alert v-model="isLoginError">
-              {{loginErrorMessage}}
+            <j-alert v-model="isLoginComplete">
+              {{loginStatusMessage}}
             </j-alert>
           </div>
-
         </j-card-text>
       </j-card>
     </div>
@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      isLoginError: false,
+      isLoginComplete: false,
       credentials: {
         email: '',
         password: '',
@@ -49,8 +49,8 @@ export default {
       sessionLoginStatus: sessionTypes.g_LOGIN_REQ_STATUS,
       sessionLoginData: sessionTypes.g_LOGIN_REQ_DATA,
     }),
-    loginErrorMessage() {
-      if (this.sessionLoginData && this.sessionLoginData.status >= 400) {
+    loginStatusMessage() {
+      if (this.sessionLoginData) {
         return this.sessionLoginData.message
       }
       return ''
@@ -66,9 +66,8 @@ export default {
           await this.sessionLogin(this.credentials)
           if (this.sessionLoginStatus !== 'ERROR') {
             this.$router.push({ name: 'home'})
-          } else {
-            this.isLoginError = true
           }
+          this.isLoginComplete = true
         }
       } catch (error) {
         console.log(error)

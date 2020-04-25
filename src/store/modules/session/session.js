@@ -65,10 +65,11 @@ export default {
         commit(m_SET_SESSION, res.data)
         cacher.setStatus(2)
       } catch (error) {
+        console.log(error)
         if (error instanceof ApiError) {
           cacher.setStatus(3, { message: error.data.pub_msg, status: error.status })
         } else {
-          cacher.setStatus(3)
+          cacher.setStatus(3, { message: 'Oops! There was an error. Please try again.' })
         }
       }
     },

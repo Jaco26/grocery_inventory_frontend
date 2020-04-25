@@ -3,12 +3,13 @@
     <div class="col mobile-10 tablet-6 desktop-4" style="max-width: 400px; min-width: 300px;">
       <j-card outlined>
         <j-card-text>
-          <h2>Register</h2>
+          <h3>Register</h3>
+          <span class="divider invisible"></span>
           <username-and-pw-form v-bind.sync="credentials" @submit.prevent="onCreateAccount">
             <template v-slot:actions>
               <div class="d-flex flex-column align-center">
                 <j-btn style="align-self: stretch;" class="mb-4 outlined" type="submit">Create account</j-btn>
-                <j-btn class="text " :to="{ name: 'login' }">back to login</j-btn>
+                <j-btn class="text text--underlined" :to="{ name: 'login' }">back to login</j-btn>
               </div>
             </template>
           </username-and-pw-form>
