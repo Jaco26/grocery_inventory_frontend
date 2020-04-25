@@ -32,13 +32,18 @@
           </div>
         </j-card-text>
         <j-card-text class="px-0">
+          <transition name="dropdown-fade">
+            <j-card v-if="showNewItemForm" outlined>
+              <j-card-text>
+                <StockItemForm
+                  :overrideFoodKind="stockItem.food_kind.name"
+                  v-bind.sync="newStockItem"
+                  @submit.prevent="onSubmitNewStockItem"
+                />
+              </j-card-text>
+            </j-card>
+          </transition>
           <h4 class="ma-0">Items:</h4>
-          <StockItemForm
-            v-if="showNewItemForm"
-            :overrideFoodKind="stockItem.food_kind.name"
-            v-bind.sync="newStockItem"
-            @submit.prevent="onSubmitNewStockItem"
-          />
           <j-list
             :withSearch="false"
             :items="stockItem.items"

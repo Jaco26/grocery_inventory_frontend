@@ -33,7 +33,9 @@
               searchLabel="Search stocks"
               :items="stockList"
               indexKey="name"
-              :searchKeys="['name']">
+              :searchKeys="['name']"
+              class="mt-2"
+            >
               <template v-slot:item="{ item }">
                 <j-btn
                   :title="`Go to page for stock: ${item.name}`"

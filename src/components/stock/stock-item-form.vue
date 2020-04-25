@@ -3,7 +3,7 @@
     <div class="row mb-4">
       <div class="col">
         <template v-if="props.overrideFoodKind">
-          {{props.overrideFoodKind}}
+          <h3>Add more</h3>
         </template>
         <template v-else>
           <JSelect

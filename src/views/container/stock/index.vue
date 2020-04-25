@@ -22,13 +22,19 @@
             {{showNewItemForm ? 'cancel' : '+ add'}}
           </j-btn>
         </j-card-text>
-        <j-card-text v-if="showNewItemForm" style="background-color: #8a8">
-          <StockItemForm
-            :foodKindOptions="foodKindOptions"
-            v-bind.sync="newStockItem"
-            @submit.prevent="onSubmitNewStockItem"
-          />
-        </j-card-text>
+        <transition name="dropdown-fade">
+          <j-card-text v-if="showNewItemForm">
+            <j-card outlined>
+              <j-card-text class="">
+                <StockItemForm
+                  :foodKindOptions="foodKindOptions"
+                  v-bind.sync="newStockItem"
+                  @submit.prevent="onSubmitNewStockItem"
+                />
+              </j-card-text>
+            </j-card>
+          </j-card-text>
+        </transition>
         <j-card-text class="px-0">
           <j-list
             :striped="false"
