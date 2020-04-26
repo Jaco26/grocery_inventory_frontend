@@ -7,7 +7,7 @@ import {
 const statusMap = {
   0: 'IDLE',
   1: 'WAITING',
-  2: 'COMPLETE',
+  2: 'SUCCESS',
   3: 'ERROR',
 }
 

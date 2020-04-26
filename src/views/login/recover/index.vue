@@ -18,9 +18,9 @@
                 style="align-self: stretch"
                 class="outlined mb-3"
                 type="submit"
-                :disabled="!email.length"
+                :disabled="!email.length || sendLinkStatus === 'WAITING'"
               >
-                Send link
+                {{sendLinkStatus === 'WAITING' ? '...sending' : 'Send link' }}
               </j-btn>
               <j-btn
                 class="text text--underlined"
@@ -30,6 +30,12 @@
               </j-btn>
             </div>
           </form>
+
+          <div class="mt-4">
+            <j-alert :class="sendLinkMessageClass" v-model="showAlert">
+              {{sendLinkMessage}}
+            </j-alert>
+          </div>
         </j-card-text>
       </j-card>
     </div>
@@ -37,22 +43,51 @@
 </template>
 
 <script>
-import apiService from '@/util/api-service'
+import { mapGetters, mapActions } from 'vuex'
+import * as accountTypes from '@/store/modules/account/types'
 export default {
   data() {
     return {
       email: '',
+      showAlert: false,
     }
   },
+  watch: {
+    sendLinkStatus(val) {
+      if (['ERROR', 'SUCCESS'].includes(val)) {
+        this.showAlert = true
+      }
+    }
+  },
+  computed: {
+    ...mapGetters('account', {
+      sendLinkStatus: accountTypes.g_SEND_RESET_LINK_REQ_STATUS,
+      sendLinkData: accountTypes.g_SEND_RESET_LINK_REQ_DATA
+    }),
+    sendLinkMessageClass() {
+      switch (this.sendLinkStatus) {
+        case 'ERROR': return 'text-danger'
+        case 'SUCCESS': return 'text-success'
+        default: return ''
+      }
+    },
+    sendLinkMessage() {
+      if (this.sendLinkData && this.sendLinkData.pub_msg) {
+        return this.sendLinkData.pub_msg
+      }
+      switch (this.sendLinkStatus) {
+        case 'ERROR': return 'Uh oh! There was an error.'
+        case 'SUCCESS': return 'Success!'
+        default: return ''
+      }
+    },
+  },
   methods: {
+    ...mapActions('account', {
+      sendLink: accountTypes.a_SEND_RESET_LINK,
+    }),
     onSendLink() {
-      apiService.post('/account/send-reset-link', { email: this.email })
-        .then(res => {
-          alert('Success!')
-        })
-        .catch(err => {
-          alert('Fail!')
-        })
+      this.sendLink(this.email)
     }
   }
 }

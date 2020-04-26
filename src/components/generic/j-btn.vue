@@ -10,8 +10,23 @@ export default {
     const { to, ...btnProps } = props
 
     return to
-      ? h('router-link', { ...data, props: { to }, class: { 'j-btn': true, ...data.class }}, children)
-      : h('button', { ...data, class: { 'j-btn': true, ...data.class }}, children)
+      ? h('router-link',
+            {
+              ...data,
+              props: { to },
+              attrs: { type: 'button', ...data.attrs },
+              class: { 'j-btn': true, ...data.class }
+            },
+          children
+        )
+      : h('button',
+          {
+            ...data,
+            attrs: { type: 'button', ...data.attrs },
+            class: { 'j-btn': true, ...data.class }
+          },
+          children
+        )
   }
 }
 </script>
