@@ -18,9 +18,9 @@
                 style="align-self: stretch"
                 class="outlined mb-3"
                 type="submit"
-                :disabled="!email.length"
+                :disabled="!email.length || sendLinkStatus === 'WAITING'"
               >
-                Send link
+                {{sendLinkStatus === 'WAITING' ? '...sending' : 'Send link' }}
               </j-btn>
               <j-btn
                 class="text text--underlined"
@@ -30,6 +30,12 @@
               </j-btn>
             </div>
           </form>
+
+          <div class="mt-4">
+            <j-alert :class="sendLinkMessageClass" :kind="alertKind" v-model="showAlert">
+              {{sendLinkMessage}}
+            </j-alert>
+          </div>
         </j-card-text>
       </j-card>
     </div>
@@ -43,6 +49,14 @@ export default {
   data() {
     return {
       email: '',
+      showAlert: false,
+    }
+  },
+  watch: {
+    sendLinkStatus(val) {
+      if (['ERROR', 'SUCCESS'].includes(val)) {
+        this.showAlert = true
+      }
     }
   },
   computed: {
@@ -50,15 +64,27 @@ export default {
       sendLinkStatus: accountTypes.g_SEND_RESET_LINK_REQ_STATUS,
       sendLinkData: accountTypes.g_SEND_RESET_LINK_REQ_DATA
     }),
+    alertKind() {
+      switch (this.sendLinkStatus) {
+        case 'ERROR': return 'danger'
+        case 'SUCCESS': return 'success'
+        default: return ''
+      }
+    },
+    sendLinkMessageClass() {
+      switch (this.sendLinkStatus) {
+        case 'ERROR': return 'text-danger'
+        case 'SUCCESS': return 'text-success'
+        default: return ''
+      }
+    },
     sendLinkMessage() {
       if (this.sendLinkData && this.sendLinkData.pub_msg) {
         return this.sendLinkData.pub_msg
       }
-      const errorMsg = 'Oops, there was an error. Try again and if the issue persists, try again later.'
-      const successMsg = 'Success! An email with a link to reset your password has been sent to the address provided.'
       switch (this.sendLinkStatus) {
-        case 'ERROR': return errorMsg
-        case 'SUCCESS': return successMsg
+        case 'ERROR': return 'Uh oh! There was an error.'
+        case 'SUCCESS': return 'Success!'
         default: return ''
       }
     },
@@ -68,7 +94,7 @@ export default {
       sendLink: accountTypes.a_SEND_RESET_LINK,
     }),
     onSendLink() {
-      this.sendLink({ email: this.email })
+      this.sendLink(this.email)
     }
   }
 }

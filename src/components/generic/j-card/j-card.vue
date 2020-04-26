@@ -8,10 +8,10 @@ export default {
   render(h, ctx) {
     return h(
       'article',
-      { 
+      {
         ...ctx.data,
+        staticClass: `j-card ${ctx.data.class}`,
         class: {
-          'j-card': true,
           flat: ctx.props.flat,
           outlined: ctx.props.outlined
         }
