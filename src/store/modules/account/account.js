@@ -32,11 +32,11 @@ export default {
     async [a_RESET_PASSWORD]({ commit }, { password, token }) {
       const cacher = makeCacher(uri_RESET_PASSWORD).cachePost(commit)
       try {
-        cacher.setStatus(1)
-        await apiService.post(uri_RESET_PASSWORD, { password }, {
+        cacher.setStatus(1, null)
+        const res = await apiService.post(uri_RESET_PASSWORD, { password }, {
           'Authorization': `Bearer ${token}`
         })
-        cacher.setStatus(2)
+        cacher.setStatus(2, { pub_msg: res.pub_msg })
       } catch (error) {
         if (error instanceof ApiError) {
           cacher.setStatus(3, { pub_msg: error.data.pub_msg })

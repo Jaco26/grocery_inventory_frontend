@@ -32,7 +32,7 @@
           </form>
 
           <div class="mt-4">
-            <j-alert :class="sendLinkMessageClass" :kind="alertKind" v-model="showAlert">
+            <j-alert :class="sendLinkMessageClass" v-model="showAlert">
               {{sendLinkMessage}}
             </j-alert>
           </div>
@@ -64,13 +64,6 @@ export default {
       sendLinkStatus: accountTypes.g_SEND_RESET_LINK_REQ_STATUS,
       sendLinkData: accountTypes.g_SEND_RESET_LINK_REQ_DATA
     }),
-    alertKind() {
-      switch (this.sendLinkStatus) {
-        case 'ERROR': return 'danger'
-        case 'SUCCESS': return 'success'
-        default: return ''
-      }
-    },
     sendLinkMessageClass() {
       switch (this.sendLinkStatus) {
         case 'ERROR': return 'text-danger'
