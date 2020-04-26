@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import account from './modules/account/account'
 import session from './modules/session/session'
 import reqState from './modules/req-state/req-state'
 import stock from './modules/stock/stock'
@@ -13,6 +14,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
+    account,
     foodCategory,
     foodKind,
     packaging,

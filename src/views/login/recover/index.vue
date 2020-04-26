@@ -37,22 +37,38 @@
 </template>
 
 <script>
-import apiService from '@/util/api-service'
+import { mapGetters, mapActions } from 'vuex'
+import * as accountTypes from '@/store/modules/account/types'
 export default {
   data() {
     return {
       email: '',
     }
   },
+  computed: {
+    ...mapGetters('account', {
+      sendLinkStatus: accountTypes.g_SEND_RESET_LINK_REQ_STATUS,
+      sendLinkData: accountTypes.g_SEND_RESET_LINK_REQ_DATA
+    }),
+    sendLinkMessage() {
+      if (this.sendLinkData && this.sendLinkData.pub_msg) {
+        return this.sendLinkData.pub_msg
+      }
+      const errorMsg = 'Oops, there was an error. Try again and if the issue persists, try again later.'
+      const successMsg = 'Success! An email with a link to reset your password has been sent to the address provided.'
+      switch (this.sendLinkStatus) {
+        case 'ERROR': return errorMsg
+        case 'SUCCESS': return successMsg
+        default: return ''
+      }
+    },
+  },
   methods: {
+    ...mapActions('account', {
+      sendLink: accountTypes.a_SEND_RESET_LINK,
+    }),
     onSendLink() {
-      apiService.post('/account/send-reset-link', { email: this.email })
-        .then(res => {
-          alert('Success!')
-        })
-        .catch(err => {
-          alert('Fail!')
-        })
+      this.sendLink({ email: this.email })
     }
   }
 }
