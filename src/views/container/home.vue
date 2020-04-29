@@ -64,7 +64,15 @@
             <form @submit.prevent="onSubmitFoodKind">
               <div class="d-flex">
                 <JInput label="Create new food kind" v-model.trim="foodKind" />
-                <j-btn :disabled="!foodKind" style="align-self: end" class="small outlined ml-2">Submit</j-btn>
+                <j-btn
+                  :disabled="!foodKind"
+                  style="align-self: end"
+                  class="small outlined ml-2"
+                  type="submit"
+                  :busy="statusOfPostFoodKind === 'WAITING'"
+                >
+                  Submit
+                </j-btn>
               </div>
             </form>
             <j-alert v-model="showSubmitFoodKindError">
