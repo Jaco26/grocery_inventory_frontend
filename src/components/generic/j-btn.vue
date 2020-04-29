@@ -4,6 +4,11 @@ export default {
   functional: true,
   props: {
     to: [Object, String],
+    busy: Boolean,
+    busyText: {
+      type: Boolean,
+      default: '...busy'
+    }
   },
   render(h, ctx) {
     const { props, children, data } = ctx
@@ -14,18 +19,21 @@ export default {
             {
               ...data,
               props: { to },
-              attrs: { type: 'button', ...data.attrs },
+              domProps: {
+                tabindex: 0
+              },
+              attrs: { ...data.attrs },
               class: { 'j-btn': true, ...data.class }
             },
-          children
+          props.busy ? props.busyText : children
         )
       : h('button',
           {
             ...data,
-            attrs: { type: 'button', ...data.attrs },
+            attrs: { type: 'button', ...data.attrs, disabled: props.busy },
             class: { 'j-btn': true, ...data.class }
           },
-          children
+          props.busy ? props.busyText : children
         )
   }
 }
